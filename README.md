@@ -1,4 +1,4 @@
-creelSurvey
+AnglerCreelSurveySimulation
 ===========
 
 *Functions to allow fisheries managers to simulate a bus route creel survey*
