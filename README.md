@@ -16,7 +16,7 @@ install.packages("AnglerCreelSurveySimulation")
 
 Install `AnglerCreelSurveySimulation` from GitHub with the following code:
 ```r
-devtools::install_github("stevenranney/creelSurvey")
+devtools::install_github("stevenranney/AnglerCreelSurveySimulation")
 ```
 
 
