@@ -123,9 +123,7 @@ function # Simulate a bus route survey
   return(cbind(Ehat, catchRateROM, trueCatch, trueEffort, meanLambda)) 
 
   ##details<<The Ratio of means is calculated by  
-  ##\deqn{
-  ##\widehat{R_1} = \frac{\sum\limits_{i=1}^n{c_i/n}}{\sum\limits_{i=1}^n{L_i/n}}
-  ##}
+  ##\deqn{\widehat{R_1} = \frac{\sum\limits_{i=1}^n{c_i/n}}{\sum\limits_{i=1}^n{L_i/n}}}
   ##
   ##where
   ##
@@ -137,9 +135,7 @@ function # Simulate a bus route survey
   ##For incomplete surveys, \emph{\eqn{L_i}} represents in incomplete trip.
   
   ##details<<The bus route estimator is 
-  ##\deqn{
-  ##\widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{\frac{e_{ij}}{\pi_{j}}}
-  ##}
+  ##\deqn{\widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{\frac{e_{ij}}{\pi_{j}}}}
   ##
   ##
   ## where
