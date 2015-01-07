@@ -9,7 +9,7 @@ This package has been submitted to `CRAN` for publication on 4 Jan 2015.  A manu
 
 A 'walk through' of the package is available at [Steven-Ranney.com](http://www.steven-ranney.com/creelSurveys)
 
-Install 'AnglerCreelSurveySimulation' with
+Install `AnglerCreelSurveySimulation` with
 ```r
 install.packages("AnglerCreelSurveySimulation")
 ```
