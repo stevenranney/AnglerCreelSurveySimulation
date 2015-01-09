@@ -9,16 +9,15 @@ This package has been submitted to `CRAN` for publication on 4 Jan 2015.  A manu
 
 A 'walk through' of the package is available at [Steven-Ranney.com](http://www.steven-ranney.com/creelSurveys)
 
-Install `AnglerCreelSurveySimulation` with
+Install the stable version of `AnglerCreelSurveySimulation` from CRAN with
 ```r
 install.packages("AnglerCreelSurveySimulation")
 ```
 
-Install `AnglerCreelSurveySimulation` from GitHub with the following code:
+Install the un-stable testing version of `AnglerCreelSurveySimulation` from GitHub with the following code:
 ```r
 devtools::install_github("stevenranney/AnglerCreelSurveySimulation")
 ```
-
 
 Additional information:
 * `meanTripLength` and `catchRate` are estimated from the `gamma` distribution
