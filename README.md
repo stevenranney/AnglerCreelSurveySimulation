@@ -14,7 +14,7 @@ To install the stable version of `AnglerCreelSurveySimulation` from CRAN:
 install.packages("AnglerCreelSurveySimulation")
 ```
 
-Install latest (development) version of `AnglerCreelSurveySimulation` from GitHub with [devtools](https://github.com/hadley/devtools) and the following code:
+Install the latest (development) version of `AnglerCreelSurveySimulation` from GitHub with [devtools](https://github.com/hadley/devtools) and the following code:
 ```r
 devtools::install_github("stevenranney/AnglerCreelSurveySimulation")
 ```
