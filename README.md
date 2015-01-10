@@ -9,12 +9,12 @@ This package has been submitted to `CRAN` for publication on 4 Jan 2015.  A manu
 
 A 'walk through' of the package is available at [Steven-Ranney.com](http://www.steven-ranney.com/creelSurveys.html)
 
-Install the stable version of `AnglerCreelSurveySimulation` from CRAN with
+To install the stable version of `AnglerCreelSurveySimulation` from CRAN:
 ```r
 install.packages("AnglerCreelSurveySimulation")
 ```
 
-Install the un-stable testing version of `AnglerCreelSurveySimulation` from GitHub with the following code:
+Install latest (development) version of `AnglerCreelSurveySimulation` from GitHub with [devtools](https://github.com/hadley/devtools) and the following code:
 ```r
 devtools::install_github("stevenranney/AnglerCreelSurveySimulation")
 ```
