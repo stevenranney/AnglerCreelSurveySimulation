@@ -1,0 +1,14 @@
+citHeader("To cite reports in publications, please use:")
+
+
+citEntry(entry = "manual",
+    title = "AnglerCreelSurveySimulatin: Simulate a bus route creel survey of anglers",
+    author = "Steven H. Ranney",
+    note = "version 0.2.1",
+    year = "2015",
+    url = "http://CRAN.R-project.org/package=AnglerCreelSurveySimulation",
+    textVersion  = paste("Ranney, Steven H. 2015.",
+        "AnglerCreelSurveySimulatin: Simulate a bus route creel survey of anglers.",
+        "version 0.2.1.",
+        "http://CRAN.R-project.org/package=AnglerCreelSurveySimulation")
+)
