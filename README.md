@@ -19,9 +19,12 @@ Install the latest (development) version of `AnglerCreelSurveySimulation` from G
 devtools::install_github("stevenranney/AnglerCreelSurveySimulation")
 ```
 
+*Feel free to make suggestions to future releases or let me know of bugs in the package with the `issues` tracker here on GitHub.*
+
 Additional information:
 * `meanTripLength` and `catchRate` are estimated from the `gamma` distribution
-* The Ratio of Means is used to estiate `catch` and `effort` (Malvestuto 1996; Jones and Pollock 2012)
+* The Bus Route Estimator is used to estimate `effort` (Jones and Pollock 2012)
+* The Ratio of Means is used to estiate `catch` (Malvestuto 1996; Jones and Pollock 2012)
 * Creel surveys can be estimated as a 'one-off' or bus route-type surveys (e.g., multiple stops along a route)
 * Simulations can be run to estimate `>= 1` surveys
 * Resulting values for estimated catch and estimated effort can be plotted as a function of true catch and true effort to evaluate how accurately the survey reflects reality.
