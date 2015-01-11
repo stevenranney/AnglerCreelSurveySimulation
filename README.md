@@ -3,6 +3,8 @@ AnglerCreelSurveySimulation
 
 *Functions to allow fisheries managers to simulate a bus route creel survey*
 
+* [Submit bugs and feature requests](https://github.com/stevenranney/AnglerCreelSurveySimulation/issues)
+
 Creel surveys allow fisheries scientists and managers the ability to sample anglers in a fishery and achieve statisticaly-valid estimates of catch rate, harvest rate, and in some cases, fish populations.  Depending upon the size of the fishery, creel surveys can be challenging to implement correctly.  Further, creel surveys can be costly.  Much research has been spent on identifying methods for creel surveys.  However, relatively little research time has been spent on answering the question _what is the best creel-survey type to implement in **my** fishery?_  The package(s) and code contained in this repository include functions to allow fisheries managers the ability to simulate a creel survey with *a priori* data.
 
 This package has been submitted to `CRAN` for publication on 4 Jan 2015.  A manuscript is in progress for publication in the Journal of Statistical Software.
@@ -18,8 +20,6 @@ Install the latest (development) version of `AnglerCreelSurveySimulation` from G
 ```r
 devtools::install_github("stevenranney/AnglerCreelSurveySimulation")
 ```
-
-*Feel free to make suggestions to future releases or let me know of bugs in the package with the `issues` tracker here on GitHub.*
 
 Additional information:
 * `meanTripLength` and `catchRate` are estimated from the `gamma` distribution
