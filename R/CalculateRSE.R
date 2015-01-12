@@ -23,6 +23,10 @@ function # Create the Relative Standard Error of a numeric vector
   ##details<<Relative standard error is returned as a proportion.  It is sometimes
   ## also referred to as "proportional standard error."
   
+  ##details<<Relative standard error is the standard error divided by the mean:
+  ##\deqn{Relative Standard Error = \fraq{\fraq{s}{\sqrt{n}}}{\bar{x}}}
+ 
+  
   ##references<<Malvestuto, S. P. 1996. Sampling the recreational creel. Pages 
   ## 591-623 in B. R. Murphy and D. W. Willis, editors. Fisheries techniques, 
   ## 2nd edition. American Fisheries Society, Bethesda, Maryland.
