@@ -2,7 +2,9 @@
 \alias{CreatePlotFromSimulation}
 \title{Create a plot from a creel survey simulation}
 \description{Generates a plot of either \code{Ehat} or \code{Ehat*catchRateROM}
-as a function of \code{trueEffort} or \code{trueCatch}, respectively.}
+as a function of \code{trueEffort} or \code{trueCatch}, respectively.  Adds 
+\code{link{lm()}} to the plot and returns the \code{link{summary()}} of the
+fitted model.}
 \usage{CreatePlotFromSimulation(dataFrame, value = "effort", color = "black")}
 \arguments{
   \item{dataFrame}{
