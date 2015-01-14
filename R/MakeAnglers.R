@@ -53,7 +53,9 @@ function # Create a population of anglers
   ##details<<\code{triplengths} are assigned by the gamma distribution where the default mean 
   ## value comes from the 2008 Lake Roosevelt Fisheries Evaluation Program data.
   
-    tripLength.tmp <- rgamma(1, meanTripLength, scale = 1.3)  
+#    tripLength.tmp <- rgamma(1, meanTripLength, scale = 1.3) #Adjusted scale 
+# paramater down
+    tripLength.tmp <- rgamma(1, meanTripLength, scale = 1)  
     departureTime.tmp <- startTime.tmp+tripLength.tmp
   
     if(departureTime.tmp < fishingDayLength){
