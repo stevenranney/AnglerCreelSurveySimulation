@@ -72,13 +72,7 @@ function # Create a population of anglers
 
   anglers <<- anglers
   trueeffort <<- trueeffort
-  
-#  out <- list(anglers, trueeffort)
-  
-#  names(out) <- c("anglers", "trueeffort")
-  
-#  return(out)
-  
+ 
   }, ex = function() {
 
   MakeAnglers(100, meanTripLength = 4, fishingDayLength = 10)
