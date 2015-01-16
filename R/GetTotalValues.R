@@ -20,8 +20,8 @@ function # Conduct a creel survey of a population of anglers at a site
   # TODO: add testing section
   # ##############################################################################
 
-  (ang = dF, ##<<The data frame returned from the \code{\link{MakeAnglers()}}
-             ## function.
+  (ang = anglers, ##<<The list returned from the \code{\link{MakeAnglers()}} 
+                  ## function
   startTime = NULL, ##<< The start time of the creel clerk at this site 
   endTime = NULL, ##<< The end time of the creel clerk at this site
   waitTime = NULL, ##<< The wait time of the creel clerk at this site

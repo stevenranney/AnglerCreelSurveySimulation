@@ -72,8 +72,8 @@ function # Create a population of anglers
   
   trueeffort <- sum(anglers$triplength)
 
-  return(data.frame(anglers))
-#  anglers <<- anglers
+#  return(data.frame(anglers))
+  anglers <<- anglers
 #  trueeffort <<- trueeffort
  
   }, ex = function() {
