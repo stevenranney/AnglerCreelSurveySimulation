@@ -51,7 +51,7 @@ function # Simulate a bus route survey
   #Run MakeAnglers() and GetTotalValues() iteratively for however many sites are 
   # provided in the nsites argument
   for(i in 1:nrow(dF)){
-    anglers <- MakeAnglers(nanglers=nanglers[i], ...)
+    MakeAnglers(nanglers=nanglers[i], ...)
 #    MakeAnglers(nanglers=nanglers[i], meanTripLength, fishingDayLength)
     dF[i,] <- GetTotalValues(ang = anglers, teffort = sum(ang$triplength), nanglers = length(anglers$starttime), 
                              startTime = startTime[i], waitTime = waitTime[i], 
