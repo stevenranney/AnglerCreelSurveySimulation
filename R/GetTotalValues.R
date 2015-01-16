@@ -22,11 +22,6 @@ function # Conduct a creel survey of a population of anglers at a site
 
   (ang = dF, ##<<The data frame returned from the \code{\link{MakeAnglers()}}
              ## function.
-  teffort = sum(ang$triplength), ##<<This argument renames the output from the 
-                        ## \code{MakeAnglers} function.
-  nanglers = length(ang$starttime), ##<<Defines the size of the angler population
-                                        ## based upon the length of the \code{anglers}
-                                        ## from the \code{MakeAnglers} function
   startTime = NULL, ##<< The start time of the creel clerk at this site 
   endTime = NULL, ##<< The end time of the creel clerk at this site
   waitTime = NULL, ##<< The wait time of the creel clerk at this site
@@ -39,6 +34,12 @@ function # Conduct a creel survey of a population of anglers at a site
   ... ##<<Arguments to be passed to other functions
   ){
   
+  ##details<<Total effort is the sum of the triplengths from \code{dF}.
+  teffort <- sum(ang$triplength)
+  
+  ##details<<The total number of anglers is the length of the dataFrame in \code{dF}.
+  nanglers <- length(ang$starttime)
+
   ##details<<Catch rates are assigned to anglers based upon the Gamma distribution
   ## with a mean of \code{meanCatchRate}.
   lambda <- rgamma(nanglers, meanCatchRate, 1)
