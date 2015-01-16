@@ -20,11 +20,11 @@ function # Conduct a creel survey of a population of anglers at a site
   # TODO: add testing section
   # ##############################################################################
 
-  (ang = anglers, ##<<This argument renames the output from the \code{MakeAnglers}
-                  ## function.
-  teffort = trueeffort, ##<<This argument renames the output from the 
+  (ang = dF, ##<<The data frame returned from the \code{\link{MakeAnglers()}}
+             ## function.
+  teffort = sum(ang$triplength), ##<<This argument renames the output from the 
                         ## \code{MakeAnglers} function.
-  nanglers = length(anglers$starttime), ##<<Defines the size of the angler population
+  nanglers = length(ang$starttime), ##<<Defines the size of the angler population
                                         ## based upon the length of the \code{anglers}
                                         ## from the \code{MakeAnglers} function
   startTime = NULL, ##<< The start time of the creel clerk at this site 
@@ -163,7 +163,7 @@ function # Conduct a creel survey of a population of anglers at a site
   tmp <- as.data.frame(cbind(nObservedTrips, totalObservedTripEffort,
                              sum(anglerDepartures, arrDep), totalCompletedTripEffort, 
                              totalCompletedTripCatch, 
-                             startTime, waitTime, totalcatch, trueeffort, 
+                             startTime, waitTime, totalcatch, sum(ang$triplength), 
                              mean(lambda)))
   
   names(tmp) <- c("nObservedTrips", "totalObservedTripEffort", 
