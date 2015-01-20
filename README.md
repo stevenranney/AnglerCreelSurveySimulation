@@ -20,8 +20,13 @@ Install the latest (development) version of `AnglerCreelSurveySimulation` from G
 ```r
 devtools::install_github("stevenranney/AnglerCreelSurveySimulation")
 ```
+### Changes in the development version
 
-Additional information:
+1. The biggest change from `v0.2.1` to `v0.2.2` is that `MakeAnglers()` no longer assigns a variable to a users global environment.  Originally, a `list` was assigned (i.e., `<<-`) to the `R` environment.  That list was used by all of the other functions.  In `v0.2.2`, `MakeAnglers()` returns a data frame rather than assigning a `list` to the environment.
+2. Other changes include the addition of the functions `CalculateRSE()` and `CreatePlotFromSimulation()`.  These functions allow for ease of caluclation of the Relative Standard Error from Malvestuto (1996) and to easily plot estimated effort or catch as a function of observed effort and catch.
+
+
+Additional general package information:
 * `meanTripLength` and `catchRate` are estimated from the `gamma` distribution
 * The Bus Route Estimator is used to estimate `effort` (Jones and Pollock 2012)
 * The Ratio of Means is used to estiate `catch` (Malvestuto 1996; Jones and Pollock 2012)
