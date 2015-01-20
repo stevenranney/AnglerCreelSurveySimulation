@@ -1,6 +1,6 @@
 \name{CalculateRSE}
 \alias{CalculateRSE}
-\title{Create the Relative Standard Error of a numeric vector}
+\title{Calculate the Relative Standard Error of a numeric vector}
 \description{Calculates relative standard error of a vector of numbers.}
 \usage{CalculateRSE(x)}
 \arguments{

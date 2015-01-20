@@ -1,6 +1,6 @@
 
 CalculateRSE <- structure(
-function # Create the Relative Standard Error of a numeric vector
+function # Calculate the Relative Standard Error of a numeric vector
 
   # ##############################################################################
   # File:  CalculateRSE.R
