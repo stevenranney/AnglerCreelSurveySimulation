@@ -45,5 +45,5 @@ tmp <- ConductMultipleSurveys(100, startTime = startTime, waitTime = waitTime,
 
 #To change fishingDayLength used in the MakeAnglers function
 ConductMultipleSurveys(nsims, startTime, waitTime, nanglers, nsites, samplingProb, 
-                       meanCatchRate, fishingDayLength = 9.5)
+                       meanCatchRate, fishingDayLength = 12)
 }

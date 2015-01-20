@@ -62,5 +62,5 @@ function # Conduct multiple simulations of a bus-route survey
   
   #To change fishingDayLength used in the MakeAnglers function
   ConductMultipleSurveys(nsims, startTime, waitTime, nanglers, nsites, samplingProb, 
-                         meanCatchRate, fishingDayLength = 9.5)
+                         meanCatchRate, fishingDayLength = 12)
   })

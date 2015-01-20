@@ -5,17 +5,11 @@
 conduct a bus-route or traditional access point creel survey of the 
 population of anglers from \code{MakeAnglers} and provide clerk-observed
 counts of anglers and their effort.}
-\usage{GetTotalValues(ang = anglers, teffort = trueeffort, nanglers = length(anglers$starttime), 
-    startTime = NULL, endTime = NULL, waitTime = NULL, samplingProb = 1, 
-    meanCatchRate = NULL, ...)}
+\usage{GetTotalValues(ang, startTime = NULL, endTime = NULL, waitTime = NULL, 
+    samplingProb = 1, meanCatchRate = NULL, ...)}
 \arguments{
-  \item{ang}{This argument renames the output from the \code{MakeAnglers}
-function.}
-  \item{teffort}{This argument renames the output from the
-\code{MakeAnglers} function.}
-  \item{nanglers}{Defines the size of the angler population
-based upon the length of the \code{anglers}
-from the \code{MakeAnglers} function}
+  \item{ang}{The dataframe returned from \code{\link{MakeAnglers()}}
+function}
   \item{startTime}{The start time of the creel clerk at this site}
   \item{endTime}{The end time of the creel clerk at this site}
   \item{waitTime}{The wait time of the creel clerk at this site}
@@ -27,7 +21,11 @@ longer time periods (e.g., \code{9.5/12}, if the survey is
   \item{meanCatchRate}{The mean catch rate for the fishery.}
   \item{\dots}{Arguments to be passed to other functions}
 }
-\details{Catch rates are assigned to anglers based upon the Gamma distribution
+\details{Total effort is the sum of the triplengths from \code{dF}.
+
+The total number of anglers is the length of the dataFrame in \code{dF}.
+
+Catch rates are assigned to anglers based upon the Gamma distribution
 with a mean of \code{meanCatchRate}.
 
 If both \code{endTime=NULL} and \code{waitTime=NULL} then \code{waitTime} 
