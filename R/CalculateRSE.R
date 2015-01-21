@@ -24,7 +24,7 @@ function # Calculate the Relative Standard Error of a numeric vector
   ## also referred to as "proportional standard error."
   
   ##details<<Relative standard error is the standard error divided by the mean:
-  ##\deqn{Relative Standard Error = \fraq{\fraq{s}{\sqrt{n}}}{\bar{x}}}
+  ##\deqn{Relative Standard Error = \frac{\frac{s}{\sqrt{n}}}{\bar{x}}}
  
   
   ##references<<Malvestuto, S. P. 1996. Sampling the recreational creel. Pages 
