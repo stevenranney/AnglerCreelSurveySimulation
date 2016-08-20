@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Anglercreelsurveysimulation by stevenranney</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Anglercreelsurveysimulation</h1>
+          <h2>Development version</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/stevenranney/AnglerCreelSurveySimulation/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/stevenranney/AnglerCreelSurveySimulation/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/stevenranney/AnglerCreelSurveySimulation" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="anglercreelsurveysimulation" class="anchor" href="#anglercreelsurveysimulation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AnglerCreelSurveySimulation</h1>
+
+<p><em>Functions to allow fisheries managers to simulate a bus route creel survey</em></p>
+
+<ul>
+<li><a href="https://github.com/stevenranney/AnglerCreelSurveySimulation/issues">Submit bugs and feature requests</a></li>
+</ul>
+
+<p>Creel surveys allow fisheries scientists and managers the ability to sample anglers in a fishery and achieve statisticaly-valid estimates of catch rate, harvest rate, and in some cases, fish populations.  Depending upon the size of the fishery, creel surveys can be challenging to implement correctly.  Further, creel surveys can be costly.  Much research has been spent on identifying methods for creel surveys.  However, relatively little research time has been spent on answering the question <em>what is the best creel-survey type to implement in <strong>my</strong> fishery?</em>  The package(s) and code contained in this repository include functions to allow fisheries managers the ability to simulate a creel survey with <em>a priori</em> data.</p>
+
+<p>This package has been submitted to <code>CRAN</code> for publication on 4 Jan 2015.  A manuscript is in progress for publication in the Journal of Statistical Software.</p>
+
+<p>A short 'walk through' of the package is available at <a href="http://www.steven-ranney.com/creelSurveys.html">Steven-Ranney.com</a></p>
+
+<p>To install the stable version of <code>AnglerCreelSurveySimulation</code> from CRAN:</p>
+
+<div class="highlight highlight-source-r"><pre>install.packages(<span class="pl-s"><span class="pl-pds">"</span>AnglerCreelSurveySimulation<span class="pl-pds">"</span></span>)</pre></div>
+
+<p>Install the latest (development) version of <code>AnglerCreelSurveySimulation</code> from GitHub with <a href="https://github.com/hadley/devtools">devtools</a> and the following code:</p>
+
+<div class="highlight highlight-source-r"><pre><span class="pl-e">devtools</span><span class="pl-k">::</span>install_github(<span class="pl-s"><span class="pl-pds">"</span>stevenranney/AnglerCreelSurveySimulation<span class="pl-pds">"</span></span>)</pre></div>
+
+<p>Additional information:</p>
+
+<ul>
+<li>
+<code>meanTripLength</code> and <code>catchRate</code> are estimated from the <code>gamma</code> distribution</li>
+<li>The Bus Route Estimator is used to estimate <code>effort</code> (Jones and Pollock 2012)</li>
+<li>The Ratio of Means is used to estiate <code>catch</code> (Malvestuto 1996; Jones and Pollock 2012)</li>
+<li>Creel surveys can be estimated as a 'one-off' or bus route-type surveys (e.g., multiple stops along a route)</li>
+<li>Simulations can be run to estimate <code>&gt;= 1</code> surveys</li>
+<li>Resulting values for estimated catch and estimated effort can be plotted as a function of true catch and true effort to evaluate how accurately the survey reflects reality.</li>
+</ul>
+
+<h5>
+<a id="references" class="anchor" href="#references" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>References</h5>
+
+<p>Jones, C. M., and K. H. Pollock. 2012. Recreational survey 
+ methods: estimation of effort, harvest, and released catch. Pages 883-919 
+ in A. V. Zale, D. L. Parrish, and T. M. Sutton, editors. Fisheries 
+ Techniques, 3rd edition. American Fisheries Society, Bethesda, Maryland.</p>
+
+<p>Malvestuto, S. P. 1996. Sampling the recreational creel. Pages 
+ 591-623 in B. R. Murphy and D. W. Willis, editors. Fisheries techniques, 
+ 2nd edition. American Fisheries Society, Bethesda, Maryland.</p>
+        </section>
+
+        <footer>
+          Anglercreelsurveysimulation is maintained by <a href="https://github.com/stevenranney">stevenranney</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
