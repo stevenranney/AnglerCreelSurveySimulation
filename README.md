@@ -9,7 +9,7 @@ Creel surveys allow fisheries scientists and managers the ability to sample angl
 
 This package has been submitted to `CRAN` for publication on 4 Jan 2015.  A manuscript is in progress for publication in the Journal of Statistical Software.
 
-A short 'walk through' of the package is available at [Steven-Ranney.com](http://www.steven-ranney.com/creelSurveys.html)
+A short 'walk through' of the package is available at [StevenRanney.com](http://www.stevenranney.com/creelSurveys/creelSurveys.html)
 
 To install the stable version of `AnglerCreelSurveySimulation` from CRAN:
 ```r
