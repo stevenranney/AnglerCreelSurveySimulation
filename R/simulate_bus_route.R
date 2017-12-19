@@ -1,14 +1,13 @@
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("anglers", "trueeffort"))
 
-SimulateBusRoute <- structure(
+simulate_bus_route <- structure(
 function # Simulate a bus route survey
 
   # ##############################################################################
   # File:  SimulateBusRoute.R
   ## author<< Steven H. Ranney
-  ## Contact: \email{sranney@gw-env.com}
+  ## Contact: \email{steven.ranney@gmail.com}
   # Created: 12/19/13  
-  # Last Edited: 9/9/14 by SHR
+  # Last Edited: 12/19/17 by SHR
   ##description<<This function uses the output from \code{MakeAnglers} 
   ## and \code{GetTotalValues} to  conduct a bus-route or traditional access 
   ## point creel survey of the population of anglers from \code{MakeAnglers} 
@@ -20,48 +19,48 @@ function # Simulate a bus route survey
   # TODO: add testing section
   # ##############################################################################
 
-  (startTime, ##<<The start time of the surveyor at each site.  This can be a vector of
+  (start_time, ##<<The start time of the surveyor at each site.  This can be a vector of
               ## start times to simulate a bus route or one \code{startTime} to simulate
               ## a traditional access survey.
-  waitTime, ##<<The wait time of the surveyor at each site.  This can be a vector
+  wait_time, ##<<The wait time of the surveyor at each site.  This can be a vector
             ## of wait times to simulate a bus route or one \code{waitTime} to 
             ## simulate a traditional access survey.
-  nanglers, ##<<The number of anglers at each site, either a vector or a single
+  n_anglers, ##<<The number of anglers at each site, either a vector or a single
             ## number.
-  nsites, ##<<How many sites are being visited?
-  samplingProb = 1, ##<<What is the sampling probability for the survey?  If 
+  n_sites, ##<<How many sites are being visited?
+  sampling_prob = 1, ##<<What is the sampling probability for the survey?  If 
                    ## all sites will be visited during the first or second half
                    ## of the fishing day, \code{samplingProb=0.5}.  If the
                    ## survey will take the entire fishing day, then 
                    ## \code{samplingProb=1}.
-  meanCatchRate, ##<< The mean catch rate for the fishery.
+  mean_catch_rate, ##<< The mean catch rate for the fishery.
   ... ##<<Arguments to be passed to other subfunctions, specifically to the 
-      ## \code{\link{MakeAnglers}} function, including \code{meanTripLength} and 
-      ## \code{fishingDayLength}.
+      ## \code{\link{make_anglers}} function, including \code{mean_trip_length} and 
+      ## \code{fishing_day_length}.
   ){
 
   #Create a dataFrame to fill with the results
-  dF <- as.data.frame(matrix(data = NA, nrow = nsites, ncol = 10, byrow=TRUE))
-  names(dF) <- c("nObservedTrips", "totalObservedTripEffort", 
-                "nCompletedTrips", "totalCompletedTripEffort", 
-                "totalCompletedTripCatch", "startTime", "waitTime", 
-                "totalCatch", "trueEffort", "meanLambda")
+  dF <- as.data.frame(matrix(data = NA, nrow = n_sites, ncol = 10, byrow=TRUE))
+  names(dF) <- c("n_observed_trips", "total_observed_trip_effort", 
+                "n_completed_trips", "total_completed_trip_effort", 
+                "total_completed_trip_catch", "start_time", "wait_time", 
+                "total_catch", "true_effort", "mean_lambda")
 
 
   #Run MakeAnglers() and GetTotalValues() iteratively for however many sites are 
   # provided in the nsites argument
   for(i in 1:nrow(dF)){
-    tmp <- MakeAnglers(nanglers=nanglers[i], ...)
+    tmp <- make_anglers(n_anglers=n_anglers[i], ...)
 #    MakeAnglers(nanglers=nanglers[i], meanTripLength, fishingDayLength)
-    dF[i,] <- GetTotalValues(ang = tmp, teffort = sum(tmp$triplength), nanglers = length(tmp$starttime), 
-                             startTime = startTime[i], waitTime = waitTime[i], 
-                             endTime = NULL, samplingProb, meanCatchRate, ...)
+    dF[i,] <- get_total_values(data = tmp, t_effort = sum(tmp$triplength), n_anglers = length(tmp$start_time), 
+                             start_time = start_time[i], wait_time = wait_time[i], 
+                             end_time = NULL, sampling_prob, mean_catch_rate, ...)
   }  
   
   ##seealso<<\code{\link{MakeAnglers}}
   ##seealso<<\code{\link{GetTotalValues}}
   
-  bigT <- (startTime + waitTime)[length(startTime + waitTime)]-startTime[1]
+  bigT <- (start_time + wait_time)[length(start_time + wait_time)]-start_time[1]
 
   ##details<<Effort and catch are estimated from the the Bus Route Estimator 
   ## equation in Robson and Jones (1989), Jones and Robson (1991) and Pollock 
@@ -71,18 +70,18 @@ function # Simulate a bus route survey
   #########
   #Calculate effort based upon the bigT equation
   #Incomplete Effort
-  sumEffort <- apply(data.frame(dF$totalObservedTripEffort), 1, sum)
-  Ehat <- bigT*sum(1/dF$waitTime * sumEffort)
+  sum_effort <- apply(data.frame(dF$total_observed_trip_effort), 1, sum)
+  Ehat <- bigT*sum(1/dF$wait_time * sum_effort)
  
   #Complete Effort
-  sumCompletedEffort <- dF$totalCompletedTripEffort
-  completedEffort <- bigT*sum(1/dF$waitTime * sumCompletedEffort)
+  sum_completed_effort <- dF$total_completed_trip_effort
+  completed_effort <- bigT*sum(1/dF$wait_time * sum_completed_effort)
 
   ########
   #Complete catch
   #Calculate Catch based on the bigT equation
-  sumCompletedCatch <- dF$totalCompletedTripCatch
-  completedCatch <- bigT*sum(1/dF$waitTime * sumCompletedCatch)
+  sum_completed_catch <- dF$total_completed_trip_catch
+  completed_catch <- bigT*sum(1/dF$wait_time * sum_completed_catch)
   
   ##details<<Catch rate is calculated from the Ratio of Means equation (see Malvestuto (1996) and
   ## Jones and Pollock (2012) for discussions).
@@ -108,19 +107,19 @@ function # Simulate a bus route survey
   ## site angler survey design. Biometrics 45:83-98.
   
   #Total ROM catchRate
-  catchRateROM <- completedCatch/completedEffort
+  catch_rate_ROM <- completed_catch/completed_effort
   
   #trueTotalCatch
-  trueCatch <- sum(dF$totalCatch)
+  true_catch <- sum(dF$total_catch)
   
   #totalTrueEffort
-  trueEffort <- sum(dF$trueEffort)
+  true_effort <- sum(dF$true_effort)
 
   #meanLambda
-  meanLambda <- mean(dF$meanLambda)
+  mean_lambda <- mean(dF$mean_lambda)
   
-  dF <<- dF
-  return(cbind(Ehat, catchRateROM, trueCatch, trueEffort, meanLambda)) 
+  #dF <<- dF
+  return(cbind(Ehat, catch_rate_ROM, true_catch, true_effort, mean_lambda)) 
 
   ##details<<The Ratio of means is calculated by  
   ##\deqn{\widehat{R_1} = \frac{\sum\limits_{i=1}^n{c_i/n}}{\sum\limits_{i=1}^n{L_i/n}}}
@@ -163,27 +162,27 @@ function # Simulate a bus route survey
   nsitesAM <- 5
   # the sampling probability.  Here it is .5 because we are only conducting this 
   # survey during the first 50% of the fishing day
-  samplingProb <- .5
+  sampling_prob <- .5
   # the mean catch rate.  Here it is 2.5 which equals 2.5 fish/hour
-  meanCatchRate <- 2.5
+  mean_catch_rate <- 2.5
   
-  SimulateBusRoute(startTimeAM, waitTimeAM, nanglersAM, nsitesAM, samplingProb, 
-                   meanCatchRate)
+  simulate_bus_route(start_time = startTimeAM, wait_time = waitTimeAM, n_anglers = nanglersAM, 
+                     n_sites = nsitesAM, sampling_prob = sampling_prob, mean_catch_rate = mean_catch_rate)
 
   # To simulate one traditional access point survey where the creel clerk arrives, 
   # counts anglers, and interviews anglers that have completed their trips
-  startTime = 0.001 
-  waitTime = 8
+  start_time = 0.001 
+  wait_time = 8
   #nanglers can be informed by previously-collected data
-  nanglers = 1000 
-  nsites = 1
+  n_anglers = 1000 
+  n_sites = 1
   # sampling probability here is 8/12 because we are staying at the access site
   # for 8 hours of a 12-hour fishing day.  To adjust the fishing day length, an
   # additional 'fishingDayLength' argument needs to be passed to this function.
-  samplingProb <- (8/12)
+  sampling_prob <- (8/12)
   # the mean catch rate.
-  meanCatchRate <- 5
+  mean_catch_rate <- 5
   
-  SimulateBusRoute(startTime, waitTime, nanglers, nsites, samplingProb, meanCatchRate)
+  simulate_bus_route(start_time, wait_time, n_anglers, n_sites, sampling_prob, mean_catch_rate)
     
   })
