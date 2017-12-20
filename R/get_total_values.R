@@ -1,46 +1,99 @@
 
-get_total_values <- structure(
-function # Conduct a creel survey of a population of anglers at an access site
+# Created: 12/19/13  
 
-  # ##############################################################################
-  # File:  get_total_values.R
-  ## author<< Steven H. Ranney
-  ## Contact: \email{steven.ranney@gmail.com}
-  # Created: 12/19/13  
-  # Last Edited: 4/9/14 by SHR
-  ##description<<This function uses the output from \code{MakeAnglers} to 
-  ## conduct a bus-route or traditional access point creel survey of the 
-  ## population of anglers from \code{MakeAnglers} and provide clerk-observed
-  ## counts of anglers and their effort.
-  # Returns: This function returns a dataFrame called 'tmp' of creel survey 
-  # metrics sampled from the MakeAnglers function.  
-  #
-  # TODO: add RData for example
-  # TODO: add testing section
-  # ##############################################################################
+#' Conduct a creel survey of a population of anglers at an access site.
+#' 
+#' @author Steven H. Ranney
+#' 
+#' @description This function uses the output from \code{make_anglers} to conduct 
+#' a bus-route or traditional access point creel survey of the population of anglers 
+#' from \code{make_anglers} and provide clerk-observed counts of anglers and their effort.
+#' 
+#' @param data The dataframe returned from \code{\link{make_anglers}}
+#' 
+#' @param start_time The start time of the clerk.
+#' 
+#' @param end_time the end time of the clerk.
+#' 
+#' @param wait_time the wait time of the clerk.
+#' 
+#' @param sampling_prob The sampling probability of the survey. The default is 
+#' \code{1} but will need to be changed if the survey is conducted during only 
+#' half of the fishing day (i.e., \code{.5}) or over longer time periods (e.g., 
+#' \code{9.5/12}, if the survey is 9.5 hours long and the fishing day length is 12 hours)
+#' 
+#' @param mean_catch_rate The mean catch rate for the fishery.
+#' 
+#' @param ... Arguments to be passed to other functions.
+#' 
+#' @details Total effort is the sum of the trip lengths from \code{data}
+#' 
+#' @details The total number of anglers is equal to the \code{nrow()} of the 
+#' dataframe in \code{data}
+#' 
+#' @details Catch rates are assigned to anglers based upon the Gamma distribution 
+#' with a mean of \code{mean_catch_rate}
+#' 
+#' @details If both \code{end_time=NULL} and \code{wait_time=NULL} then \code{wait_time} 
+#' will be 0.5 (one-half hour).  If a value is passed to \code{end_time}, then 
+#' \code{wait_time} becomes \code{end_time - start_time}.
+#' 
+#' @details If \code{start_time=NULL}, then a \code{start_time} is generated from the 
+#' uniform distribution between \code{0} and \code{11.5} hours into the fishing day.
+#' 
+#' @details If \code{end_time=NULL}, then \code{end_time = start_time+wait_time}
+#' 
+#' @details Incomplete trip effort is observed two ways: 1) by counting anglers 
+#' that were at the site for the entire time that the surveyor was at the site
+#' and 2) counting anglers that arrived after the surveyor arrived at the site
+#' but remained at the site after the surveyor left.  These anglers are counted
+#' and their effort calculated based upon surveyor \code{start_time} and \code{end_time}.
+#' 
+#' @details Completed trip effort is observed two ways: 1) by interviewing anglers 
+#' that left while the surveyor was at the site.  The surveyor can determine
+#' effort and catch.  2) by interviewing anglers that both arrived and departed 
+#' while the surveyor was on site.  When \code{wait_time} is short, these cases are
+#' are rare; however, when \code{wait_time} is long (e.g., all day), then these 
+#' cases are much more likely.
+#' 
+#' @details Trip lengths of observed trips (both incomplete and complete) are 
+#' scaled by the \code{sampling_prob} value.  The \code{sampling_prob} is used to estimate
+#' effort and catch.
+#' 
+#' @references Pollock, K. H., C. M. Jones, and T. L. Brown. 1994. Angler survey 
+#' methods and their applications in fisheries management. American Fisheries 
+#' Society, Special Publication 25, Bethesda, Maryland. 
+#' 
+#' @examples 
+#' library(dplyr)
+#'   
+#' set.seed(256)
+#'
+#' start_time = .001 #start of fishing day
+#' end_time = 12 #end of fishing day
+#' mean_catch_rate = 0.1 #this will cause VERY few fish to be caught!
+#' 
+#' make_anglers(100) %>%  
+#'   get_total_values(start_time = start_time, 
+#'                    end_time = end_time, mean_catch_rate = mean_catch_rate)
+#' 
+#' start_time = .001 #start of fishing day
+#' end_time = 6 #halfway through the fishing day
+#' sampling_prob = .5 #this needs to be .5 because we are sampling only 50% of the fishing day
+#' mean_catch_rate = 0.1 #this will cause VERY few fish to be caught!
+#' 
+#' make_anglers(100) %>%  
+#'   get_total_values(start_time = start_time, end_time = end_time, 
+#'                    sampling_prob = sampling_prob, mean_catch_rate = mean_catch_rate)
 
-  (data,##<<The dataframe returned from \code{\link{make_anglers}} 
-       ## function
-  start_time = NULL, ##<< The start time of the creel clerk at this site 
-  end_time = NULL, ##<< The end time of the creel clerk at this site
-  wait_time = NULL, ##<< The wait time of the creel clerk at this site
-  sampling_prob = 1, ##<<The sampling probability for the survey.  The default is 
-                   ## \code{1} but will need to be changed if the survey is conducted
-                   ## during only half of the fishing day (\code{.5}) or over 
-                   ## longer time periods (e.g., \code{9.5/12}, if the survey is
-                   ## 9.5 hours long).
-  mean_catch_rate = NULL, ##<< The mean catch rate for the fishery.  
-  ... ##<<Arguments to be passed to other functions
-  ){
-  
-  ##details<<Total effort is the sum of the trip lengths from \code{data}.
+get_total_values <- function(data, start_time = NULL, end_time = NULL, 
+                             wait_time = NULL, sampling_prob = 1, 
+                             mean_catch_rate = NULL, ...){
+
   t_effort <- sum(data$trip_length)
   
-  ##details<<The total number of anglers is equal to the \code{nrow} of the dataframe in \code{data}.
   n_anglers <- nrow(data)
 
-  ##details<<Catch rates are assigned to anglers based upon the Gamma distribution
-  ## with a mean of \code{mean_catch_rate}.
   lambda <- rgamma(n_anglers, mean_catch_rate)
   
   #Calculate true total catch for all anglers
@@ -48,12 +101,7 @@ function # Conduct a creel survey of a population of anglers at an access site
   
   data$catch <- data$trip_length * lambda
   
-  # Obtain a starting time for the surveyor
-  
-  ##details<<If both \code{end_time=NULL} and \code{wait_time=NULL} then \code{wait_time} 
-  ## will be 0.5 (one-half hour).  If a value is passed to \code{end_time}, then 
-  ## \code{wait_time} becomes \code{end_time - start_time}.
-  
+
   #Provide a 'standard' wait time of .5 hours for the clerk
   if(is.null(wait_time) & is.null(end_time)){
   wait_time <- 0.5
@@ -63,24 +111,15 @@ function # Conduct a creel survey of a population of anglers at an access site
   wait_time <- end_time - start_time
   }
   
-  ##details<<If \code{start_time=NULL}, then a \code{start_time} is generated from the 
-  ## uniform distribution between \code{0} and \code{11.5} hours into the fishing day.
   if(is.null(start_time)){
     start_time <- runif(1, 0, 11.5)
   }
   
-  ##details<<If \code{end_time=NULL}, then \code{end_time = start_time+wait_time}
   # how long into the fishing day did the creel clerk arrive?
   if(is.null(end_time)){
     end_time <- start_time + wait_time # how long into the fishing day did the creel clerk depart?
   }
    
-  ##details<<Incomplete trip effort is observed two ways: 1) by counting anglers
-  ## that were at the site for the entire time that the surveyor was at the site
-  ## and 2) counting anglers that arrived after the surveyor arrived at the site
-  ## but remained at the site after the surveyor left.  These anglers are counted
-  ## and their effort calculated based upon surveyor \code{start_time} and 
-  ## \code{end_time}.
   
   ################
   #Effort of anglers that were onsite for the duration of the time that the clerk
@@ -110,12 +149,6 @@ function # Conduct a creel survey of a population of anglers at an access site
     arrival_sum_effort <- 0
   }
   
-  ##details<<Completed trip effort is observed two ways: 1) by interviewing anglers 
-  ## that left while the surveyor was at the site.  The surveyor can determine
-  ## effort and catch.  2) by interviewing anglers that both arrived and departed 
-  ## while the surveyor was on site.  When \code{wait_time} is short, these cases are
-  ## are rare; however, when \code{wait_time} is long (e.g., all day), then these 
-  ## cases are much more likely.
   
   ################
   #Completed trip information; i.e., anglers that LEFT while the creel clerk 
@@ -143,13 +176,6 @@ function # Conduct a creel survey of a population of anglers at an access site
   data$trip_length[which_angler_departures] <- data$departure_time[which_angler_departures] - start_time
   data$trip_length[which_arr_dep]
   
-  ##details<<Trip lengths of observed trips (both incomplete and complete) are 
-  ## scaled by the \code{sampling_prob} value.  The \code{sampling_prob} is used to estimate
-  ## effort and catch.
-  
-  ##references<<Pollock, K. H., C. M. Jones, and T. L. Brown. 1994. Angler survey 
-  ## methods and their applications in fisheries management. American Fisheries 
-  ## Society, Special Publication 25, Bethesda, Maryland. 
 
   #Scale triplength based upon the sampling probability
   data$trip_length_adj <- data$trip_length/sampling_prob
@@ -172,27 +198,4 @@ function # Conduct a creel survey of a population of anglers at an access site
   
   return(return_df)
   
-  }, ex = function() {
-  
-  library(dplyr)
-    
-  set.seed(256)
-    
-  start_time = .001 #start of fishing day
-  end_time = 12 #end of fishing day
-  mean_catch_rate = 0.1 #this will cause VERY few fish to be caught!
-
-  make_anglers(100) %>%  
-    get_total_values(start_time = start_time, 
-                     end_time = end_time, mean_catch_rate = mean_catch_rate)
-
-  start_time = .001 #start of fishing day
-  end_time = 6 #halfway through the fishing day
-  sampling_prob = .5 #this needs to be .5 because we are sampling only 50% of the fishing day
-  mean_catch_rate = 0.1 #this will cause VERY few fish to be caught!
-  
-  make_anglers(100) %>%  
-    get_total_values(start_time = start_time, end_time = end_time, 
-                     sampling_prob = sampling_prob, mean_catch_rate = mean_catch_rate)
-  
-  })
+  }
