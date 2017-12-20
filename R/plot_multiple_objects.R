@@ -1,30 +1,30 @@
 
-plot_multiple_objects <- structure(
-function # Plot multiple ggplots in one window
+# Created 12/31/14
 
-  ##############################################################################
-  # File:  PlotMultipleObjects.R
-  ##author<<  Steven H. Ranney
-  ## Contact: \email{Steven.Ranney@gmail.com}
-  # Created: 12/31/14  
-  # Last Edited: 12/31/14 by SHR
-  ##description<< This function takes multiple \code{\link{ggplot}} objects and 
-  ## puts them in one plot window. 
-  #
-  # TODO: add RData for example
-  # TODO: add testing section
-  ###############################################################################
-  (..., ##<<The plots to include in the window.
-  plotlist=NULL, ##<<If a \code{plotlist} exists, it should be included here.
-  file, ##<<A plot file
-  cols=1, ##<<How many columns should the window have?
-  layout=NULL ##<<A matrix specifying the layout. If present, 'cols' is ignored..
-  ){
+#' Plot multiple ggplots in one window
+#' 
+#' @author Steven H. Ranney
+#' 
+#' @description This function takes multiple \code{\link{ggplot}} objects and 
+#' puts them in one plot window.
+#' 
+#' @param ... The plots to include in the window
+#' @param plotlist If a \code{plotlist} exists, it should be included here
+#' @param file A plot file
+#' @param cols How many columns should the window have?
+#' @param layout A matrix specifying the layout. If present, \code{cols} is ignored.
+#' 
+#' @details If the layout is something like \code{matrix(c(1,2,3,3), nrow=2, byrow=TRUE)},
+#' then plot 1 will go in the upper left, 2 will go in the upper right, and
+#' 3 will go all the way across the bottom.
+#' 
+#' @export
+
+
+library(grid)
+
+plot_multiple_objects <- function(..., plotlist=NULL, file, cols=1, layout=NULL){
   
-  library(grid)
-  ##details<< If the layout is something like \code{matrix(c(1,2,3,3), nrow=2, byrow=TRUE)},
-  ## then plot 1 will go in the upper left, 2 will go in the upper right, and
-  ## 3 will go all the way across the bottom.
 
   #Make a list from the ... arguments and plotlist
   plots <- c(list(...), plotlist)
@@ -57,4 +57,4 @@ function # Plot multiple ggplots in one window
                                       layout.pos.col = matchidx$col))
     } #end for loop
   } # end else
-})
+}

@@ -111,6 +111,8 @@
 #' mean_catch_rate <- 5
 #' 
 #' simulate_bus_route(start_time, wait_time, n_anglers, n_sites, sampling_prob, mean_catch_rate)
+#' 
+#' @export
 
 
 simulate_bus_route <- function(start_time, wait_time, n_anglers, n_sites, 

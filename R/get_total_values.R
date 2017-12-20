@@ -85,6 +85,10 @@
 #' make_anglers(100) %>%  
 #'   get_total_values(start_time = start_time, end_time = end_time, 
 #'                    sampling_prob = sampling_prob, mean_catch_rate = mean_catch_rate)
+#'                    
+#' @export
+
+
 
 get_total_values <- function(data, start_time = NULL, end_time = NULL, 
                              wait_time = NULL, sampling_prob = 1, 
