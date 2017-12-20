@@ -1,5 +1,5 @@
 
-PlotMultipleObjects <- structure(
+plot_multiple_objects <- structure(
 function # Plot multiple ggplots in one window
 
   ##############################################################################

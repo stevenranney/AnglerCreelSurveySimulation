@@ -1,5 +1,5 @@
 
-CreatePlotFromSimulation <- structure(
+create_plot_from_simulation <- structure(
 function # Create a plot from a creel survey simulation
 
   # ##############################################################################
@@ -17,7 +17,7 @@ function # Create a plot from a creel survey simulation
   # TODO: add testing section
   # ##############################################################################
 
-  (dataFrame, ##The data frame from which to draw the \code{Ehat} and \code{trueEffort}
+  (data, ##The data frame from which to draw the \code{Ehat} and \code{trueEffort}
               ## values.
   value = "effort", ##The value of interest from the simulation.  Other values include
                    ##\code{"catch"}
@@ -27,16 +27,16 @@ function # Create a plot from a creel survey simulation
   library(ggplot2)
 
   if(value == "effort"){
-   mod <- lm(Ehat~trueEffort, data = dataFrame)
-    g <- qplot(trueEffort, Ehat, data = dataFrame)
+   mod <- lm(Ehat~true_effort, data = data)
+    g <- qplot(true_effort, Ehat, data = data)
     g <- g + geom_point(colour = color) + labs(ylab("Estimated effort")) +
              labs(xlab("Actual effort")) + 
              geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
                          colour = "red", size = 1.01)
   }
   if(value == "catch"){
-    mod <- lm((Ehat*catchRateROM)~trueCatch, data = dataFrame)
-    g <- qplot(trueCatch, Ehat*catchRateROM, data = dataFrame)
+    mod <- lm((Ehat*catch_rate_ROM)~true_catch, data = data)
+    g <- qplot(true_catch, Ehat*catch_rate_ROM, data = data)
     g <- g + geom_point(colour = color) + labs(ylab("Estimated catch")) +
              labs(xlab("Actual Catch")) + 
              geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
@@ -48,16 +48,16 @@ function # Create a plot from a creel survey simulation
 
   }, ex = function() {
   
-  startTime <- c(0) 
-  waitTime <- c(8) 
-  nanglers <- c(50) 
-  nsites <- 1
-  samplingProb <- sum(waitTime)/12
-  meanCatchRate <- 3
+  start_time <- c(0) 
+  wait_time <- c(8) 
+  n_anglers <- c(50) 
+  n_sites <- 1
+  sampling_prob <- sum(wait_time)/12
+  mean_catch_rate <- 3
 
-  tmp <- ConductMultipleSurveys(91, startTime, waitTime, nanglers, nsites, samplingProb, 
-                       meanCatchRate, fishingDayLength = 12, meanTripLength = 4)
+  tmp <- conduct_multiple_surveys(91, start_time, wait_time, n_anglers, n_sites, sampling_prob, 
+                                  mean_catch_rate, fishing_day_length = 12, mean_trip_length = 4)
   
-  CreatePlotFromSimulation(tmp, "catch")
+  create_plot_from_simulation(tmp, "catch")
   
   })

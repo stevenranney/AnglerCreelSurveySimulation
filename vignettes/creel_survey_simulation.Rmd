@@ -1,0 +1,10 @@
+---
+title: "Simulating Creel Surveys"
+author: "Steven H. Ranney"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Simulating Creel Surveys}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---

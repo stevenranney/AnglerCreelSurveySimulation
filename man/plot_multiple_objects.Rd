@@ -1,9 +1,9 @@
-\name{PlotMultipleObjects}
-\alias{PlotMultipleObjects}
+\name{plot_multiple_objects}
+\alias{plot_multiple_objects}
 \title{Plot multiple ggplots in one window}
 \description{This function takes multiple \code{\link{ggplot}} objects and 
 puts them in one plot window. }
-\usage{PlotMultipleObjects(..., plotlist = NULL, file, cols = 1, layout = NULL)}
+\usage{plot_multiple_objects(..., plotlist = NULL, file, cols = 1, layout = NULL)}
 \arguments{
   \item{\dots}{The plots to include in the window.}
   \item{plotlist}{If a \code{plotlist} exists, it should be included here.}

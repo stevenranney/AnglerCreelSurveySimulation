@@ -3,9 +3,9 @@ make_anglers <- structure(
 function # Create a population of anglers
 
   # ##############################################################################
-  # File:  MakeAnglers.R
+  # File:  make_anglers.R
   ## author<< Steven H. Ranney
-  ## Contact: \email{sranney@gw-env.com}
+  ## Contact: \email{steven.ranney@gmail.com}
   # Created: 12/19/13
   # Last Edited: 12/19/17 by SHR
   ##description<<Creates a population of \code{n_anglers} with trip length and
@@ -30,6 +30,8 @@ function # Create a population of anglers
                         ## during shorter seasons.
   ){
 
+  library(dplyr)
+    
   anglers <- list() # The anglers location, start time, and trip length are
                     # stored in a list, as three seperate vectors, each of equal
                     # length equal to the number of anglers (n_anglers)

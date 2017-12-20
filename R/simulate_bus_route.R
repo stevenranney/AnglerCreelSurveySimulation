@@ -3,17 +3,17 @@ simulate_bus_route <- structure(
 function # Simulate a bus route survey
 
   # ##############################################################################
-  # File:  SimulateBusRoute.R
+  # File:  simulate_bus_route.R
   ## author<< Steven H. Ranney
   ## Contact: \email{steven.ranney@gmail.com}
   # Created: 12/19/13  
   # Last Edited: 12/19/17 by SHR
-  ##description<<This function uses the output from \code{MakeAnglers} 
-  ## and \code{GetTotalValues} to  conduct a bus-route or traditional access 
-  ## point creel survey of the population of anglers from \code{MakeAnglers} 
+  ##description<<This function uses the output from \code{make_anglers} 
+  ## and \code{get_total_values} to  conduct a bus-route or traditional access 
+  ## point creel survey of the population of anglers from \code{make_anglers} 
   ## and provide clerk-observed counts of anglers and their effort.
   # Returns: Estimate catch (Ehat), the catch rate calculated by the ratio of means, 
-  # the true, observed catch, and the actual catch rate (meanLambda).
+  # the true, observed catch, and the actual catch rate (mean_lambda).
   #
   # TODO: add RData for example
   # TODO: add testing section
@@ -53,12 +53,12 @@ function # Simulate a bus route survey
     tmp <- make_anglers(n_anglers=n_anglers[i], ...)
 #    MakeAnglers(nanglers=nanglers[i], meanTripLength, fishingDayLength)
     dF[i,] <- get_total_values(data = tmp, t_effort = sum(tmp$triplength), n_anglers = length(tmp$start_time), 
-                             start_time = start_time[i], wait_time = wait_time[i], 
-                             end_time = NULL, sampling_prob, mean_catch_rate, ...)
+                               start_time = start_time[i], wait_time = wait_time[i], 
+                               end_time = NULL, sampling_prob, mean_catch_rate, ...)
   }  
   
-  ##seealso<<\code{\link{MakeAnglers}}
-  ##seealso<<\code{\link{GetTotalValues}}
+  ##seealso<<\code{\link{make_anglers}}
+  ##seealso<<\code{\link{get_total_values}}
   
   bigT <- (start_time + wait_time)[length(start_time + wait_time)]-start_time[1]
 
@@ -178,7 +178,7 @@ function # Simulate a bus route survey
   n_sites = 1
   # sampling probability here is 8/12 because we are staying at the access site
   # for 8 hours of a 12-hour fishing day.  To adjust the fishing day length, an
-  # additional 'fishingDayLength' argument needs to be passed to this function.
+  # additional 'fishing_day_length' argument needs to be passed to this function.
   sampling_prob <- (8/12)
   # the mean catch rate.
   mean_catch_rate <- 5

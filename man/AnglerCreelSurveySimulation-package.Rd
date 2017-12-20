@@ -3,18 +3,19 @@
 \alias{AnglerCreelSurveySimulation}
 \docType{package}
 \title{Simulate a Bus Route Creel Survey of Anglers}
+}
 \description{Create an angler population, sample the population with a user-specified survey times, and calculate metrics from a bus route-type creel survey.}
+}
 \details{
-\tabular{ll}{Package: \tab AnglerCreelSurveySimulation\cr
-Version: \tab 0.2.2\cr
-Date: \tab 2015-01-09\cr
-Title: \tab Simulate a Bus Route Creel Survey of Anglers\cr
-Author: \tab Steven Ranney\cr
-Maintainer: \tab Steven H. Ranney <steven.ranney@gmail.com>\cr
-Depends: \tab R (>= 3.0.2)\cr
-License: \tab GPL-3\cr}
+
+The DESCRIPTION file:
+\packageDESCRIPTION{AnglerCreelSurveySimulation}
+\packageIndices{AnglerCreelSurveySimulation}
 }
 \author{Steven Ranney}
+
+Maintainer: \packageMaintainer{AnglerCreelSurveySimulation}
+}
 
 \keyword{ package }
 

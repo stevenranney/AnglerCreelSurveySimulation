@@ -1,31 +1,31 @@
-\name{SimulateBusRoute}
-\alias{SimulateBusRoute}
+\name{simulate_bus_route}
+\alias{simulate_bus_route}
 \title{Simulate a bus route survey}
-\description{This function uses the output from \code{MakeAnglers} 
-and \code{GetTotalValues} to  conduct a bus-route or traditional access 
-point creel survey of the population of anglers from \code{MakeAnglers} 
+\description{This function uses the output from \code{make_anglers} 
+and \code{get_total_values} to  conduct a bus-route or traditional access 
+point creel survey of the population of anglers from \code{make_anglers} 
 and provide clerk-observed counts of anglers and their effort.}
-\usage{SimulateBusRoute(startTime, waitTime, nanglers, nsites, samplingProb = 1, 
-    meanCatchRate, ...)}
+\usage{simulate_bus_route(start_time, wait_time, n_anglers, n_sites, 
+    sampling_prob = 1, mean_catch_rate, ...)}
 \arguments{
-  \item{startTime}{The start time of the surveyor at each site.  This can be a vector of
+  \item{start_time}{The start time of the surveyor at each site.  This can be a vector of
 start times to simulate a bus route or one \code{startTime} to simulate
 a traditional access survey.}
-  \item{waitTime}{The wait time of the surveyor at each site.  This can be a vector
+  \item{wait_time}{The wait time of the surveyor at each site.  This can be a vector
 of wait times to simulate a bus route or one \code{waitTime} to 
 simulate a traditional access survey.}
-  \item{nanglers}{The number of anglers at each site, either a vector or a single
+  \item{n_anglers}{The number of anglers at each site, either a vector or a single
 number.}
-  \item{nsites}{How many sites are being visited?}
-  \item{samplingProb}{What is the sampling probability for the survey?  If
+  \item{n_sites}{How many sites are being visited?}
+  \item{sampling_prob}{What is the sampling probability for the survey?  If
 all sites will be visited during the first or second half
 of the fishing day, \code{samplingProb=0.5}.  If the
 survey will take the entire fishing day, then 
 \code{samplingProb=1}.}
-  \item{meanCatchRate}{The mean catch rate for the fishery.}
+  \item{mean_catch_rate}{The mean catch rate for the fishery.}
   \item{\dots}{Arguments to be passed to other subfunctions, specifically to the
-\code{\link{MakeAnglers}} function, including \code{meanTripLength} and 
-\code{fishingDayLength}.}
+\code{\link{make_anglers}} function, including \code{mean_trip_length} and 
+\code{fishing_day_length}.}
 }
 \details{Effort and catch are estimated from the the Bus Route Estimator 
 equation in Robson and Jones (1989), Jones and Robson (1991) and Pollock 
@@ -85,9 +85,9 @@ site angler survey design. Biometrics 45:83-98.}
 
 
 
-\seealso{\code{\link{MakeAnglers}}
+\seealso{\code{\link{make_anglers}}
 
-\code{\link{GetTotalValues}}}
+\code{\link{get_total_values}}}
 \examples{
 
 # To simulate one bus route survey that takes place in the morning, these values are used
@@ -101,27 +101,27 @@ nanglersAM <- c(10,10,10,10,50)
 nsitesAM <- 5
 # the sampling probability.  Here it is .5 because we are only conducting this 
 # survey during the first 50\% of the fishing day
-samplingProb <- .5
+sampling_prob <- .5
 # the mean catch rate.  Here it is 2.5 which equals 2.5 fish/hour
-meanCatchRate <- 2.5
+mean_catch_rate <- 2.5
 
-SimulateBusRoute(startTimeAM, waitTimeAM, nanglersAM, nsitesAM, samplingProb, 
-                 meanCatchRate)
+simulate_bus_route(start_time = startTimeAM, wait_time = waitTimeAM, n_anglers = nanglersAM, 
+                   n_sites = nsitesAM, sampling_prob = sampling_prob, mean_catch_rate = mean_catch_rate)
 
 # To simulate one traditional access point survey where the creel clerk arrives, 
 # counts anglers, and interviews anglers that have completed their trips
-startTime = 0.001 
-waitTime = 8
+start_time = 0.001 
+wait_time = 8
 #nanglers can be informed by previously-collected data
-nanglers = 1000 
-nsites = 1
+n_anglers = 1000 
+n_sites = 1
 # sampling probability here is 8/12 because we are staying at the access site
 # for 8 hours of a 12-hour fishing day.  To adjust the fishing day length, an
-# additional 'fishingDayLength' argument needs to be passed to this function.
-samplingProb <- (8/12)
+# additional 'fishing_day_length' argument needs to be passed to this function.
+sampling_prob <- (8/12)
 # the mean catch rate.
-meanCatchRate <- 5
+mean_catch_rate <- 5
 
-SimulateBusRoute(startTime, waitTime, nanglers, nsites, samplingProb, meanCatchRate)
+simulate_bus_route(start_time, wait_time, n_anglers, n_sites, sampling_prob, mean_catch_rate)
   
 }

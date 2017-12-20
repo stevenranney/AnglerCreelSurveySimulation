@@ -1,5 +1,5 @@
 
-CalculateRSE <- structure(
+calculate_rse <- structure(
 function # Calculate the Relative Standard Error of a numeric vector
 
   # ##############################################################################
@@ -7,7 +7,7 @@ function # Calculate the Relative Standard Error of a numeric vector
   ## author<< Steven H. Ranney
   ## Contact: \email{steven.ranney@gmail.com}
   # Created: 1/10/15
-  # Last Edited: 
+  # Last Edited: 12/19/17
   ##description<<Calculates relative standard error of a vector of numbers.
   # Returns: This function returns a single value that is the relative standard 
   # error of a vector of numbers.
@@ -37,6 +37,6 @@ function # Calculate the Relative Standard Error of a numeric vector
   
   }, ex = function() {
   
-  CalculateRSE(rnorm(100, 10, 3))
+    calculate_rse(rnorm(100, 10, 3))
   
   })

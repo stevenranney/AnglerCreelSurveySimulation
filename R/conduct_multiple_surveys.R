@@ -1,66 +1,76 @@
 
 
-ConductMultipleSurveys <- structure(
-function # Conduct multiple simulations of a bus-route survey
+conduct_multiple_surveys <- structure(
+function # Conduct multiple simulations of a survey
 
   ###############################################################################
-  # File:  ConductMultipleSurveys.R
+  # File:  conduct_multiple_surveys.R
   ## author<< Steven H. Ranney
-  ## Contact: \email{sranney@gw-env.com}
-  # Created: 3/25/14/13  
-  # Last Edited: 4/9/14 by SHR
-  ##description<<This function uses \code{MakeAnglers} and \code{GetTotalValues} 
+  ## Contact: \email{steven.ranney@gmail.com}
+  # Created: 3/25/14  
+  # Last Edited: 12/19/17 by SHR
+  ##description<<This function uses \code{make_anglers} and \code{get_total_values} 
   ## to  conduct multiple bus-route or traditional access point creel surveys (from
-  ## the number provided to the \code{nsims} argument) of a population of anglers.
+  ## the number provided to the \code{n_sims} argument) of a population of anglers.
   # Returns: Estimate catch (Ehat), the catch rate calculated by the ratio of means, 
-  # the true, observed catch, and the actual catch rate (meanLambda).
+  # the true, observed catch, and the actual catch rate (mean_lambda).
   #
   # TODO: add testing section
   ###############################################################################
 
-  (nsims,  ##<<The number of simulations to be conducted in the simulation of interest.
+  (n_sims,  ##<<The number of simulations to be conducted in the simulation of interest.
   ... ##<<Arguments to be passed to other subfunctions
   ){ 
     
-  ##details<<Because this function is merely a wrapper for the \code{\link{SimulateBusRoute}}
-  ## code, the user still needs to set \code{startTime}, \code{waitTime}, 
-  ## \code{nanglers}, \code{nsites}, and \code{samplingProb} as objects.  These 
-  ## can be passed through the \code{...} argument or through setting \code{waitTime}
+  ##details<<Because this function is merely a wrapper for the \code{\link{simulate_bus_route}}
+  ## code, the user still needs to set \code{start_time}, \code{wait_time}, 
+  ## \code{n_anglers}, \code{n_sites}, and \code{sampling_prob} as objects.  These 
+  ## can be passed through the \code{...} argument or through setting \code{wait_time}
   ## and others outside of the function call itself.
   
-  busRoute <- as.data.frame(matrix(data = NA, ncol = 5, nrow = nsims, byrow=T))
-  names(busRoute) <- c("Ehat", "catchRateROM", "trueCatch", "trueEffort", "meanLambda")
+  bus_route <- as.data.frame(matrix(data = NA, ncol = 5, nrow = n_sims, byrow=T))
+  names(bus_route) <- c("Ehat", "catch_rate_ROM", "true_catch", "true_effort", "mean_lambda")
   
-  ##seealso<<\code{\link{MakeAnglers}}
-  ##seealso<<\code{\link{GetTotalValues}}
-  ##seealso<<\code{\link{SimulateBusRoute}}
+  ##seealso<<\code{\link{make_anglers}}
+  ##seealso<<\code{\link{get_total_values}}
+  ##seealso<<\code{\link{simulate_bus_route}}
   
-  for(i in 1:nrow(busRoute)){
-    busRoute[i,] <- SimulateBusRoute(...)
+  for(i in 1:nrow(bus_route)){
+    bus_route[i,] <- simulate_bus_route(...)
   }
     
-  #busRoute <<- busRoute
-  return(busRoute)
+  #bus_route <<- bus_route
+  return(bus_route)
   
   }, ex = function() {
   
-  #These objects are not used directly in the ConductMultipleSurveys() function
-  # but will be used in the SimulateBusRoute() function
-  startTime <- c(1, 2,3,4,5) 
-  waitTime <- c(.5, .5, .5, .5, 2) 
-  nanglers <- c(10,10,10,10,50) 
-  nsites <- 5
-  samplingProb <- .5
-  meanCatchRate <- 3
+  #These objects are not used directly in the conduct_multiple_surveys() function
+  # but will be used in the simulate_bus_route() function
+  start_time <- c(1, 3.5, 6.5) 
+  wait_time <- c(2, 2, 3) 
+  n_anglers <- c(10,10,50) 
+  n_sites <- 3
+  sampling_prob <- sum(wait_time)/12
+  mean_catch_rate <- 3
   
-  nsims <- 100
+  n_sims <- 10
   
-  tmp <- ConductMultipleSurveys(100, startTime = startTime, waitTime = waitTime, 
-                              nanglers = nanglers, nsite = nsites, 
-                              samplingProb = samplingProb, meanCatchRate = meanCatchRate)
- 
+  set.seed(256)
   
-  #To change fishingDayLength used in the MakeAnglers function
-  ConductMultipleSurveys(nsims, startTime, waitTime, nanglers, nsites, samplingProb, 
-                         meanCatchRate, fishingDayLength = 12)
+  conduct_multiple_surveys(n_sims = n_sims, start_time = start_time, wait_time = wait_time, 
+                           n_anglers = n_anglers, n_sites = n_sites, 
+                           sampling_prob = sampling_prob, mean_catch_rate = mean_catch_rate)
+
+  #Simulation 2
+  start_time <- 0 
+  wait_time <- 8
+  n_anglers <- 100
+  n_sites <- 1
+  sampling_prob <- 8/10
+  mean_catch_rate <- 2.5
+  
+  #One survey/week for a year
+  conduct_multiple_surveys(n_sims = 52, start_time, wait_time, n_anglers, n_sites, sampling_prob, 
+                         mean_catch_rate, fishing_day_length = 10)
+  
   })

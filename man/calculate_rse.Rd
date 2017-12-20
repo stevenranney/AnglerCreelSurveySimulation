@@ -1,8 +1,8 @@
-\name{CalculateRSE}
-\alias{CalculateRSE}
+\name{calculate_rse}
+\alias{calculate_rse}
 \title{Calculate the Relative Standard Error of a numeric vector}
 \description{Calculates relative standard error of a vector of numbers.}
-\usage{CalculateRSE(x)}
+\usage{calculate_rse(x)}
 \arguments{
   \item{x}{The numeric vector of numbers from which relative standard error should
 calculated}
@@ -22,7 +22,7 @@ Relative standard error is the standard error divided by the mean:
 
 
 \examples{
-
-CalculateRSE(rnorm(100, 10, 3))
-
+  
+calculate_rse(rnorm(100, 10, 3))
+  
 }

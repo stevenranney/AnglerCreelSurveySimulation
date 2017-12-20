@@ -1,11 +1,11 @@
 
 get_total_values <- structure(
-function # Conduct a creel survey of a population of anglers at a site
+function # Conduct a creel survey of a population of anglers at an access site
 
   # ##############################################################################
-  # File:  GetTotalValues.R
+  # File:  get_total_values.R
   ## author<< Steven H. Ranney
-  ## Contact: \email{sranney@gw-env.com}
+  ## Contact: \email{steven.ranney@gmail.com}
   # Created: 12/19/13  
   # Last Edited: 4/9/14 by SHR
   ##description<<This function uses the output from \code{MakeAnglers} to 
@@ -19,7 +19,7 @@ function # Conduct a creel survey of a population of anglers at a site
   # TODO: add testing section
   # ##############################################################################
 
-  (data,##<<The dataframe returned from \code{\link{make_anglers()}} 
+  (data,##<<The dataframe returned from \code{\link{make_anglers}} 
        ## function
   start_time = NULL, ##<< The start time of the creel clerk at this site 
   end_time = NULL, ##<< The end time of the creel clerk at this site
@@ -174,6 +174,8 @@ function # Conduct a creel survey of a population of anglers at a site
   
   }, ex = function() {
   
+  library(dplyr)
+    
   set.seed(256)
     
   start_time = .001 #start of fishing day
