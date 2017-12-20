@@ -1,4 +1,4 @@
-import()
+importFrom(dplyr,"%>%")
 
 exportPattern("^[[:alpha:]]+")
 

@@ -1,6 +1,6 @@
 \name{get_total_values}
 \alias{get_total_values}
-\title{Conduct a creel survey of a population of anglers at a site}
+\title{Conduct a creel survey of a population of anglers at an access site}
 \description{This function uses the output from \code{MakeAnglers} to 
 conduct a bus-route or traditional access point creel survey of the 
 population of anglers from \code{MakeAnglers} and provide clerk-observed

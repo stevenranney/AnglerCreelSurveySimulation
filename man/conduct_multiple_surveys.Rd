@@ -1,6 +1,6 @@
 \name{conduct_multiple_surveys}
 \alias{conduct_multiple_surveys}
-\title{Conduct multiple simulations of a bus-route survey}
+\title{Conduct multiple simulations of a survey}
 \description{This function uses \code{make_anglers} and \code{get_total_values} 
 to  conduct multiple bus-route or traditional access point creel surveys (from
 the number provided to the \code{n_sims} argument) of a population of anglers.}
