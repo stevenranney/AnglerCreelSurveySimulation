@@ -26,8 +26,9 @@
 #' @seealso \code{\link{simulate_bus_route}}
 #' 
 #' @examples 
-#' #These objects are not used directly in the conduct_multiple_surveys() function
-#' but will be used in the simulate_bus_route() function
+#' 
+#' library(dplyr)
+#' #Simulation 1
 #' start_time <- c(1, 3.5, 6.5) 
 #' wait_time <- c(2, 2, 3) 
 #' n_anglers <- c(10,10,50) 
@@ -54,6 +55,8 @@
 #' #One survey/week for a year
 #' conduct_multiple_surveys(n_sims = 52, start_time, wait_time, n_anglers, n_sites, sampling_prob, 
 #'                          mean_catch_rate, fishing_day_length = 10)
+#'                          
+#' @export                          
 
 
 conduct_multiple_surveys <- function(n_sims, ...){ 

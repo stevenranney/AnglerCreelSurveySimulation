@@ -8,5 +8,7 @@ Depends: R (>= 3.0.2)
 Imports: dplyr, ggplot2
 Description: Create an angler population, sample the population with a user-specified survey times, and calculate metrics from a bus route-type creel survey.
 License: GPL-3
-Suggests: knitr, rmarkdown
+Suggests: knitr, rmarkdown,
+    testthat
 VignetteBuilder: knitr
+RoxygenNote: 6.0.1

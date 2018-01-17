@@ -23,7 +23,7 @@
 #' 591-623 in B. R. Murphy and D. W. Willis, editors. Fisheries techniques, 
 #' 2nd edition. American Fisheries Society, Bethesda, Maryland.
 #' 
-#' @example 
+#' @examples
 #' calculate_rse(rnorm(100, 10, 3))
 #' 
 #' @export

@@ -164,6 +164,6 @@ simulate_bus_route <- function(start_time, wait_time, n_anglers, n_sites,
   #meanLambda
   mean_lambda <- mean(dF$mean_lambda)
   
-  return(cbind(Ehat, catch_rate_ROM, true_catch, true_effort, mean_lambda)) 
+  return(cbind(Ehat, catch_rate_ROM, true_catch, true_effort, mean_lambda) %>% as.data.frame()) 
 
   }

@@ -16,7 +16,7 @@
 #' \code{"catch"}
 #' @param color The color of the points in the plot, passed to \code{\link{ggplot}}.
 #' 
-#' @example
+#' @examples
 #' 
 #' start_time <- 0 
 #' wait_time <- 8 
@@ -32,10 +32,11 @@
 #' 
 #' @export
 
-library(ggplot2)
-library(dplyr)
 
 create_plot_from_simulation <- function(data, value = "effort",color = "black"){
+
+  library(ggplot2)
+  library(dplyr)
   
   if(value == "effort"){
    mod <- lm(Ehat~true_effort, data = data)
