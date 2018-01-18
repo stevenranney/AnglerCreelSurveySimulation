@@ -10,5 +10,5 @@ Description: Simulate an angler population, sample the simulated population with
 License: GPL-3
 Suggests: knitr, rmarkdown,
     testthat
-VignetteBuilder: knitr
+VignetteBuilder: rmarkdown
 RoxygenNote: 6.0.1

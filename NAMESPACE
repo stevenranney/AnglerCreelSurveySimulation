@@ -13,3 +13,4 @@ import(dplyr)
 import(grid)
 import(magrittr)
 importFrom("stats", "lm", "rgamma", "runif", "sd")
+
