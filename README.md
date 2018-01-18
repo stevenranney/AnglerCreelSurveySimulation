@@ -1,7 +1,7 @@
 AnglerCreelSurveySimulation
 ===========
 
-[![Travis-CI Build Status](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation.svg?branch=master)](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation)
+[![Travis-CI Build Status](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation.svg?branch=InProgress)](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation)
 
 
 *Functions to allow fisheries managers to simulate a bus route creel survey*
@@ -13,17 +13,21 @@ Creel surveys allow fisheries scientists and managers the ability to sample angl
 To install `AnglerCreelSurveySimulation` from CRAN:
 
 ```r
+
 install.packages("AnglerCreelSurveySimulation")
+
 ```
 
 Install the latest (development) version of `AnglerCreelSurveySimulation` from GitHub with [devtools](https://github.com/hadley/devtools) and the following code:
 
 ```r
+
 devtools::install_github("stevenranney/AnglerCreelSurveySimulation", ref = "InProgress")
+
 ```
 
 Additional information:
-* `meanTripLength` and `catchRate` are estimated from the `gamma` distribution
+* `mean_trip_length` and `catch_rate` are estimated from the `gamma` distribution
 * The Bus Route Estimator is used to estimate `effort` (Jones and Pollock 2012)
 * The Ratio of Means is used to estiate `catch` (Malvestuto 1996; Jones and Pollock 2012)
 * Creel surveys can be estimated as a 'one-off' or bus route-type surveys (e.g., multiple stops along a route)
