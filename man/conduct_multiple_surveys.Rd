@@ -29,7 +29,6 @@ and others outside of the function call itself.
 }
 \examples{
 
-library(dplyr)
 #Simulation 1
 start_time <- c(1, 3.5, 6.5) 
 wait_time <- c(2, 2, 3) 

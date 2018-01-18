@@ -65,8 +65,7 @@
 #' Society, Special Publication 25, Bethesda, Maryland. 
 #' 
 #' @examples 
-#' library(dplyr)
-#'   
+#' library(dplyr)   
 #' set.seed(256)
 #'
 #' start_time = .001 #start of fishing day

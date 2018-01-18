@@ -27,7 +27,6 @@
 #' 
 #' @examples 
 #' 
-#' library(dplyr)
 #' #Simulation 1
 #' start_time <- c(1, 3.5, 6.5) 
 #' wait_time <- c(2, 2, 3) 
@@ -66,7 +65,7 @@ conduct_multiple_surveys <- function(n_sims, ...){
   names(bus_route) <- c("Ehat", "catch_rate_ROM", "true_catch", "true_effort", "mean_lambda")
   
   for(i in 1:nrow(bus_route)){
-    bus_route[i,] <- simulate_bus_route(...)
+    bus_route[i,] <- simulate_bus_route(...)[i, ]
   }
     
   return(bus_route)

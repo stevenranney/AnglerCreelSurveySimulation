@@ -1,3 +1,5 @@
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("true_effort", "Ehat", 
+                                                        "true_catch", "catch_rate_ROM"))
 
 # Created: 1/10/15
 
@@ -33,11 +35,9 @@
 #' @export
 
 
-create_plot_from_simulation <- function(data, value = "effort",color = "black"){
+create_plot_from_simulation <- function(data, value = "effort", color = "black"){
 
-  library(ggplot2)
-  library(dplyr)
-  
+
   if(value == "effort"){
    mod <- lm(Ehat~true_effort, data = data)
    g <- 

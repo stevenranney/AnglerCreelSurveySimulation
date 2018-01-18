@@ -43,8 +43,6 @@ make_anglers <- function(n_anglers = 100,
                          mean_trip_length = 3.88,
                          fishing_day_length = 12){
 
-  library(dplyr)
-    
   anglers <- list()
 
   i=1

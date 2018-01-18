@@ -1,17 +1,17 @@
 ---
-title: "Simulating Creel Surveys"
+  title: "Simulating Creel Surveys"
 author: "Steven H. Ranney"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: rmarkdown::pdf_vignette
 vignette: >
   %\VignetteIndexEntry{Simulating Creel Surveys}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+%\VignetteEngine{knitr::rmarkdown}
+\usepackage[utf8]{inputenc}
 ---
-
-#Introduction
-
-Creel surveys allow fisheries scientists and managers to collect data on catch and harvest, an angler popuation (including effort expended), and, depending on survey design, biological data on fish populations.  Though important methods of collecting data on the user base of the fishery, creel surveys are difficult to implement and, in graduate fisheries programs, creel surveys are paid little attention.  As a result, fisheries managers--the first job for many fisheries-program graduates--often inherit old surveys or are told to institute new surveys with little knowledge of how to do so.
+  
+  #Introduction
+  
+  Creel surveys allow fisheries scientists and managers to collect data on catch and harvest, an angler popuation (including effort expended), and, depending on survey design, biological data on fish populations.  Though important methods of collecting data on the user base of the fishery, creel surveys are difficult to implement and, in graduate fisheries programs, creel surveys are paid little attention.  As a result, fisheries managers--the first job for many fisheries-program graduates--often inherit old surveys or are told to institute new surveys with little knowledge of how to do so.
 
 Fisheries can cover large spatial extents: large reservoirs, coast-lines, and river systems.  A creel survey has to be statistically valid, adaptable to the geographic challenges of the fishery, and cost efficient.  Limited budgets can prevent agencies from implementing creel surveys; the [AnglerCreelSurveySimulation](http://cran.r-project.org/web/packages/AnglerCreelSurveySimulation/index.html) was designed to help managers explore the type of creel survey that is most appropriate for their fishery, including fisheries with multiple access points, access points that are more popular than others, variation in catch rate, the number of surveyors, and seasonal variation in day-lengths.
 
@@ -33,7 +33,7 @@ install.packages("AnglerCreelSurveySimulation")
 
 This tutorial assumes that we have a very simple, small fishery with only one access point that, on any given day, is visited by 100 anglers.  The fishing day length for our theoretical fishery is 12 hours (say, from 6 am to 6pm) and all anglers are required to have completed their trip by 6pm.  Lastly, the mean trip length is known to be 3.5 hours.
 
-*For the purposes of this package, all times are functions of the fishing day.  In other words, if a fishing day length is 12 hours, from 6 am to 6pm, and an angler starts their trip at `2` and ends at `4` that means that they started their trip at 8 am and ended at 10 am.*
+*For the purposes of this package, all times are functions of the fishing day.  In other words, if a fishing day length is 12 hours (e.g., from 6 am to 6pm) and an angler starts their trip at `2` and ends at `4` that means that they started their trip at 8 am and ended at 10 am.*
 
 The `MakeAnglers` function builds a population of anglers:
 
@@ -53,24 +53,24 @@ In the `str(anglers)` statement, you can see that `starttime`, `triplength`, and
 The distribution of angler trip lengths can be easily visualized:
 
 ```{r warning = FALSE}
-  newDf <- data.frame(anglers$triplength)
-  names(newDf) <- "tripLength"
-  
-  library(ggplot2)
+newDf <- data.frame(anglers$triplength)
+names(newDf) <- "tripLength"
 
-  # Histogram overlaid with kernel density curve
-  ggplot(newDf, aes(x=tripLength)) + 
-      geom_histogram(aes(y=..density..), # Histogram with density instead of count on y-axis
-                     binwidth=.1,
-                     colour="black", fill="white") +
-      geom_density(alpha=.2, fill="#FF6666")  # Overlay with transparent density plot
+library(ggplot2)
+
+# Histogram overlaid with kernel density curve
+ggplot(newDf, aes(x=tripLength)) + 
+geom_histogram(aes(y=..density..), # Histogram with density instead of count on y-axis
+binwidth=.1,
+colour="black", fill="white") +
+geom_density(alpha=.2, fill="#FF6666")  # Overlay with transparent density plot
 ```
 
 Once the population of anglers has been created, the next function to apply is the `GetTotalValue()` function.  In `GetTotalValues()`, the user specifies the start time of the creel surveyor, the end time of the surveyor, and the wait time of the surveyor.  Here is where the user also specifies the sampling probability of the anglers (in most cases, equal to $\frac{waitTime}{fishingDayLength}$) and the mean catch rate of the fishery.  There are a number of a default settings in the `GetTotalValues()` function; see `?GetTotalValues` for a description of how the function handles `NULL` values for `startTime`, `endTime`, and `waitTime`.  `startTime` and `waitTime` are the times that the surveyor started and waited at the access point.  `totalCatch` and `trueEffort` are the total (or *real*) values for catch and effort.  `meanLambda` is the mean catch rate for all anglers.  Even though we assigned `meanCatchRate` to `GetTotalValues()`, individual mean catch rates are simulated by `rgamma()` with shape equal to `meanCatchRate` and rate equal to `1`.
 
 Because `MakeAnglers()` assigns `anglers` and `trueeffort` to the `R` environment, `GetTotalValues()` will pull the information it needs from `anglers` automatically.  For this walk through, we'll schedule the surveyor to work for a total of eight hours at the sole access point in our fishery:
-
-```{r}
+  
+  ```{r}
 GetTotalValues(startTime = 0, waitTime = 8, samplingProb = 8/12, meanCatchRate = 2.5)
 ```
 
@@ -81,12 +81,12 @@ In the output from `GetTotalValues()`, `nObservedTrips` is the number of trips t
 ###Estimating catch and effort
 
 Effort and catch are estimated from the Bus Route Estimator:  
-
+  
+  $$
+  \widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{\frac{e_{ij}}{\pi_{j}}}
 $$
-\widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{\frac{e_{ij}}{\pi_{j}}}
-$$
-
-where  
+  
+  where  
 *E* = estimated total party-hours of effort;  
 *T* = total time to complete a full circuit of the route, including travelling and waiting;  
 *w~i~* = waiting time at the *i^th^* site (where *i* = 1, ..., *n* sites);  
@@ -94,12 +94,12 @@ and
 *e~ij~* = total time that the *j^th^* car (or trailer) is parked at the *i^th^* site while the agent is at that shite (where *j* = 1, ..., *n* sites).  
 
 Catch rate is calculated from the Ratio of Means equation:  
-
+  
+  $$
+  \widehat{R_1} = \frac{\sum\limits_{i=1}^n{c_i/n}}{\sum\limits_{i=1}^n{L_i/n}}
 $$
-\widehat{R_1} = \frac{\sum\limits_{i=1}^n{c_i/n}}{\sum\limits_{i=1}^n{L_i/n}}
-$$
-
-where  
+  
+  where  
 *c~i~* is the catch for the *i^th^* sampling unit  
 and  
 *L~i~* is the length of the fishing trip at the tie of the interview.  For incomplete surveys, *L~i~* represents an incomplete trip.  
@@ -125,15 +125,15 @@ sim
 ```
 
 With the output from multiple simulations, an analyst can evaluate how closely the creel survey they've designed mirrors reality.  A `lm()` of estimated catch as a function of `trueCatch` can tell us if the survey will over or under estimate reality:
-
-```{r}
+  
+  ```{r}
 mod <- lm((Ehat * catchRateROM) ~ trueCatch, data = sim)
 summary(mod)
 ```
 
 Plotting the data and the model provide a good visual means of evaluating how close our estimates are to reality:
-
-```{r}
+  
+  ```{r}
 #Create a new vector of the estimated effort multiplied by estimated catch rate
 sim$estCatch <- sim$Ehat * sim$catchRateROM
 g <- qplot(x = trueCatch, y = estCatch, data = sim)
@@ -144,8 +144,8 @@ g
 The closer the slope parameter estimate is to 1 and the intercept parameter estimate is to 0, the closer our estimate of catch is to reality.
 
 We can create a model and plot of our effort estimates, too:
-
-```{r}
+  
+  ```{r}
 mod <- lm(Ehat ~ trueEffort, data = sim)
 summary(mod)
 

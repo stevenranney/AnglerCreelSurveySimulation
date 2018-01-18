@@ -66,8 +66,7 @@ scaled by the \code{sampling_prob} value.  The \code{sampling_prob} is used to e
 effort and catch.
 }
 \examples{
-library(dplyr)
-  
+library(dplyr)   
 set.seed(256)
 
 start_time = .001 #start of fishing day
