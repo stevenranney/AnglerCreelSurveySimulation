@@ -4,11 +4,11 @@ citHeader("To cite reports in publications, please use:")
 citEntry(entry = "manual",
     title = "{AnglerCreelSurveySimulation}: Simulate an angler creel survey",
     author = "Steven H. Ranney",
-    note = "version 0.2.2",
+    note = "version 1.0.0",
     year = "2018",
     url = "http://cran.r-project.org/package=AnglerCreelSurveySimulation",
     textVersion  = paste("Ranney, S. H. 2018.",
         "AnglerCreelSurveySimulation: Simulate an angler creel survey.",
-        "version 0.2.2.",
+        "version 1.0.0.",
         "http://cran.r-project.org/package=AnglerCreelSurveySimulation")
 )
