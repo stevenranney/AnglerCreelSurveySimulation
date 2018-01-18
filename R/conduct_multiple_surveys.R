@@ -65,7 +65,7 @@ conduct_multiple_surveys <- function(n_sims, ...){
   names(bus_route) <- c("Ehat", "catch_rate_ROM", "true_catch", "true_effort", "mean_lambda")
   
   for(i in 1:nrow(bus_route)){
-    bus_route[i,] <- simulate_bus_route(...)[i, ]
+    bus_route[i,] <- simulate_bus_route(...)
   }
     
   return(bus_route)

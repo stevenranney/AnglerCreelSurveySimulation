@@ -30,7 +30,7 @@ Additional information:
 * Simulations can be run to estimate `>= 1` surveys
 * Resulting values for estimated catch and estimated effort can be plotted as a function of true catch and true effort to evaluate how accurately the survey reflects reality.
 
-#####References 
+# References 
 
 Jones, C. M., and K. H. Pollock. 2012. Recreational survey 
  methods: estimation of effort, harvest, and released catch. Pages 883-919 

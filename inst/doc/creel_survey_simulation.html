@@ -12,12 +12,50 @@
 
 <meta name="author" content="Steven H. Ranney" />
 
-<meta name="date" content="2017-12-20" />
+<meta name="date" content="2018-01-18" />
 
 <title>Simulating Creel Surveys</title>
 
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
 
 
 
@@ -32,11 +70,271 @@
 
 <h1 class="title toc-ignore">Simulating Creel Surveys</h1>
 <h4 class="author"><em>Steven H. Ranney</em></h4>
-<h4 class="date"><em>2017-12-20</em></h4>
+<h4 class="date"><em>2018-01-18</em></h4>
 
 
 
+<p>#Introduction</p>
+<p>Creel surveys allow fisheries scientists and managers to collect data on catch and harvest, an angler popuation (including effort expended), and, depending on survey design, biological data on fish populations. Though important methods of collecting data on the user base of the fishery, creel surveys are difficult to implement and, in graduate fisheries programs, creel surveys are paid little attention. As a result, fisheries managers–the first job for many fisheries-program graduates–often inherit old surveys or are told to institute new surveys with little knowledge of how to do so.</p>
+<p>Fisheries can cover large spatial extents: large reservoirs, coast-lines, and river systems. A creel survey has to be statistically valid, adaptable to the geographic challenges of the fishery, and cost efficient. Limited budgets can prevent agencies from implementing creel surveys; the <a href="http://cran.r-project.org/web/packages/AnglerCreelSurveySimulation/index.html">AnglerCreelSurveySimulation</a> was designed to help managers explore the type of creel survey that is most appropriate for their fishery, including fisheries with multiple access points, access points that are more popular than others, variation in catch rate, the number of surveyors, and seasonal variation in day-lengths.</p>
+<p>The <code>AnglerCreelSurveySimulation</code> package does require that users know something about their fishery and the human dimensions of that fishery. <em>A prior</em> knowledge includes mean trip length for a party (or individual), the mean catch rate of the</p>
+<p>The <code>AnglerCreelSurveySimulation</code> package is simple, but powerful. Four functions provide the means for users to create a population of anglers, limit the length of the fishing day to any value, and provide a mean trip length for the population. Ultimately, the user only needs to know the final function <code>ConductMultipleSurveys</code> but because I’d rather this <em>not</em> be a <em>black box</em> of functions, this brief introduction will be a step-by-step process through the package.</p>
+<div id="a-walk-through-of-the-package" class="section level2">
+<h2>A walk-through of the package</h2>
+<p>This tutorial assumes that we have a very simple, small fishery with only one access point that, on any given day, is visited by 100 anglers. The fishing day length for our theoretical fishery is 12 hours (say, from 6 am to 6pm) and all anglers are required to have completed their trip by 6pm. Lastly, the mean trip length is known to be 3.5 hours.</p>
+<p><em>For the purposes of this package, all times are functions of the fishing day. In other words, if a fishing day length is 12 hours (e.g., from 6 am to 6pm) and an angler starts their trip at <code>2</code> and ends at <code>4</code> that means that they started their trip at 8 am and ended at 10 am.</em></p>
+<p>The <code>MakeAnglers</code> function builds a population of anglers:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(AnglerCreelSurveySimulation)
+<span class="kw">MakeAnglers</span>(<span class="dt">nanglers =</span> <span class="dv">100</span>, <span class="dt">meanTripLength =</span> <span class="fl">3.5</span>, <span class="dt">fishingDayLength =</span> <span class="dv">12</span>)</code></pre></div>
+<p><code>MakeAnglers</code> assigns two values <code>R</code> environment, a <code>list</code> called <code>anglers</code> and a single value called <code>trueeffort</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(anglers)</code></pre></div>
+<pre><code>## List of 3
+##  $ starttime    : num [1:100] 0.65 2.49 3.19 4.83 3.94 ...
+##  $ triplength   : num [1:100] 4.62 5.14 4.43 3.48 3.19 ...
+##  $ departureTime: num [1:100] 5.27 7.63 7.62 8.32 7.13 ...</code></pre>
+<p>In the <code>str(anglers)</code> statement, you can see that <code>starttime</code>, <code>triplength</code>, and <code>departureTime</code> are all embedded within the <code>anglers</code> list. The first angler started their trip roughtly 0.65 hours into the fishing day, continued to fish for 4.62 hours, and left the access point at 5.27 hours into the fishing day. Angler start times are assigned by the <code>uniform</code> distribution and trip lengths are assigned by the <code>gamma</code> distribution. <code>trueeffort</code> is simply the <code>sum()</code> of the <code>anglers$triplength</code>: 387.5792517.</p>
+<p>The distribution of angler trip lengths can be easily visualized:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newDf &lt;-<span class="st"> </span><span class="kw">data.frame</span>(anglers<span class="op">$</span>triplength)
+<span class="kw">names</span>(newDf) &lt;-<span class="st"> &quot;tripLength&quot;</span>
 
+<span class="kw">library</span>(ggplot2)
+
+<span class="co"># Histogram overlaid with kernel density curve</span>
+<span class="kw">ggplot</span>(newDf, <span class="kw">aes</span>(<span class="dt">x=</span>tripLength)) <span class="op">+</span><span class="st"> </span>
+<span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density..), <span class="co"># Histogram with density instead of count on y-axis</span>
+<span class="dt">binwidth=</span>.<span class="dv">1</span>,
+<span class="dt">colour=</span><span class="st">&quot;black&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span>
+<span class="kw">geom_density</span>(<span class="dt">alpha=</span>.<span class="dv">2</span>, <span class="dt">fill=</span><span class="st">&quot;#FF6666&quot;</span>)  <span class="co"># Overlay with transparent density plot</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>Once the population of anglers has been created, the next function to apply is the <code>GetTotalValue()</code> function. In <code>GetTotalValues()</code>, the user specifies the start time of the creel surveyor, the end time of the surveyor, and the wait time of the surveyor. Here is where the user also specifies the sampling probability of the anglers (in most cases, equal to <span class="math inline">\(\frac{waitTime}{fishingDayLength}\)</span>) and the mean catch rate of the fishery. There are a number of a default settings in the <code>GetTotalValues()</code> function; see <code>?GetTotalValues</code> for a description of how the function handles <code>NULL</code> values for <code>startTime</code>, <code>endTime</code>, and <code>waitTime</code>. <code>startTime</code> and <code>waitTime</code> are the times that the surveyor started and waited at the access point. <code>totalCatch</code> and <code>trueEffort</code> are the total (or <em>real</em>) values for catch and effort. <code>meanLambda</code> is the mean catch rate for all anglers. Even though we assigned <code>meanCatchRate</code> to <code>GetTotalValues()</code>, individual mean catch rates are simulated by <code>rgamma()</code> with shape equal to <code>meanCatchRate</code> and rate equal to <code>1</code>.</p>
+<p>Because <code>MakeAnglers()</code> assigns <code>anglers</code> and <code>trueeffort</code> to the <code>R</code> environment, <code>GetTotalValues()</code> will pull the information it needs from <code>anglers</code> automatically. For this walk through, we’ll schedule the surveyor to work for a total of eight hours at the sole access point in our fishery:</p>
+<p><code>r   GetTotalValues(startTime = 0, waitTime = 8, samplingProb = 8/12, meanCatchRate = 2.5)</code></p>
+<p><code>##   nObservedTrips totalObservedTripEffort nCompletedTrips   ## 1             95                437.2018              48   ##   totalCompletedTripEffort totalCompletedTripCatch startTime waitTime   ## 1                 227.2794                576.6679         0        8   ##   totalCatch trueEffort meanLambda   ## 1    1020.89   387.5793   2.564571</code></p>
+<p><code>GetTotalValues()</code> returns a single row data frame with several columns. The output of <code>GetTotalValues()</code> is the catch and effort data observed by the surveyor during their wait at the accss point along with the “true” values for catch and effort. (Obviously, we can’t simulate biological data but, if an agency’s protocol directed the surveyor to collect biological data, that could be analyzed with other <code>R</code> functions.)</p>
+<p>In the output from <code>GetTotalValues()</code>, <code>nObservedTrips</code> is the number of trips that the surveyor observed, including anglers that arrived after she started her day and anglers that were there for the duration of her time at the access point. <code>TotalObservedTripEffort</code> is the effort expended by those parties; because the observed trips were not complete, she did not count their catch. <code>nCompletedTrips</code> is the number of anglers that completed their trips while she was onsite, <code>totalCompletedTripEffort</code> is the effort expended by those anglers, and <code>totalCompletedTripCatch</code> is the number of fish caught by those parties. Catch is both the number of fish harvested and those caught and released.</p>
+<div id="estimating-catch-and-effort" class="section level3">
+<h3>Estimating catch and effort</h3>
+<p>Effort and catch are estimated from the Bus Route Estimator:</p>
+<p><span class="math display">\[
+  \widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{\frac{e_{ij}}{\pi_{j}}}
+\]</span></p>
+<p>where<br />
+<em>E</em> = estimated total party-hours of effort;<br />
+<em>T</em> = total time to complete a full circuit of the route, including travelling and waiting;<br />
+<em>w<sub>i</sub></em> = waiting time at the <em>i<sup>th</sup></em> site (where <em>i</em> = 1, …, <em>n</em> sites);<br />
+and<br />
+<em>e<sub>ij</sub></em> = total time that the <em>j<sup>th</sup></em> car (or trailer) is parked at the <em>i<sup>th</sup></em> site while the agent is at that shite (where <em>j</em> = 1, …, <em>n</em> sites).</p>
+<p>Catch rate is calculated from the Ratio of Means equation:</p>
+<p><span class="math display">\[
+  \widehat{R_1} = \frac{\sum\limits_{i=1}^n{c_i/n}}{\sum\limits_{i=1}^n{L_i/n}}
+\]</span></p>
+<p>where<br />
+<em>c<sub>i</sub></em> is the catch for the <em>i<sup>th</sup></em> sampling unit<br />
+and<br />
+<em>L<sub>i</sub></em> is the length of the fishing trip at the tie of the interview. For incomplete surveys, <em>L<sub>i</sub></em> represents an incomplete trip.</p>
+<p><code>SimulateBusRoute()</code> calculates effort and catch based upon these equations. See <code>?SimulateBusRoute</code> for references that include a more detailed discussion of these equations.</p>
+<p><code>SiulateBusRoute()</code> calls <code>MakeAnglers()</code> and <code>GetTotalValues()</code> so many of the same arguments we passed in the previous functions will need to be passed to <code>SimulateBusRoute()</code>. The new arguent, <code>nsites</code>, is the number of sites visited by the surveyor. In more advanced simulations (see the examples in <code>?SimulateBusRoute</code>), you can pass strings of values for <code>startTime</code>, <code>waitTime</code>, <code>nsites</code>, and <code>nanglers</code> to simulate a bus route-type survey rather than just a single access-point survey.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim &lt;-<span class="st"> </span><span class="kw">SimulateBusRoute</span>(<span class="dt">startTime =</span> <span class="dv">0</span>, <span class="dt">waitTime =</span> <span class="dv">8</span>, <span class="dt">nsites =</span> <span class="dv">1</span>, <span class="dt">nanglers =</span> <span class="dv">100</span>, <span class="dt">samplingProb =</span> <span class="dv">8</span><span class="op">/</span><span class="dv">12</span>, <span class="dt">meanCatchRate =</span> <span class="fl">2.5</span>, <span class="dt">fishingDayLength =</span> <span class="dv">12</span>)
+sim</code></pre></div>
+<pre><code>##          Ehat catchRateROM trueCatch trueEffort meanLambda
+## [1,] 497.0588     2.279464  930.8468   438.3226   2.235012</code></pre>
+<p>The output from <code>SiulateBusRoute()</code> is a matrix with values for <code>Ehat</code>, <code>catchRateROM</code> (the ratio of means catch rate), <code>trueCatch</code>, <code>trueEffort</code>, and <code>meanLambda</code>. <code>Ehat</code> is the estimated total effort from the Bus Route Estimator above and <code>catchRateROM</code> is catch rate estimated from the Ratio of Means equation. <code>trueCatch</code>, <code>trueEffort</code>, and <code>meanLambda</code> are the same as before. Multiplying <code>Ehat</code> by <code>catchRateROM</code> gives an estimate of total catch: 1133.0276539.</p>
+</div>
+<div id="conducting-multiple-simulations" class="section level3">
+<h3>Conducting multiple simulations</h3>
+<p>With information about the fishery, the start and wait times of the surveyor, the sampling probability, mean catch rate, and fishing day length, we can run multiple simulations with <code>ConductMultipleSurveys()</code>. <code>ConductMultipleSurveys()</code> is a wrapper that calls the other three functions in turn and compiles the values into a data frame for easy plotting or analysis. The only additional argument needed is the <code>nsims</code> value which tells the function how many simulations to conduct. For the sake of this simple simulation, let’s assume that the creel survery works five days a week for four weeks (i.e. 20 days):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim &lt;-<span class="st"> </span><span class="kw">ConductMultipleSurveys</span>(<span class="dt">nsims =</span> <span class="dv">20</span>, <span class="dt">startTime =</span> <span class="dv">0</span>, <span class="dt">waitTime =</span> <span class="dv">8</span>, <span class="dt">nsites =</span> <span class="dv">1</span>, <span class="dt">nanglers =</span> <span class="dv">100</span>, <span class="dt">samplingProb =</span> <span class="dv">8</span><span class="op">/</span><span class="dv">12</span>, <span class="dt">meanCatchRate =</span> <span class="fl">2.5</span>, <span class="dt">fishingDayLength =</span> <span class="dv">12</span>)
+sim</code></pre></div>
+<pre><code>##        Ehat catchRateROM trueCatch trueEffort meanLambda
+## 1  440.8683     2.485271 1000.0642   408.6032   2.365767
+## 2  479.5479     2.446871 1059.7373   416.0167   2.510112
+## 3  439.0166     2.433610  892.1471   391.1815   2.291496
+## 4  427.2450     2.531396  955.7800   387.8284   2.381765
+## 5  456.1786     2.578209 1043.5775   423.2185   2.515702
+## 6  476.3854     2.893379 1150.3046   420.9160   2.722346
+## 7  438.6194     2.465110  983.4000   385.1274   2.575554
+## 8  464.9248     2.712073  968.8322   412.4685   2.435408
+## 9  453.3472     2.219391  886.9531   393.1178   2.275183
+## 10 436.9231     2.354042  970.5440   394.8172   2.573076
+## 11 458.0660     2.236994  963.9059   404.5158   2.291820
+## 12 392.7307     2.251557  972.1498   388.6928   2.479337
+## 13 464.0739     2.133023  822.6601   414.3076   2.004143
+## 14 439.3506     2.475890  963.0891   401.9594   2.427253
+## 15 521.5432     2.317900 1158.4053   448.7780   2.600251
+## 16 482.9650     2.793563 1052.7571   420.7816   2.424374
+## 17 422.0963     2.746361  992.8885   374.3435   2.673538
+## 18 478.8132     2.327201 1006.1631   430.8540   2.280620
+## 19 490.9595     2.723624 1135.3882   423.9054   2.676415
+## 20 461.0255     2.440300  967.0748   416.8790   2.296837</code></pre>
+<p>With the output from multiple simulations, an analyst can evaluate how closely the creel survey they’ve designed mirrors reality. A <code>lm()</code> of estimated catch as a function of <code>trueCatch</code> can tell us if the survey will over or under estimate reality:</p>
+<p><code>r   mod &lt;- lm((Ehat * catchRateROM) ~ trueCatch, data = sim)   summary(mod)</code></p>
+<p><code>##    ## Call:   ## lm(formula = (Ehat * catchRateROM) ~ trueCatch, data = sim)   ##    ## Residuals:   ##      Min       1Q   Median       3Q      Max    ## -219.444  -35.917   -4.964   51.967  160.884    ##    ## Coefficients:   ##             Estimate Std. Error t value Pr(&gt;|t|)       ## (Intercept)  27.2394   236.4396   0.115 0.909557       ## trueCatch     1.1073     0.2363   4.687 0.000184 ***   ## ---   ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1   ##    ## Residual standard error: 87.98 on 18 degrees of freedom   ## Multiple R-squared:  0.5496,   Adjusted R-squared:  0.5246    ## F-statistic: 21.97 on 1 and 18 DF,  p-value: 0.0001837</code></p>
+<p>Plotting the data and the model provide a good visual means of evaluating how close our estimates are to reality:</p>
+<p><code>r   #Create a new vector of the estimated effort multiplied by estimated catch rate   sim$estCatch &lt;- sim$Ehat * sim$catchRateROM   g &lt;- qplot(x = trueCatch, y = estCatch, data = sim)   g &lt;- g + geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], colour = &quot;red&quot;, size = 1.01)   g</code></p>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>The closer the slope parameter estimate is to 1 and the intercept parameter estimate is to 0, the closer our estimate of catch is to reality.</p>
+<p>We can create a model and plot of our effort estimates, too:</p>
+<p><code>r   mod &lt;- lm(Ehat ~ trueEffort, data = sim)   summary(mod)</code></p>
+<p><code>##    ## Call:   ## lm(formula = Ehat ~ trueEffort, data = sim)   ##    ## Residuals:   ##     Min      1Q  Median      3Q     Max    ## -37.271  -7.761   2.444  10.079  17.307    ##    ## Coefficients:   ##              Estimate Std. Error t value Pr(&gt;|t|)       ## (Intercept) -100.4282    71.3832  -1.407    0.176       ## trueEffort     1.3647     0.1748   7.806 3.47e-07 ***   ## ---   ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1   ##    ## Residual standard error: 13.95 on 18 degrees of freedom   ## Multiple R-squared:  0.7719,   Adjusted R-squared:  0.7593    ## F-statistic: 60.93 on 1 and 18 DF,  p-value: 3.472e-07</code></p>
+<p><code>r   #Create a new vector of the estimated effort multiplied by estimated catch rate   g &lt;- qplot(x = trueEffort, y = Ehat, data = sim)   g &lt;- g + geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], colour = &quot;red&quot;, size = 1.01)   g</code></p>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="can-we-observe-all-trips" class="section level3">
+<h3>Can we observe ALL trips?</h3>
+<p>If the start and wait time equals 0 and the length of the fishing day, respectively, the creel surveyor can observe all completed trips, though she’d likely be unhappy having to work 12 hours. The inputs have to be adjusted to allow her to arrive at time 0, stay for all 12 hours, and have a probability of 1.0 at catching everyone:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">startTime &lt;-<span class="st"> </span><span class="dv">0</span>
+waitTime &lt;-<span class="st"> </span><span class="dv">12</span>
+samplingProb &lt;-<span class="st"> </span><span class="dv">1</span>
+
+sim &lt;-<span class="st"> </span><span class="kw">ConductMultipleSurveys</span>(<span class="dt">nsims =</span> <span class="dv">20</span>, <span class="dt">startTime =</span> startTime, <span class="dt">waitTime =</span> waitTime, <span class="dt">nsites =</span> <span class="dv">1</span>, <span class="dt">nanglers =</span> <span class="dv">100</span>, <span class="dt">samplingProb =</span> <span class="dv">1</span>, <span class="dt">meanCatchRate =</span> <span class="fl">2.5</span>, <span class="dt">fishingDayLength =</span> <span class="dv">12</span>)
+sim</code></pre></div>
+<pre><code>##        Ehat catchRateROM trueCatch trueEffort meanLambda
+## 1  411.0546     2.443889 1004.5721   411.0546   2.508936
+## 2  420.0857     2.545200 1069.2020   420.0857   2.602840
+## 3  407.0448     2.409578  980.8063   407.0448   2.583284
+## 4  418.3601     2.483419 1038.9632   418.3601   2.646465
+## 5  420.5832     2.616172 1100.3183   420.5832   2.581274
+## 6  402.7736     2.749302 1107.3463   402.7736   2.777906
+## 7  427.7741     2.724414 1165.4335   427.7741   2.738510
+## 8  410.8732     2.426735  997.0802   410.8732   2.478976
+## 9  382.6280     2.515710  962.5810   382.6280   2.490767
+## 10 404.6628     2.501096 1012.1005   404.6628   2.492054
+## 11 435.6442     2.411144 1050.4009   435.6442   2.429035
+## 12 423.7532     2.229712  944.8476   423.7532   2.313937
+## 13 419.5888     2.587745 1085.7888   419.5888   2.576717
+## 14 401.7429     2.709501 1088.5229   401.7429   2.549655
+## 15 421.4414     2.360005  994.6039   421.4414   2.512546
+## 16 431.8103     2.648682 1143.7281   431.8103   2.562182
+## 17 437.0006     2.487502 1087.0397   437.0006   2.328055
+## 18 405.5098     2.245573  910.6020   405.5098   2.181032
+## 19 404.9961     2.444116  989.8574   404.9961   2.374185
+## 20 421.8346     2.438482 1028.6362   421.8346   2.506476</code></pre>
+<pre><code>## Warning in summary.lm(mod): essentially perfect fit: summary may be
+## unreliable</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Ehat ~ trueEffort, data = sim)
+## 
+## Residuals:
+##        Min         1Q     Median         3Q        Max 
+## -3.621e-13 -1.259e-14  1.247e-14  4.532e-14  6.363e-14 
+## 
+## Coefficients:
+##               Estimate Std. Error    t value Pr(&gt;|t|)    
+## (Intercept) -2.034e-13  6.612e-13 -3.080e-01    0.762    
+## trueEffort   1.000e+00  1.591e-15  6.286e+14   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 9.238e-14 on 18 degrees of freedom
+## Multiple R-squared:      1,  Adjusted R-squared:      1 
+## F-statistic: 3.951e+29 on 1 and 18 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="another-simulation" class="section level3">
+<h3>Another simulation</h3>
+<p>If our hypothetical fishery suddenly gained another access point and the original 100 anglers were split between the two access points equally, what kind of information would a creel survey capture? We could ask our surveyor to split her eight-hour work day between both access points, but she’ll have to drive for 0.5 hours to get from one to another. Of course, that 0.5 hour of drive time will be a part of her work day so she’ll effectively have 7.5 hours to spend at access points counting anglers and collecting data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">startTime &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">4.5</span>)
+waitTime &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">4</span>, <span class="fl">3.5</span>)
+nsites =<span class="st"> </span><span class="dv">2</span>
+nanglers &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">50</span>)
+fishingDayLength &lt;-<span class="st"> </span><span class="dv">12</span>
+samplingProb &lt;-<span class="st"> </span><span class="kw">sum</span>(waitTime)<span class="op">/</span>fishingDayLength
+
+sim &lt;-<span class="st"> </span><span class="kw">ConductMultipleSurveys</span>(<span class="dt">nsims =</span> <span class="dv">20</span>, <span class="dt">startTime =</span> startTime, <span class="dt">waitTime =</span> waitTime, <span class="dt">nsites =</span> nsites, <span class="dt">nanglers =</span> nanglers, <span class="dt">samplingProb =</span> samplingProb, <span class="dt">meanCatchRate =</span> <span class="fl">2.5</span>, <span class="dt">fishingDayLength =</span> fishingDayLength)
+sim</code></pre></div>
+<pre><code>##        Ehat catchRateROM trueCatch trueEffort meanLambda
+## 1  543.9442     2.638148 1100.7247   450.9636   2.430120
+## 2  549.8355     2.388276 1194.5213   455.0346   2.524065
+## 3  503.2832     2.627131 1175.7603   440.3208   2.584790
+## 4  502.1897     2.489079 1060.8041   423.5030   2.409952
+## 5  487.5238     2.331499  882.9792   411.3582   2.263093
+## 6  462.4192     2.897986  996.0858   376.4814   2.712306
+## 7  520.9158     2.578741 1205.4885   453.8960   2.556833
+## 8  516.9027     1.990487  962.2740   425.3351   2.341599
+## 9  451.9367     2.805123 1080.6458   422.5946   2.625401
+## 10 573.4442     2.541721 1218.3433   473.2893   2.477697
+## 11 500.9445     2.083696 1038.4113   396.6661   2.616428
+## 12 472.3633     3.181438 1020.4867   408.0565   2.518979
+## 13 513.5079     2.396223  967.7739   412.0772   2.348585
+## 14 568.5152     2.522884 1070.6925   429.3084   2.557305
+## 15 375.5460     2.588033 1003.1140   381.2598   2.553025
+## 16 490.3310     2.756954 1265.7877   434.4334   2.804052
+## 17 504.2716     2.708193 1085.7139   407.1787   2.666205
+## 18 396.0775     2.121358 1142.2332   394.1165   2.755358
+## 19 483.6675     2.669436  997.1776   407.4914   2.457588
+## 20 466.3307     3.151857 1067.1025   431.9995   2.421175</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Ehat ~ trueEffort, data = sim)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -60.073 -20.351   6.506  20.953  63.414 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -115.7174   132.4984  -0.873 0.393975    
+## trueEffort     1.4461     0.3136   4.611 0.000217 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 34.67 on 18 degrees of freedom
+## Multiple R-squared:  0.5415, Adjusted R-squared:  0.5161 
+## F-statistic: 21.26 on 1 and 18 DF,  p-value: 0.0002169</code></pre>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="even-more-simulations" class="section level3">
+<h3>Even more simulations</h3>
+<p>Ultimately, the creel survey simulation can be as complicated as a creel survey. If a survey requires multiple clerks, several simulations can be coupled together to act as multiple surveryors. To accomodate weekends or holidays (i.e., increased angler pressure), additional simulations with different wait times and more anglers (to simulate higher pressure) can be built into the simulation. For example, if we know that angler pressure is 50% higher at the two access points on weekends, we can hire a second clerk to sample 8 hours a day on the weekends–one day at each access point–and add the weekend data to the weekday data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Weekend clerks</span>
+startTimeW &lt;-<span class="st"> </span><span class="dv">2</span>
+waitTimeW &lt;-<span class="st"> </span><span class="dv">10</span>
+nsites &lt;-<span class="st"> </span><span class="dv">1</span>
+nanglersW &lt;-<span class="st"> </span><span class="dv">75</span>
+fishingDayLength &lt;-<span class="st"> </span><span class="dv">12</span>
+samplingProb &lt;-<span class="st"> </span><span class="dv">8</span><span class="op">/</span><span class="dv">12</span>
+
+simW &lt;-<span class="st"> </span><span class="kw">ConductMultipleSurveys</span>(<span class="dt">nsims =</span> <span class="dv">8</span>, <span class="dt">startTime =</span> startTimeW, <span class="dt">waitTime =</span> waitTimeW, <span class="dt">nsites =</span> nsites, <span class="dt">nanglers =</span> nanglersW, <span class="dt">samplingProb =</span> samplingProb, <span class="dt">meanCatchRate =</span> <span class="fl">2.5</span>, <span class="dt">fishingDayLength =</span> fishingDayLength)
+simW</code></pre></div>
+<pre><code>##       Ehat catchRateROM trueCatch trueEffort meanLambda
+## 1 454.9230     2.516841  798.6526   317.3234   2.470552
+## 2 450.8486     2.315863  746.4990   321.3599   2.439721
+## 3 443.8269     2.207926  682.2809   309.0144   2.236394
+## 4 420.3354     2.358418  690.9831   292.9858   2.417175
+## 5 480.8462     2.314991  795.5464   343.6498   2.455910
+## 6 456.7025     2.347924  770.3987   327.9344   2.304637
+## 7 438.4439     2.481977  771.4078   310.8038   2.421839
+## 8 442.0948     2.464916  772.3865   313.3441   2.393247</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Add the weekday survey and weekend surveys to the same data frame</span>
+monSurvey &lt;-<span class="st"> </span><span class="kw">rbind</span>(sim, simW)
+mod &lt;-<span class="st"> </span><span class="kw">lm</span>(Ehat <span class="op">~</span><span class="st"> </span>trueEffort, <span class="dt">data =</span> monSurvey)
+<span class="kw">summary</span>(mod)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Ehat ~ trueEffort, data = monSurvey)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -99.114  -7.976   7.960  17.491  64.444 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 241.2828    50.6422   4.764 6.26e-05 ***
+## trueEffort    0.6121     0.1281   4.778 6.03e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 35.41 on 26 degrees of freedom
+## Multiple R-squared:  0.4676, Adjusted R-squared:  0.4471 
+## F-statistic: 22.83 on 1 and 26 DF,  p-value: 6.035e-05</code></pre>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="choose-your-own-advenure" class="section level3">
+<h3>Choose your own advenure!</h3>
+<p>Hopefully, this vignette has shown you how to build and simulate your own creel survey. It’s flexible enough to estimate monthly or seasonal changes in fishing day length, changes in the mean catch rate, increased angler pressure on weekends, and any number of access sites, start times, wait times, and sampling probabilities. The output from <code>ConductMultipleSurveys()</code> allows the user to estiate variability in the catch and effort estimates (e.g., relative standard error) to evaluate the most efficient creel survey for <em>their</em> fishery.</p>
+</div>
+</div>
 
 
 
