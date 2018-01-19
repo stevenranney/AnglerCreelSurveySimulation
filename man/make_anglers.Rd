@@ -41,7 +41,7 @@ default mean value comes from the 2008 Lake Roosevelt Fisheries Evaluation Progr
 }
 \examples{
 make_anglers(100, mean_trip_length = 4, fishing_day_length = 10)
-make_anglers(10000)
+#make_anglers(10000)
 
 }
 \author{

@@ -5,8 +5,8 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Simulating Creel Surveys}
-  \usepackage[utf8]{inputenc}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::knitr}
 editor_options: 
   chunk_output_type: console
 ---
@@ -15,7 +15,7 @@ editor_options:
   
   Creel surveys allow fisheries scientists and managers to collect data on catch and harvest, an angler popuation (including effort expended), and, depending on survey design, biological data on fish populations.  Though important methods of collecting data on the user base of the fishery, creel surveys are difficult to implement and, in graduate fisheries programs, creel surveys are paid little attention.  As a result, fisheries managers--the first job for many fisheries-program graduates--often inherit old surveys or are told to institute new surveys with little knowledge of how to do so.
 
-Fisheries can cover large spatial extents: large reservoirs, coast-lines, and river systems.  A creel survey has to be statistically valid, adaptable to the geographic challenges of the fishery, and cost efficient.  Limited budgets can prevent agencies from implementing creel surveys; the [AnglerCreelSurveySimulation](http://cran.r-project.org/web/packages/AnglerCreelSurveySimulation/index.html) was designed to help managers explore the type of creel survey that is most appropriate for their fishery, including fisheries with multiple access points, access points that are more popular than others, variation in catch rate, the number of surveyors, and seasonal variation in day-lengths.
+Fisheries can cover large spatial extents: large reservoirs, coast-lines, and river systems.  A creel survey has to be statistically valid, adaptable to the geographic challenges of the fishery, and cost efficient.  Limited budgets can prevent agencies from implementing creel surveys; the [AnglerCreelSurveySimulation](http://CRAN.R-project.org/web/packages/AnglerCreelSurveySimulation/index.html) was designed to help managers explore the type of creel survey that is most appropriate for their fishery, including fisheries with multiple access points, access points that are more popular than others, variation in catch rate, the number of surveyors, and seasonal variation in day-lengths.
 
 The `AnglerCreelSurveySimulation` package does require that users know something about their fishery and the human dimensions of that fishery.  *A prior* knowledge includes mean trip length for a party (or individual), the mean catch rate of the 
 

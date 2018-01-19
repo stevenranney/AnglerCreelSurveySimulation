@@ -5,10 +5,10 @@ Title: Simulate a Bus Route Creel Survey of Anglers
 Author: Steven H. Ranney
 Maintainer: Steven H. Ranney <steven.ranney@gmail.com>
 Depends: R (>= 3.0.2)
-Imports: dplyr, magrittr, ggplot2, stats, grid
+Imports: dplyr, ggplot2, stats, grid
 Description: Simulate an angler population, sample the simulated population with a user-specified survey times, and calculate metrics from a bus route-type creel survey.
 License: GPL-3
 Suggests: knitr, rmarkdown,
     testthat
-VignetteBuilder: rmarkdown
+VignetteBuilder: knitr
 RoxygenNote: 6.0.1

@@ -11,6 +11,4 @@ export(simulate_bus_route)
 import(ggplot2)
 import(dplyr)
 import(grid)
-import(magrittr)
 importFrom("stats", "lm", "rgamma", "runif", "sd")
-

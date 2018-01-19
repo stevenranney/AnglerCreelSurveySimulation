@@ -5,15 +5,15 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Simulating Creel Surveys}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::knitr}
+  %\usepackage[utf8]{inputenc}
 ---
   
   #Introduction
   
   Creel surveys allow fisheries scientists and managers to collect data on catch and harvest, an angler popuation (including effort expended), and, depending on survey design, biological data on fish populations.  Though important methods of collecting data on the user base of the fishery, creel surveys are difficult to implement and, in graduate fisheries programs, creel surveys are paid little attention.  As a result, fisheries managers--the first job for many fisheries-program graduates--often inherit old surveys or are told to institute new surveys with little knowledge of how to do so.
 
-Fisheries can cover large spatial extents: large reservoirs, coast-lines, and river systems.  A creel survey has to be statistically valid, adaptable to the geographic challenges of the fishery, and cost efficient.  Limited budgets can prevent agencies from implementing creel surveys; the [AnglerCreelSurveySimulation](http://cran.r-project.org/web/packages/AnglerCreelSurveySimulation/index.html) was designed to help managers explore the type of creel survey that is most appropriate for their fishery, including fisheries with multiple access points, access points that are more popular than others, variation in catch rate, the number of surveyors, and seasonal variation in day-lengths.
+Fisheries can cover large spatial extents: large reservoirs, coast-lines, and river systems.  A creel survey has to be statistically valid, adaptable to the geographic challenges of the fishery, and cost efficient.  Limited budgets can prevent agencies from implementing creel surveys; the [AnglerCreelSurveySimulation](http://CRAN.R-project.org/web/packages/AnglerCreelSurveySimulation/index.html) was designed to help managers explore the type of creel survey that is most appropriate for their fishery, including fisheries with multiple access points, access points that are more popular than others, variation in catch rate, the number of surveyors, and seasonal variation in day-lengths.
 
 The `AnglerCreelSurveySimulation` package does require that users know something about their fishery and the human dimensions of that fishery.  *A prior* knowledge includes mean trip length for a party (or individual), the mean catch rate of the 
 
@@ -25,200 +25,282 @@ This tutorial assumes that we have a very simple, small fishery with only one ac
 
 *For the purposes of this package, all times are functions of the fishing day.  In other words, if a fishing day length is 12 hours (e.g., from 6 am to 6pm) and an angler starts their trip at `2` and ends at `4` that means that they started their trip at 8 am and ended at 10 am.*
 
-The `MakeAnglers` function builds a population of anglers:
+The `make_anglers()` function builds a population of anglers:
 
 ```{r}
+
 library(AnglerCreelSurveySimulation)
-MakeAnglers(nanglers = 100, meanTripLength = 3.5, fishingDayLength = 12)
+
+anglers <- make_anglers(n_anglers = 100, mean_trip_length = 3.5, fishing_day_length = 12)
+
 ```
 
-`MakeAnglers` assigns two values `R` environment, a `list` called `anglers` and a single value called `trueeffort`:
+`make_anglers()` returns a dataframe with `start_time`, `trip_length`, and `departure_time` for all anglers.
 
 ```{r}
-str(anglers)
+
+head(anglers)
+
 ```
 
-In the `str(anglers)` statement, you can see that `starttime`, `triplength`, and `departureTime` are all embedded within the `anglers` list.  The first angler started their trip roughtly `r round(anglers[[1]][1], 2)` hours into the fishing day, continued to fish for `r round(anglers[[2]][1], 2)` hours, and left the access point at `r round(anglers[[3]][1], 2)` hours into the fishing day.  Angler start times are assigned by the `uniform` distribution and trip lengths are assigned by the `gamma` distribution.  `trueeffort` is simply the `sum()` of the `anglers$triplength`: `r sum(anglers$triplength)`.
+In the `head(anglers)` statement, you can see that `starttime`, `triplength`, and `departureTime` are all available for each angler.  The first angler started their trip roughly `r round(anglers[[1]][1], 2)` hours into the fishing day, continued to fish for `r round(anglers[[2]][1], 2)` hours, and left the access point at `r round(anglers[[3]][1], 2)` hours into the fishing day.  Angler start times are assigned by the `uniform` distribution and trip lengths are assigned by the `gamma` distribution.  To get true effort of all the anglers for this angler population, summing `trip_length` is all that's needed: `r sum(anglers$triplength)`.
 
 The distribution of angler trip lengths can be easily visualized:
 
 ```{r warning = FALSE}
-newDf <- data.frame(anglers$triplength)
-names(newDf) <- "tripLength"
 
+library(dplyr)
 library(ggplot2)
 
 # Histogram overlaid with kernel density curve
-ggplot(newDf, aes(x=tripLength)) + 
-geom_histogram(aes(y=..density..), # Histogram with density instead of count on y-axis
-binwidth=.1,
-colour="black", fill="white") +
-geom_density(alpha=.2, fill="#FF6666")  # Overlay with transparent density plot
+anglers %>%
+  ggplot(aes(x=trip_length)) + 
+  geom_histogram(aes(y=..density..), 
+                 binwidth=.1,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666")
+
 ```
 
-Once the population of anglers has been created, the next function to apply is the `GetTotalValue()` function.  In `GetTotalValues()`, the user specifies the start time of the creel surveyor, the end time of the surveyor, and the wait time of the surveyor.  Here is where the user also specifies the sampling probability of the anglers (in most cases, equal to $\frac{waitTime}{fishingDayLength}$) and the mean catch rate of the fishery.  There are a number of a default settings in the `GetTotalValues()` function; see `?GetTotalValues` for a description of how the function handles `NULL` values for `startTime`, `endTime`, and `waitTime`.  `startTime` and `waitTime` are the times that the surveyor started and waited at the access point.  `totalCatch` and `trueEffort` are the total (or *real*) values for catch and effort.  `meanLambda` is the mean catch rate for all anglers.  Even though we assigned `meanCatchRate` to `GetTotalValues()`, individual mean catch rates are simulated by `rgamma()` with shape equal to `meanCatchRate` and rate equal to `1`.
+Once the population of anglers has been created, the next function to apply is the `get_total_values()` function.  In `get_total_values()`, the user specifies the start time of the creel surveyor, the end time of the surveyor, and the wait time of the surveyor.  Here is where the user also specifies the sampling probability of the anglers (in most cases, equal to $\frac{waitTime}{fishingDayLength}$) and the mean catch rate of the fishery.  There are a number of a default settings in the `get_total_values()` function; see `?get_total_values` for a description of how the function handles `NULL` values for `startTime`, `endTime`, and `waitTime`.  `startTime` and `waitTime` are the times that the surveyor started and waited at the access point.  `totalCatch` and `trueEffort` are the total (or *real*) values for catch and effort.  `meanLambda` is the mean catch rate for all anglers.  Even though we assigned `meanCatchRate` to `get_total_values()`, individual mean catch rates are simulated by `rgamma()` with shape equal to `meanCatchRate` and rate equal to `1`.
 
-Because `MakeAnglers()` assigns `anglers` and `trueeffort` to the `R` environment, `GetTotalValues()` will pull the information it needs from `anglers` automatically.  For this walk through, we'll schedule the surveyor to work for a total of eight hours at the sole access point in our fishery:
+For this walk through, we'll schedule the surveyor to work for a total of eight hours at the sole access point in our fishery:
   
-  ```{r}
-GetTotalValues(startTime = 0, waitTime = 8, samplingProb = 8/12, meanCatchRate = 2.5)
+```{r}
+
+anglers %>%
+  get_total_values(start_time = 0, wait_time = 8, sampling_prob = 8/12, mean_catch_rate = 2.5)
+
 ```
 
-`GetTotalValues()` returns a single row data frame with several columns.  The output of `GetTotalValues()` is the catch and effort data observed by the surveyor during their wait at the accss point along with the "true" values for catch and effort.  (Obviously, we can't simulate biological data but, if an agency's protocol directed the surveyor to collect biological data, that could be analyzed with other `R` functions.)
+`get_total_values()` returns a single row data frame with several columns.  The output of `get_total_values()` is the catch and effort data observed by the surveyor during their wait at the accss point along with the "true" values for catch and effort.  (Obviously, we can't simulate biological data but, if an agency's protocol directed the surveyor to collect biological data, that could be analyzed with other `R` functions.)
 
-In the output from `GetTotalValues()`, `nObservedTrips` is the number of trips that the surveyor observed, including anglers that arrived after she started her day and anglers that were there for the duration of her time at the access point.  `TotalObservedTripEffort` is the effort expended by those parties; because the observed trips were not complete, she did not count their catch.  `nCompletedTrips` is the number of anglers that completed their trips while she was onsite, `totalCompletedTripEffort` is the effort expended by those anglers, and `totalCompletedTripCatch` is the number of fish caught by those parties.  Catch is both the number of fish harvested and those caught and released.
+In the output from `get_total_values()`, `n_observed_trips` is the number of trips that the surveyor observed, including anglers that arrived after she started her day and anglers that were there for the duration of her time at the access point.  `total_observed_trip_effort` is the effort expended by those parties; because the observed trips were not complete, she did not count their catch.  `n_completed_trips` is the number of anglers that completed their trips while she was onsite, `total_completed_trip_effort` is the effort expended by those anglers, and `total_completed_trip_catch` is the number of fish caught by those parties.  Catch is both the number of fish harvested and those caught and released.
 
-###Estimating catch and effort
+### Estimating catch and effort
 
 Effort and catch are estimated from the Bus Route Estimator:  
   
-  $$
+$$
   \widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{\frac{e_{ij}}{\pi_{j}}}
 $$
   
-  where  
-*E* = estimated total party-hours of effort;  
-*T* = total time to complete a full circuit of the route, including travelling and waiting;  
-*w~i~* = waiting time at the *i^th^* site (where *i* = 1, ..., *n* sites);  
+where  
+
+* *E* = estimated total party-hours of effort;  
+* *T* = total time to complete a full circuit of the route, including travelling and waiting;  
+* *w~i~* = waiting time at the *i^th^* site (where *i* = 1, ..., *n* sites);  
+
 and  
-*e~ij~* = total time that the *j^th^* car (or trailer) is parked at the *i^th^* site while the agent is at that shite (where *j* = 1, ..., *n* sites).  
+
+* *e~ij~* = total time that the *j^th^* car (or trailer) is parked at the *i^th^* site while the agent is at that shite (where *j* = 1, ..., *n* sites).  
 
 Catch rate is calculated from the Ratio of Means equation:  
   
-  $$
+$$
   \widehat{R_1} = \frac{\sum\limits_{i=1}^n{c_i/n}}{\sum\limits_{i=1}^n{L_i/n}}
 $$
   
-  where  
-*c~i~* is the catch for the *i^th^* sampling unit  
+where  
+
+* *c~i~* is the catch for the *i^th^* sampling unit  
+
 and  
-*L~i~* is the length of the fishing trip at the tie of the interview.  For incomplete surveys, *L~i~* represents an incomplete trip.  
+* *L~i~* is the length of the fishing trip at the tie of the interview.  
 
-`SimulateBusRoute()` calculates effort and catch based upon these equations.  See `?SimulateBusRoute` for references that include a more detailed discussion of these equations.
+For incomplete surveys, *L~i~* represents an incomplete trip.  
 
-`SiulateBusRoute()` calls `MakeAnglers()` and `GetTotalValues()` so many of the same arguments we passed in the previous functions will need to be passed to `SimulateBusRoute()`.  The new arguent, `nsites`, is the number of sites visited by the surveyor.  In more advanced simulations (see the examples in `?SimulateBusRoute`), you can pass strings of values for `startTime`, `waitTime`, `nsites`, and `nanglers` to simulate a bus route-type survey rather than just a single access-point survey.
+`simulate_bus_route()` calculates effort and catch based upon these equations.  See `?simulate_bus_route` for references that include a more detailed discussion of these equations.
+
+`simulate_bus_route()` calls `make_anglers()` and `get_total_values()` so many of the same arguments we passed in the previous functions will need to be passed to `simulate_bus_route()`.  The new arguent, `nsites`, is the number of sites visited by the surveyor.  In more advanced simulations (see the examples in `?simulate_bus_route`), you can pass strings of values for `startTime`, `waitTime`, `nsites`, and `nanglers` to simulate a bus route-type survey rather than just a single access-point survey.
 
 ```{r}
-sim <- SimulateBusRoute(startTime = 0, waitTime = 8, nsites = 1, nanglers = 100, samplingProb = 8/12, meanCatchRate = 2.5, fishingDayLength = 12)
+
+sim <- simulate_bus_route(start_time = 0, wait_time = 8, n_sites = 1, n_anglers = 100,
+                          sampling_prob = 8/12, mean_catch_rate = 2.5, fishing_day_length = 12)
+
 sim
+
 ```
 
-The output from `SiulateBusRoute()` is a matrix with values for `Ehat`, `catchRateROM` (the ratio of means catch rate), `trueCatch`, `trueEffort`, and `meanLambda`.  `Ehat` is the estimated total effort from the Bus Route Estimator above and `catchRateROM` is catch rate estimated from the Ratio of Means equation.  `trueCatch`, `trueEffort`, and `meanLambda` are the same as before.  Multiplying `Ehat` by `catchRateROM` gives an estimate of total catch: `r sim[1]*sim[2]`.
+The output from `simulate_bus_route()` is a dataframe with values for `Ehat`, `catchRateROM` (the ratio of means catch rate), `trueCatch`, `trueEffort`, and `meanLambda`.  `Ehat` is the estimated total effort from the Bus Route Estimator above and `catchRateROM` is catch rate estimated from the Ratio of Means equation.  `trueCatch`, `trueEffort`, and `meanLambda` are the same as before.  Multiplying `Ehat` by `catchRateROM` gives an estimate of total catch: `r sim[1]*sim[2]`.
 
 ###Conducting multiple simulations
 
-With information about the fishery, the start and wait times of the surveyor, the sampling probability, mean catch rate, and fishing day length, we can run multiple simulations with `ConductMultipleSurveys()`.  `ConductMultipleSurveys()` is a wrapper that calls the other three functions in turn and compiles the values into a data frame for easy plotting or analysis.  The only additional argument needed is the `nsims` value which tells the function how many simulations to conduct.  For the sake of this simple simulation, let's assume that the creel survery works five days a week for four weeks (i.e. 20 days):
+With information about the fishery, the start and wait times of the surveyor, the sampling probability, mean catch rate, and fishing day length, we can run multiple simulations with `conduct_multiple_surveys()`.  `conduct_multiple_surveys()` is a wrapper that calls the other three functions in turn and compiles the values into a data frame for easy plotting or analysis.  The only additional argument needed is the `nsims` value which tells the function how many simulations to conduct.  For the sake of this simple simulation, let's assume that the creel survery works five days a week for four weeks (i.e. 20 days):
 
 ```{r}
-sim <- ConductMultipleSurveys(nsims = 20, startTime = 0, waitTime = 8, nsites = 1, nanglers = 100, samplingProb = 8/12, meanCatchRate = 2.5, fishingDayLength = 12)
+
+sim <- conduct_multiple_surveys(n_sims = 20, start_time = 0, wait_time = 8, n_sites = 1,
+                                n_anglers = 100, sampling_prob = 8/12, 
+                                mean_catch_rate = 2.5, fishing_day_length = 12)
+
 sim
+
 ```
 
 With the output from multiple simulations, an analyst can evaluate how closely the creel survey they've designed mirrors reality.  A `lm()` of estimated catch as a function of `trueCatch` can tell us if the survey will over or under estimate reality:
   
-  ```{r}
-mod <- lm((Ehat * catchRateROM) ~ trueCatch, data = sim)
+```{r}
+
+mod <- 
+  sim %>% 
+  lm((Ehat * catch_rate_ROM) ~ true_catch, data = .)
+
 summary(mod)
+
 ```
 
 Plotting the data and the model provide a good visual means of evaluating how close our estimates are to reality:
   
-  ```{r}
+```{r}
+
 #Create a new vector of the estimated effort multiplied by estimated catch rate
-sim$estCatch <- sim$Ehat * sim$catchRateROM
-g <- qplot(x = trueCatch, y = estCatch, data = sim)
-g <- g + geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], colour = "red", size = 1.01)
-g
+sim <- 
+  sim %>%
+  mutate(est_catch = Ehat * catch_rate_ROM)
+
+sim %>% 
+  ggplot(aes(x = true_catch, y = est_catch)) +
+  geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
+              colour = "red", size = 1.01)
+
 ```
 
 The closer the slope parameter estimate is to 1 and the intercept parameter estimate is to 0, the closer our estimate of catch is to reality.
 
 We can create a model and plot of our effort estimates, too:
   
-  ```{r}
-mod <- lm(Ehat ~ trueEffort, data = sim)
+```{r}
+
+mod <- 
+  sim %>%
+  lm(Ehat ~ true_effort, data = .)
+
 summary(mod)
 
 #Create a new vector of the estimated effort multiplied by estimated catch rate
-g <- qplot(x = trueEffort, y = Ehat, data = sim)
-g <- g + geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], colour = "red", size = 1.01)
-g
+
+sim %>%
+  ggplot(aes(x = true_effort, y = Ehat)) +
+  geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
+              colour = "red", size = 1.01)
+
 ```
 
-###Can we observe ALL trips?
+### Can we observe ALL trips?
 
 If the start and wait time equals 0 and the length of the fishing day, respectively, the creel surveyor can observe all completed trips, though she'd likely be unhappy having to work 12 hours.  The inputs have to be adjusted to allow her to arrive at time 0, stay for all 12 hours, and have a probability of 1.0 at catching everyone:
 
 ```{r}
-startTime <- 0
-waitTime <- 12
-samplingProb <- 1
 
-sim <- ConductMultipleSurveys(nsims = 20, startTime = startTime, waitTime = waitTime, nsites = 1, nanglers = 100, samplingProb = 1, meanCatchRate = 2.5, fishingDayLength = 12)
+start_time <- 0
+wait_time <- 12
+sampling_prob <- 1
+
+sim <- conduct_multiple_surveys(n_sims = 20, start_time = start_time, wait_time = wait_time,
+                                n_sites = 1, n_anglers = 100, sampling_prob = 1, 
+                                mean_catch_rate = 2.5, fishing_day_length = 12)
+
 sim
+
 ```
+
 ```{r echo = FALSE}
-mod <- lm(Ehat ~ trueEffort, data = sim)
+
+mod <- 
+  sim %>% 
+  lm(Ehat ~ true_effort, data = .)
+
 summary(mod)
 
-g <- qplot(x = trueEffort, y = Ehat, data = sim)
-g <- g + geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], colour = "red", size = 1.01)
-g
+sim %>%
+  ggplot(aes(x = true_effort, y = Ehat)) +
+  geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
+              colour = "red", size = 1.01)
+
 ```
 
-###Another simulation
+### Another simulation
 
 If our hypothetical fishery suddenly gained another access point and the original 100 anglers were split between the two access points equally, what kind of information would a creel survey capture?  We could ask our surveyor to split her eight-hour work day between both access points, but she'll have to drive for 0.5 hours to get from one to another.  Of course, that 0.5 hour of drive time will be a part of her work day so she'll effectively have 7.5 hours to spend at access points counting anglers and collecting data.
 
 ```{r}
-startTime <- c(0, 4.5)
-waitTime <- c(4, 3.5)
-nsites = 2
-nanglers <- c(50, 50)
-fishingDayLength <- 12
-samplingProb <- sum(waitTime)/fishingDayLength
 
-sim <- ConductMultipleSurveys(nsims = 20, startTime = startTime, waitTime = waitTime, nsites = nsites, nanglers = nanglers, samplingProb = samplingProb, meanCatchRate = 2.5, fishingDayLength = fishingDayLength)
+start_time <- c(0, 4.5)
+wait_time <- c(4, 3.5)
+n_sites = 2
+n_anglers <- c(50, 50)
+fishing_day_length <- 12
+sampling_prob <- sum(wait_time)/fishing_day_length
+
+sim <- conduct_multiple_surveys(n_sims = 20, start_time = start_time, wait_time = wait_time,
+                                n_sites = n_sites, n_anglers = n_anglers, 
+                                sampling_prob = sampling_prob, mean_catch_rate = 2.5,
+                                fishing_day_length = fishing_day_length)
+
 sim
+
 ```
+
 ```{r echo = FALSE}
-mod <- lm(Ehat ~ trueEffort, data = sim)
+
+mod <- 
+  sim %>%
+  lm(Ehat ~ true_effort, data = .)
+
 summary(mod)
 
-g <- qplot(x = trueEffort, y = Ehat, data = sim)
-g <- g + geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], colour = "red", size = 1.01)
-g
+sim %>%
+  ggplot(aes(x = true_effort, y = Ehat)) +
+  geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
+              colour = "red", size = 1.01)
+
 ```
 
-###Even more simulations
+### Even more simulations
 
 Ultimately, the creel survey simulation can be as complicated as a creel survey.  If a survey requires multiple clerks, several simulations can be coupled together to act as multiple surveryors.  To accomodate weekends or holidays (i.e., increased angler pressure), additional simulations with different wait times and more anglers (to simulate higher pressure) can be built into the simulation.  For example, if we know that angler pressure is 50% higher at the two access points on weekends, we can  hire a second clerk to sample 8 hours a day on the weekends--one day at each access point--and add the weekend data to the weekday data.
 
 ```{r}
-#Weekend clerks
-startTimeW <- 2
-waitTimeW <- 10
-nsites <- 1
-nanglersW <- 75
-fishingDayLength <- 12
-samplingProb <- 8/12
 
-simW <- ConductMultipleSurveys(nsims = 8, startTime = startTimeW, waitTime = waitTimeW, nsites = nsites, nanglers = nanglersW, samplingProb = samplingProb, meanCatchRate = 2.5, fishingDayLength = fishingDayLength)
-simW
+#Weekend clerks
+start_time_w <- 2
+wait_time_w <- 10
+n_sites <- 1
+n_anglers_w <- 75
+fishing_day_length <- 12
+sampling_prob <- 8/12
+
+sim_w <- conduct_multiple_surveys(n_sims = 8, start_time = start_time_w, 
+                                  wait_time = wait_time_w, n_sites = n_sites, 
+                                  n_anglers = n_anglers_w, sampling_prob = sampling_prob,
+                                  mean_catch_rate = 2.5, fishing_day_length = fishing_day_length)
+
+sim_w
 
 #Add the weekday survey and weekend surveys to the same data frame
-monSurvey <- rbind(sim, simW)
-mod <- lm(Ehat ~ trueEffort, data = monSurvey)
+mon_survey <- 
+  sim_w %>%
+  bind_rows(sim)
+
+mod <- 
+  mon_survey %>% 
+  lm(Ehat ~ true_effort, data = .)
+
 summary(mod)
 
 ```
+
 ```{r echo = FALSE}
 
-g <- qplot(x = trueEffort, y = Ehat, data = monSurvey)
-g <- g + geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], colour = "red", size = 1.01)
-g
+mon_survey %>%
+  ggplot(aes(x = true_effort, y = Ehat)) +
+  geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
+              colour = "red", size = 1.01)
+
 ```
 
-###Choose your own advenure!
+### Choose your own advenure
 
-Hopefully, this vignette has shown you how to build and simulate your own creel survey.  It's flexible enough to estimate monthly or seasonal changes in fishing day length, changes in the mean catch rate, increased angler pressure on weekends, and any number of access sites, start times, wait times, and sampling probabilities.  The output from `ConductMultipleSurveys()` allows the user to estiate variability in the catch and effort estimates (e.g., relative standard error) to evaluate the most efficient creel survey for *their* fishery.
+Hopefully, this vignette has shown you how to build and simulate your own creel survey.  It's flexible enough to estimate monthly or seasonal changes in fishing day length, changes in the mean catch rate, increased angler pressure on weekends, and any number of access sites, start times, wait times, and sampling probabilities.  The output from `conduct_multiple_surveys()` allows the user to estiate variability in the catch and effort estimates (e.g., relative standard error) to evaluate the most efficient creel survey for *their* fishery.

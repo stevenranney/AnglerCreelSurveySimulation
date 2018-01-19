@@ -102,7 +102,9 @@ get_total_values <- function(data, start_time = NULL, end_time = NULL,
   #Calculate true total catch for all anglers
   total_catch <- sum(data$trip_length * lambda)  
   
-  data$catch <- data$trip_length * lambda
+  data <- 
+    data %>%
+    mutate(catch = data$trip_length * lambda)
   
 
   #Provide a 'standard' wait time of .5 hours for the clerk
@@ -177,7 +179,7 @@ get_total_values <- function(data, start_time = NULL, end_time = NULL,
   data$trip_length[entire_time] <- wait_time
   data$trip_length[arrivals] <- end_time - data$start_time[arrivals]
   data$trip_length[which_angler_departures] <- data$departure_time[which_angler_departures] - start_time
-  data$trip_length[which_arr_dep]
+  data$trip_length[which_arr_dep] <- data$departure_time[which_arr_dep] - start_time
   
 
   #Scale triplength based upon the sampling probability
@@ -187,18 +189,16 @@ get_total_values <- function(data, start_time = NULL, end_time = NULL,
   n_observed_trips <- length(observed_trips)
   total_observed_trip_effort <- sum(observed_trips)
   
-  return_df <- 
-    data.frame(n_observed_trips = n_observed_trips, 
-               total_observed_trip_effort = total_observed_trip_effort, 
-               n_completed_trips = sum(angler_departures, arr_dep), 
-               total_completed_trip_effort = total_completed_trip_effort, 
-               total_completed_trip_catch = total_completed_trip_catch, 
-               start_time = start_time, 
-               wait_time = wait_time, 
-               total_catch = total_catch, 
-               true_effort = sum(data$trip_length), 
-               mean_lambda = mean(lambda))
-  
-  return(return_df)
+  data.frame(n_observed_trips = n_observed_trips, 
+             total_observed_trip_effort = total_observed_trip_effort, 
+             n_completed_trips = sum(angler_departures, arr_dep), 
+             total_completed_trip_effort = total_completed_trip_effort, 
+             total_completed_trip_catch = total_completed_trip_catch, 
+             start_time = start_time, 
+             wait_time = wait_time, 
+             total_catch = total_catch, 
+             true_effort = sum(data$trip_length), 
+             mean_lambda = mean(lambda)) %>%
+    return()
   
   }

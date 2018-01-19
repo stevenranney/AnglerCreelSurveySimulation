@@ -35,16 +35,14 @@
 #'
 #' @examples 
 #' make_anglers(100, mean_trip_length = 4, fishing_day_length = 10)
-#' make_anglers(10000)
+#' #make_anglers(10000)
 #' 
 #' @export
 
 make_anglers <- function(n_anglers = 100,
                          mean_trip_length = 3.88,
                          fishing_day_length = 12){
-
-  anglers <- list()
-
+  
   i=1
   
   startTime=tripLength=departureTime=NULL
@@ -64,14 +62,11 @@ make_anglers <- function(n_anglers = 100,
     }
   }
  
-  anglers$start_time <- startTime
-  anglers$trip_length <- tripLength
-  anglers$departure_time <- departureTime
+  anglers <- 
+    data.frame(start_time = startTime, 
+               trip_length = tripLength, 
+               departure_time = departureTime)
   
-  true_effort <- sum(anglers$trip_length)
-
-  return(anglers %>% 
-           bind_cols() %>% 
-           as.data.frame())
+  return(anglers)
  
   }
