@@ -1,9 +1,14 @@
 Package: AnglerCreelSurveySimulation
-Version: 0.2.2
-Date: 2015-01-09
+Version: 1.0.0
+Date: 2018-01-18
 Title: Simulate a Bus Route Creel Survey of Anglers
-Author: Steven Ranney
+Author: Steven H. Ranney
 Maintainer: Steven H. Ranney <steven.ranney@gmail.com>
 Depends: R (>= 3.0.2)
-Description: Create an angler population, sample the population with a user-specified survey times, and calculate metrics from a bus route-type creel survey.
+Imports: dplyr, ggplot2, stats, grid
+Description: Simulate an angler population, sample the simulated population with a user-specified survey times, and calculate metrics from a bus route-type creel survey.
 License: GPL-3
+Suggests: knitr, rmarkdown,
+    testthat
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1

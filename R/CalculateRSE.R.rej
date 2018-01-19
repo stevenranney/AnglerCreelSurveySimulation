@@ -1,9 +1,0 @@
-diff a/R/CalculateRSE.R b/R/CalculateRSE.R	(rejected hunks)
-@@ -1,6 +1,6 @@
- 
- CalculateRSE <- structure(
--function # Create the Relative Standard Error of a numeric vector
-+function # Calculate the Relative Standard Error of a numeric vector
- 
-   # ##############################################################################
-   # File:  CalculateRSE.R
