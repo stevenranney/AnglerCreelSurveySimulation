@@ -6,9 +6,9 @@ citEntry(entry = "manual",
     author = "Steven H. Ranney",
     note = "version 1.0.0",
     year = "2018",
-    url = "http://CRAN.R-project.org/package=AnglerCreelSurveySimulation",
+    url = "https://CRAN.R-project.org/package=AnglerCreelSurveySimulation",
     textVersion  = paste("Ranney, S. H. 2018.",
         "AnglerCreelSurveySimulation: Simulate an angler creel survey.",
         "version 1.0.0.",
-        "http://CRAN.R-project.org/package=AnglerCreelSurveySimulation")
+        "https://CRAN.R-project.org/package=AnglerCreelSurveySimulation")
 )
