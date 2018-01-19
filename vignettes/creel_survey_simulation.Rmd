@@ -5,13 +5,22 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Simulating Creel Surveys}
-  %\usepackage[utf8]{inputenc}
-  %\VignetteEngine{knitr::knitr}
-editor_options: 
-  chunk_output_type: console
+  %\VignetteEngine{knitr::rmarkdown}
+  \VignetteEncoding[utf8]{inputenc}
 ---
-  
-  #Introduction
+
+
+```{r setup, include = FALSE}
+
+
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+#Introduction
   
   Creel surveys allow fisheries scientists and managers to collect data on catch and harvest, an angler popuation (including effort expended), and, depending on survey design, biological data on fish populations.  Though important methods of collecting data on the user base of the fishery, creel surveys are difficult to implement and, in graduate fisheries programs, creel surveys are paid little attention.  As a result, fisheries managers--the first job for many fisheries-program graduates--often inherit old surveys or are told to institute new surveys with little knowledge of how to do so.
 
@@ -164,6 +173,7 @@ sim <-
 
 sim %>% 
   ggplot(aes(x = true_catch, y = est_catch)) +
+  geom_point() +
   geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
               colour = "red", size = 1.01)
 
@@ -185,6 +195,7 @@ summary(mod)
 
 sim %>%
   ggplot(aes(x = true_effort, y = Ehat)) +
+  geom_point() +
   geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
               colour = "red", size = 1.01)
 
@@ -218,6 +229,7 @@ summary(mod)
 
 sim %>%
   ggplot(aes(x = true_effort, y = Ehat)) +
+  geom_point() +
   geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
               colour = "red", size = 1.01)
 
@@ -255,6 +267,7 @@ summary(mod)
 
 sim %>%
   ggplot(aes(x = true_effort, y = Ehat)) +
+  geom_point() +
   geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
               colour = "red", size = 1.01)
 
@@ -298,6 +311,7 @@ summary(mod)
 
 mon_survey %>%
   ggplot(aes(x = true_effort, y = Ehat)) +
+  geom_point() +
   geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
               colour = "red", size = 1.01)
 

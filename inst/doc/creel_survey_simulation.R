@@ -1,110 +1,196 @@
-## ------------------------------------------------------------------------
-library(AnglerCreelSurveySimulation)
-MakeAnglers(nanglers = 100, meanTripLength = 3.5, fishingDayLength = 12)
+## ----setup, include = FALSE----------------------------------------------
+
+
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
 
 ## ------------------------------------------------------------------------
-str(anglers)
+
+library(AnglerCreelSurveySimulation)
+
+anglers <- make_anglers(n_anglers = 100, mean_trip_length = 3.5, fishing_day_length = 12)
+
+
+## ------------------------------------------------------------------------
+
+head(anglers)
+
 
 ## ----warning = FALSE-----------------------------------------------------
-newDf <- data.frame(anglers$triplength)
-names(newDf) <- "tripLength"
 
+library(dplyr)
 library(ggplot2)
 
 # Histogram overlaid with kernel density curve
-ggplot(newDf, aes(x=tripLength)) + 
-geom_histogram(aes(y=..density..), # Histogram with density instead of count on y-axis
-binwidth=.1,
-colour="black", fill="white") +
-geom_density(alpha=.2, fill="#FF6666")  # Overlay with transparent density plot
+anglers %>%
+  ggplot(aes(x=trip_length)) + 
+  geom_histogram(aes(y=..density..), 
+                 binwidth=.1,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666")
+
 
 ## ------------------------------------------------------------------------
-GetTotalValues(startTime = 0, waitTime = 8, samplingProb = 8/12, meanCatchRate = 2.5)
+
+anglers %>%
+  get_total_values(start_time = 0, wait_time = 8, sampling_prob = 8/12, mean_catch_rate = 2.5)
+
 
 ## ------------------------------------------------------------------------
-sim <- SimulateBusRoute(startTime = 0, waitTime = 8, nsites = 1, nanglers = 100, samplingProb = 8/12, meanCatchRate = 2.5, fishingDayLength = 12)
+
+sim <- simulate_bus_route(start_time = 0, wait_time = 8, n_sites = 1, n_anglers = 100,
+                          sampling_prob = 8/12, mean_catch_rate = 2.5, fishing_day_length = 12)
+
 sim
 
-## ------------------------------------------------------------------------
-sim <- ConductMultipleSurveys(nsims = 20, startTime = 0, waitTime = 8, nsites = 1, nanglers = 100, samplingProb = 8/12, meanCatchRate = 2.5, fishingDayLength = 12)
-sim
 
 ## ------------------------------------------------------------------------
-mod <- lm((Ehat * catchRateROM) ~ trueCatch, data = sim)
+
+sim <- conduct_multiple_surveys(n_sims = 20, start_time = 0, wait_time = 8, n_sites = 1,
+                                n_anglers = 100, sampling_prob = 8/12, 
+                                mean_catch_rate = 2.5, fishing_day_length = 12)
+
+sim
+
+
+## ------------------------------------------------------------------------
+
+mod <- 
+  sim %>% 
+  lm((Ehat * catch_rate_ROM) ~ true_catch, data = .)
+
 summary(mod)
 
-## ------------------------------------------------------------------------
-#Create a new vector of the estimated effort multiplied by estimated catch rate
-sim$estCatch <- sim$Ehat * sim$catchRateROM
-g <- qplot(x = trueCatch, y = estCatch, data = sim)
-g <- g + geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], colour = "red", size = 1.01)
-g
 
 ## ------------------------------------------------------------------------
-mod <- lm(Ehat ~ trueEffort, data = sim)
+
+#Create a new vector of the estimated effort multiplied by estimated catch rate
+sim <- 
+  sim %>%
+  mutate(est_catch = Ehat * catch_rate_ROM)
+
+sim %>% 
+  ggplot(aes(x = true_catch, y = est_catch)) +
+  geom_point() +
+  geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
+              colour = "red", size = 1.01)
+
+
+## ------------------------------------------------------------------------
+
+mod <- 
+  sim %>%
+  lm(Ehat ~ true_effort, data = .)
+
 summary(mod)
 
 #Create a new vector of the estimated effort multiplied by estimated catch rate
-g <- qplot(x = trueEffort, y = Ehat, data = sim)
-g <- g + geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], colour = "red", size = 1.01)
-g
+
+sim %>%
+  ggplot(aes(x = true_effort, y = Ehat)) +
+  geom_point() +
+  geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
+              colour = "red", size = 1.01)
+
 
 ## ------------------------------------------------------------------------
-startTime <- 0
-waitTime <- 12
-samplingProb <- 1
 
-sim <- ConductMultipleSurveys(nsims = 20, startTime = startTime, waitTime = waitTime, nsites = 1, nanglers = 100, samplingProb = 1, meanCatchRate = 2.5, fishingDayLength = 12)
+start_time <- 0
+wait_time <- 12
+sampling_prob <- 1
+
+sim <- conduct_multiple_surveys(n_sims = 20, start_time = start_time, wait_time = wait_time,
+                                n_sites = 1, n_anglers = 100, sampling_prob = 1, 
+                                mean_catch_rate = 2.5, fishing_day_length = 12)
+
 sim
+
 
 ## ----echo = FALSE--------------------------------------------------------
-mod <- lm(Ehat ~ trueEffort, data = sim)
+
+mod <- 
+  sim %>% 
+  lm(Ehat ~ true_effort, data = .)
+
 summary(mod)
 
-g <- qplot(x = trueEffort, y = Ehat, data = sim)
-g <- g + geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], colour = "red", size = 1.01)
-g
+sim %>%
+  ggplot(aes(x = true_effort, y = Ehat)) +
+  geom_point() +
+  geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
+              colour = "red", size = 1.01)
+
 
 ## ------------------------------------------------------------------------
-startTime <- c(0, 4.5)
-waitTime <- c(4, 3.5)
-nsites = 2
-nanglers <- c(50, 50)
-fishingDayLength <- 12
-samplingProb <- sum(waitTime)/fishingDayLength
 
-sim <- ConductMultipleSurveys(nsims = 20, startTime = startTime, waitTime = waitTime, nsites = nsites, nanglers = nanglers, samplingProb = samplingProb, meanCatchRate = 2.5, fishingDayLength = fishingDayLength)
+start_time <- c(0, 4.5)
+wait_time <- c(4, 3.5)
+n_sites = 2
+n_anglers <- c(50, 50)
+fishing_day_length <- 12
+sampling_prob <- sum(wait_time)/fishing_day_length
+
+sim <- conduct_multiple_surveys(n_sims = 20, start_time = start_time, wait_time = wait_time,
+                                n_sites = n_sites, n_anglers = n_anglers, 
+                                sampling_prob = sampling_prob, mean_catch_rate = 2.5,
+                                fishing_day_length = fishing_day_length)
+
 sim
 
+
 ## ----echo = FALSE--------------------------------------------------------
-mod <- lm(Ehat ~ trueEffort, data = sim)
+
+mod <- 
+  sim %>%
+  lm(Ehat ~ true_effort, data = .)
+
 summary(mod)
 
-g <- qplot(x = trueEffort, y = Ehat, data = sim)
-g <- g + geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], colour = "red", size = 1.01)
-g
+sim %>%
+  ggplot(aes(x = true_effort, y = Ehat)) +
+  geom_point() +
+  geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
+              colour = "red", size = 1.01)
+
 
 ## ------------------------------------------------------------------------
+
 #Weekend clerks
-startTimeW <- 2
-waitTimeW <- 10
-nsites <- 1
-nanglersW <- 75
-fishingDayLength <- 12
-samplingProb <- 8/12
+start_time_w <- 2
+wait_time_w <- 10
+n_sites <- 1
+n_anglers_w <- 75
+fishing_day_length <- 12
+sampling_prob <- 8/12
 
-simW <- ConductMultipleSurveys(nsims = 8, startTime = startTimeW, waitTime = waitTimeW, nsites = nsites, nanglers = nanglersW, samplingProb = samplingProb, meanCatchRate = 2.5, fishingDayLength = fishingDayLength)
-simW
+sim_w <- conduct_multiple_surveys(n_sims = 8, start_time = start_time_w, 
+                                  wait_time = wait_time_w, n_sites = n_sites, 
+                                  n_anglers = n_anglers_w, sampling_prob = sampling_prob,
+                                  mean_catch_rate = 2.5, fishing_day_length = fishing_day_length)
+
+sim_w
 
 #Add the weekday survey and weekend surveys to the same data frame
-monSurvey <- rbind(sim, simW)
-mod <- lm(Ehat ~ trueEffort, data = monSurvey)
+mon_survey <- 
+  sim_w %>%
+  bind_rows(sim)
+
+mod <- 
+  mon_survey %>% 
+  lm(Ehat ~ true_effort, data = .)
+
 summary(mod)
 
 
 ## ----echo = FALSE--------------------------------------------------------
 
-g <- qplot(x = trueEffort, y = Ehat, data = monSurvey)
-g <- g + geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], colour = "red", size = 1.01)
-g
+mon_survey %>%
+  ggplot(aes(x = true_effort, y = Ehat)) +
+  geom_point() +
+  geom_abline(intercept = mod$coefficients[1], slope = mod$coefficients[2], 
+              colour = "red", size = 1.01)
+
 
