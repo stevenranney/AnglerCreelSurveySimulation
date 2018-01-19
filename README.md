@@ -1,7 +1,7 @@
 AnglerCreelSurveySimulation
 ===========
 
-[![Travis-CI Build Status](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation.svg?branch=InProgress)](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation)
+[![Travis-CI Build Status](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation.svg?branch=master)](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation)
 
 # News
 
@@ -20,14 +20,6 @@ To install `AnglerCreelSurveySimulation` from CRAN:
 ```r
 
 install.packages("AnglerCreelSurveySimulation")
-
-```
-
-Install the latest (development) version of `AnglerCreelSurveySimulation` from GitHub with [devtools](https://github.com/hadley/devtools) and the following code:
-
-```r
-
-devtools::install_github("stevenranney/AnglerCreelSurveySimulation", ref = "InProgress")
 
 ```
 
