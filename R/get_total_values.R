@@ -197,7 +197,7 @@ get_total_values <- function(data, start_time = NULL, end_time = NULL,
              start_time = start_time, 
              wait_time = wait_time, 
              total_catch = total_catch, 
-             true_effort = sum(data$trip_length), 
+             true_effort = t_effort, 
              mean_lambda = mean(lambda)) %>%
     return()
   
