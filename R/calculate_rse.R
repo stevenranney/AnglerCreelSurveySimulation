@@ -1,6 +1,4 @@
 
-# Created 1/10/15
-
 #' Calculate the Relative Standard Error of a numeric vector
 #' 
 #' @author Steven H. Ranney
@@ -30,8 +28,12 @@
 
 calculate_rse <- function(x){
   
-  stdError <- sd(x)/sqrt(length(x))
-  
-  return(stdError/mean(x))
+  if(is.null(x) | length(x) < 2){
+    stop("Value is either NULL or length(x) is < 2.")
+  } else {
+    std_error <- sd(x)/sqrt(length(x))
+    
+    return(std_error/mean(x))
+  }
   
   }
