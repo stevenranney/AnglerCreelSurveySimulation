@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 scratch_pad.R
 ^\.travis\.yml$
+^appveyor\.yml$
