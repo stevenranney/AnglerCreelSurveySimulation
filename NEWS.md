@@ -2,7 +2,9 @@
 
 
 # v1.0.2
+
 * Now I *really* fixed the effort calculations in `get_total_values()`.
+* 2018-03-13: Submitted to CRAN
 
 # v1.0.1
 
