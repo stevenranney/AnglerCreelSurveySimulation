@@ -1,5 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-scratch_pad.R
+^scratch_pad\.R$
 ^\.travis\.yml$
+^\_config\.yml$
 ^appveyor\.yml$
+^cran\_comments\.md$
