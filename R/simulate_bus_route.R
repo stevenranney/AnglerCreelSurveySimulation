@@ -35,7 +35,7 @@
 #' @seealso \code{\link{get_total_values}}
 #' 
 #' @details Effort and catch are estimated from the the Bus Route Estimator 
-#' equation in Robson and Jones (1989), Jones and Robson (1991) and Pollock 
+#' equation in Robson and Jones (1989), Jones and Robson (1991; eqn. 1) and Pollock 
 #' et al. 1994.
 #' 
 #' @details Catch rate is calculated from the Ratio of Means equation (see 
@@ -125,8 +125,8 @@ simulate_bus_route <- function(start_time, wait_time, n_anglers, n_sites,
                 "total_completed_trip_catch", "start_time", "wait_time", 
                 "total_catch", "true_effort", "mean_lambda")
 
-  #Run MakeAnglers() and GetTotalValues() iteratively for however many sites are 
-  # provided in the nsites argument
+  #Run make_anglers() and get_total_vaslues() iteratively for however many sites are 
+  # provided in the n_sites argument
   for(i in 1:nrow(dF)){
     tmp <- make_anglers(n_anglers=n_anglers[i], ...)
     dF[i,] <- get_total_values(data = tmp, t_effort = sum(tmp$triplength), n_anglers = length(tmp$start_time), 
@@ -137,8 +137,7 @@ simulate_bus_route <- function(start_time, wait_time, n_anglers, n_sites,
   bigT <- (start_time + wait_time)[length(start_time + wait_time)]-start_time[1]
 
   #########
-  #Calculate effort based upon the bigT equation
-  #Incomplete Effort
+  #Calculate estimated effort (Ehat) based upon the bigT equation
   sum_effort <- apply(data.frame(dF$total_observed_trip_effort), 1, sum)
   Ehat <- bigT*sum(1/dF$wait_time * sum_effort)
  
