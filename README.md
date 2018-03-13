@@ -8,11 +8,6 @@
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/AnglerCreelSurveySimulation)](https://cran.r-project.org/package=AnglerCreelSurveySimulation)
 ![](https://cranlogs.r-pkg.org/badges/grand-total/AnglerCreelSurveySimulation?color=brightgreen)
 
-# News
-
-* 2017-01-19: Release 1.0.0 submitted to [CRAN](https://cran.r-project.org/)
-
----
 
 *Functions to allow fisheries managers to simulate a bus route creel survey*
 
