@@ -1,5 +1,9 @@
 
 
+
+# v1.0.2
+* Now I *really* fixed the effort calculations in `get_total_values()`.
+
 # v1.0.1
 
 * Fixed the true effort calculation in `get_total_values()`

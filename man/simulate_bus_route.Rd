@@ -44,7 +44,7 @@ provide clerk-observed counts of anglers and their effort.
 }
 \details{
 Effort and catch are estimated from the the Bus Route Estimator 
-equation in Robson and Jones (1989), Jones and Robson (1991) and Pollock 
+equation in Robson and Jones (1989), Jones and Robson (1991; eqn. 1) and Pollock 
 et al. 1994.
 
 Catch rate is calculated from the Ratio of Means equation (see 
