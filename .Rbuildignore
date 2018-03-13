@@ -5,3 +5,5 @@
 ^\_config\.yml$
 ^appveyor\.yml$
 ^cran\_comments\.md$
+^README\.md$
+^NEWS\.md$
