@@ -24,3 +24,14 @@ test_that("no start_time is < 0", {
   expect_equal(min(make_anglers()$start_time) > 0, TRUE)
 
 })
+
+test_that("no end_time is > fishing_day_length", {
+  
+  fishing_day_length <- 10
+  
+  anglers <- make_anglers(fishing_day_length = fishing_day_length)
+  
+  expect_equal(max(anglers$departure_time) < fishing_day_length, TRUE)
+  
+})
+
