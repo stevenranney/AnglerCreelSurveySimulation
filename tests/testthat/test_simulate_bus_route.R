@@ -39,3 +39,24 @@ test_that("Simulating a bus route with 0 wait time provides output for only some
   expect_equal(is.nan(vals$Ehat) & is.nan(vals$catch_rate_ROM), TRUE)
   
 })
+
+test_that("When wait time = fishing day length, true_effort = Ehat", {
+  
+  start_time <- 0
+  wait_time <- 12
+  fishing_day_length <- 12
+  n_anglers <- 100
+  n_sites <- 1
+  sampling_prob <- sum(wait_time)/fishing_day_length
+  mean_catch_rate <- 2.5
+  
+  vals <- simulate_bus_route(start_time = start_time, wait_time = wait_time, 
+                             n_anglers = n_anglers, n_sites = n_sites, 
+                             sampling_prob = sampling_prob, 
+                             mean_catch_rate = mean_catch_rate,
+                             fishing_day_length = fishing_day_length)
+  
+  expect_equal(vals$Ehat, vals$true_effort)
+  
+})
+
