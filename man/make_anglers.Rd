@@ -11,7 +11,7 @@ make_anglers(n_anglers = 100, mean_trip_length = 3.88,
 \item{n_anglers}{The number of anglers in the population}
 
 \item{mean_trip_length}{The mean trip length to be used in the function. \code{3.88} 
-is the default.  The default is from data from the 2008 Lake Roosevelt Fishing 
+is the default.  The default is from data from the 2008 Lake Roosevelt (WA) Fishing 
 Evaluation Program.}
 
 \item{fishing_day_length}{The fishing day length to be used in the function. 
@@ -34,7 +34,7 @@ loop to ensure that the number of anglers = \code{n_anglers} provided in the
 function argument.  \code{fishing_day_length} is passed to the argument. The 
 default is set to 12 hours.
 
-\code{starttimes} are assigned by the uniform distribution
+\code{starttimes} are assigned by the uniform (\code{\link{runif}}) distribution
 
 \code{triplengths} are assigned by the gamma distribution where the 
 default mean value comes from the 2008 Lake Roosevelt Fisheries Evaluation Program data.

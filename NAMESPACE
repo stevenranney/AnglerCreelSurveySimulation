@@ -3,6 +3,7 @@
 export(calculate_rse)
 export(conduct_multiple_surveys)
 export(create_plot_from_simulation)
+export(estimate_ehat_variance)
 export(get_total_values)
 export(make_anglers)
 export(plot_multiple_objects)

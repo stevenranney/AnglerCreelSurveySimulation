@@ -10,7 +10,7 @@
 #' @param n_anglers The number of anglers in the population
 #' 
 #' @param mean_trip_length The mean trip length to be used in the function. \code{3.88} 
-#' is the default.  The default is from data from the 2008 Lake Roosevelt Fishing 
+#' is the default.  The default is from data from the 2008 Lake Roosevelt (WA) Fishing 
 #' Evaluation Program.
 #'
 #' @param fishing_day_length The fishing day length to be used in the function. 
@@ -24,7 +24,7 @@
 #' function argument.  \code{fishing_day_length} is passed to the argument. The 
 #' default is set to 12 hours.
 #'
-#' @details \code{starttimes} are assigned by the uniform distribution
+#' @details \code{starttimes} are assigned by the uniform (\code{\link{runif}}) distribution
 #' 
 #' @details \code{triplengths} are assigned by the gamma distribution where the 
 #' default mean value comes from the 2008 Lake Roosevelt Fisheries Evaluation Program data.
