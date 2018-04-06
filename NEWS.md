@@ -2,13 +2,12 @@
 
 # v1.1.0.9000
 
-* Add multiple distribution types to `make_anglers()` for `trip_length`.
 * Added `estimate_ehat_variance()`, useful when trying to determine the accuracy of `Ehat`.
 
 # v1.0.2
 
 * Now I *really* fixed the effort calculations in `get_total_values()`.
-* 2018-03-13: Releae 1.0.2 submitted to [CRAN](https://cran.r-project.org/package=AnglerCreelSurveySimulation)
+* 2018-03-13: Release 1.0.2 submitted to [CRAN](https://cran.r-project.org/package=AnglerCreelSurveySimulation)
 
 # v1.0.1
 
