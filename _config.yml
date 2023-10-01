@@ -5,5 +5,5 @@ show_downloads: true
 #theme: jekyll-theme-midnight
 theme: mimima
 
-gems:
+plugins:
   - jekyll-mentions
