@@ -6,12 +6,13 @@
 #' @author Steven H. Ranney
 #' 
 #' @description This function uses the output from \code{make_anglers} and 
-#' \code{get_total_values} to  conduct a bus-route or traditional access point
+#' \code{get_total_values} to conduct a bus-route or traditional access point
 #' creel survey of the population of anglers from \code{make_anglers} and
 #' provide clerk-observed counts of anglers and their effort.
 #' 
-#' @return Estimate catch (\code{Ehat}), the catch rate calculated by the ratio of means, 
-#' the true, observed catch, and the actual catch rate (mean_lambda).
+#' @return Estimated effort (\code{Ehat}) from the bus route estimator, the catch rate 
+#' calculated by the ratio of means, the total catch from all anglers, the total effort 
+#' from all anglers, and the actual catch rate (mean_lambda).
 #' 
 #' @param start_time The start time of the surveyor at each site.  This can be a 
 #' vector of start times to simulate a bus route or one \code{startTime} to simulate
@@ -38,8 +39,25 @@
 #' equation in Robson and Jones (1989), Jones and Robson (1991; eqn. 1) and Pollock 
 #' et al. 1994.
 #' 
+#' @details The bus route estimator is 
+#' \deqn{\widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{\frac{e_{ij}}{\pi_{j}}}}
+#' where \emph{E} = estimated total party-hours of effort; \emph{T} = total time 
+#' to complete a full circuit of the route, including travelling and waiting; 
+#' \emph{\eqn{w_i}} = waiting time at the \emph{\eqn{i^{th}}} site 
+#' (where \emph{i} = 1, ..., \emph{n} sites); \emph{\eqn{e_{ij}}} = 
+#' total time that the \emph{\eqn{j^{th}}} car is parked at the \emph{\eqn{i^{th}}} 
+#' site while the agent is at that site (where \emph{j} = 1, ..., \emph{n} sites).
+#' 
+#' 
 #' @details Catch rate is calculated from the Ratio of Means equation (see 
 #' Malvestuto (1996) and Jones and Pollock (2012) for discussions).
+#' 
+#' @details The Ratio of means is calculated by 
+#' \deqn{\widehat{R_1} = \frac{\sum\limits_{i=1}^n{c_i/n}}{\sum\limits_{i=1}^n{L_i/n}}}
+#' where \emph{\eqn{c_i}} is the catch for the \emph{\eqn{i^{th}}} sampling unit 
+#' and \emph{\eqn{L_i}} is thelength of the fishing trip at the time of the 
+#' interview. For incomplete surveys, \emph{\eqn{L_i}} represents in incomplete 
+#' trip.
 #' 
 #' @references  Jones, C. M., and D. Robson. 1991. Improving precision in angler 
 #' surveys: traditional access design versus bus route design. American Fisheries 
@@ -60,22 +78,6 @@
 #' 
 #' @references Robson, D., and C. M. Jones. 1989. The theoretical basis of an 
 #' access site angler survey design. Biometrics 45:83-98.
-#' 
-#' @details The Ratio of means is calculated by 
-#' \deqn{\widehat{R_1} = \frac{\sum\limits_{i=1}^n{c_i/n}}{\sum\limits_{i=1}^n{L_i/n}}}
-#' where \emph{\eqn{c_i}} is the catch for the \emph{\eqn{i^{th}}} sampling unit 
-#' and \emph{\eqn{L_i}} is thelength of the fishing trip at the time of the 
-#' interview. For incomplete surveys, \emph{\eqn{L_i}} represents in incomplete 
-#' trip.
-#' 
-#' @details The bus route estimator is 
-#' \deqn{\widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{\frac{e_{ij}}{\pi_{j}}}}
-#' where \emph{E} = estimated total party-hours of effort; \emph{T} = total time 
-#' to complete a full circuit of the route, including travelling and waiting; 
-#' \emph{\eqn{w_i}} = waiting time at the \emph{\eqn{i^{th}}} site 
-#' (where \emph{i} = 1, ..., \emph{n} sites); \emph{\eqn{e_{ij}}} = 
-#' total time that the \emph{\eqn{j^{th}}} car is parked at the \emph{\eqn{i^{th}}} 
-#' site while the agent is at that site (where \emph{j} = 1, ..., \emph{n} sites).
 #' 
 #' @examples 
 #' # To simulate one bus route survey that takes place in the morning, these values are used
@@ -117,6 +119,11 @@
 
 simulate_bus_route <- function(start_time, wait_time, n_anglers, n_sites, 
                                sampling_prob = 1, mean_catch_rate, ... ){
+  
+  # Check for errors:
+  ifelse(length(start_time) != length(wait_time), stop("start_time length must equal wait_time length"), 
+         ifelse(n_sites != length(start_time) & length(wait_time), stop("n_sites must be equal to both start_time and wait_time"), 
+                NA))
 
   #Create a dataFrame to fill with the results
   dF <- as.data.frame(matrix(data = NA, nrow = n_sites, ncol = 10, byrow=TRUE))
@@ -125,7 +132,7 @@ simulate_bus_route <- function(start_time, wait_time, n_anglers, n_sites,
                 "total_completed_trip_catch", "start_time", "wait_time", 
                 "total_catch", "true_effort", "mean_lambda")
 
-  #Run make_anglers() and get_total_vaslues() iteratively for however many sites are 
+  #Run make_anglers() and get_total_values() iteratively for however many sites are 
   # provided in the n_sites argument
   for(i in 1:nrow(dF)){
     tmp <- make_anglers(n_anglers=n_anglers[i], ...)
