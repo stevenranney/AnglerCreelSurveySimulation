@@ -1,9 +1,7 @@
 title: AnglerCreelSurveySimulation
 description: Simulate a creel survey
-google_analytics: 
 show_downloads: true
-#theme: jekyll-theme-midnight
-theme: mimima
+theme: minima
 
-plugins:
-  - jekyll-mentions
+# plugins:
+#   - jekyll-mentions
