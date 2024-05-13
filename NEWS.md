@@ -1,7 +1,8 @@
 
-# v1.1.1
+# v1.0.3
 
 * Allow users to pass a `scale` parameter to `make_anglers()` and `get_total_values()` functions.
+* Cleaned up some cruft.
 
 # v1.1.0.9000
 
