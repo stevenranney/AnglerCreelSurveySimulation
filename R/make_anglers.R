@@ -17,6 +17,9 @@
 #' Anglers are not be allowed to be fishing past this day length.  The default here 
 #' is set to 12 hours, which may not be a suitable day length for fisheries at higher
 #' latitudes (i.e., sunrise-sunset is > 12 hours) or during shorter seasons.
+#' 
+#' @param scale The scale parameter must be positive and is passed to the \code{\link{rgamma}} function to randomly 
+#' generate angler trip lengths
 #'
 #' @details All trip lengths will be limited so that anglers have finished their 
 #' fishing trip by the end of the fishing day.  The function uses a \code{while} 
@@ -41,7 +44,8 @@
 
 make_anglers <- function(n_anglers = 100,
                          mean_trip_length = 3.88,
-                         fishing_day_length = 12){
+                         fishing_day_length = 12, 
+                         scale = 1){
   
   i=1
   
@@ -51,7 +55,7 @@ make_anglers <- function(n_anglers = 100,
 
     startTime.tmp <- c(runif(1, 0, fishing_day_length - 0.25))
 
-    tripLength.tmp <- rgamma(1, mean_trip_length, scale = 1)  
+    tripLength.tmp <- rgamma(1, mean_trip_length, scale = scale)  
     departureTime.tmp <- startTime.tmp+tripLength.tmp
   
     if(departureTime.tmp < fishing_day_length){

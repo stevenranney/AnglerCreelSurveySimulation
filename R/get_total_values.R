@@ -24,6 +24,9 @@
 #' 
 #' @param mean_catch_rate The mean catch rate for the fishery.
 #' 
+#' @param scale The scale parameter must be positive and is passed to the \code{\link{rgamma}} function to randomly 
+#' generate angler trip lengths
+#' 
 #' @param ... Arguments to be passed to other functions.
 #' 
 #' @details Total effort is the sum of the trip lengths from \code{data}
@@ -91,13 +94,13 @@
 
 get_total_values <- function(data, start_time = NULL, end_time = NULL, 
                              wait_time = NULL, sampling_prob = 1, 
-                             mean_catch_rate = NULL, ...){
+                             mean_catch_rate = NULL, scale = 1, ...){
 
   t_effort <- sum(data$trip_length)
   
   n_anglers <- nrow(data)
 
-  lambda <- rgamma(n_anglers, mean_catch_rate)
+  lambda <- rgamma(n_anglers, mean_catch_rate, scale = scale)
   
   #Calculate true total catch for all anglers
   total_catch <- sum(data$trip_length * lambda)  
