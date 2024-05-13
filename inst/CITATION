@@ -1,9 +1,8 @@
-citHeader("To cite reports in publications, please use:")
-
-
-bibentry(bibtype = "manual",
-    title = "{AnglerCreelSurveySimulation}: Simulate an angler creel survey",
+bibentry(
+bibtype = "manual",
+    header = "To cite AnglerCreelSurveySimulation in publications, please use",
     author = "Steven H. Ranney",
+    title = "{AnglerCreelSurveySimulation}: Simulate an angler creel survey",
     note = "version 1.0.3",
     year = "2024",
     url = "https://CRAN.R-project.org/package=AnglerCreelSurveySimulation",
