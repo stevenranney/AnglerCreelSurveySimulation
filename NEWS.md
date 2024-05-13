@@ -4,7 +4,7 @@
 * Allow users to pass a `scale` parameter to `make_anglers()` and `get_total_values()` functions.
 * Cleaned up some cruft.
 
-# v1.1.0.9000
+# v1.0.2.9000
 
 * Added `estimate_ehat_variance()`, useful when trying to determine the accuracy of `Ehat`.
 
