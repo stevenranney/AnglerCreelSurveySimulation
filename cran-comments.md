@@ -6,10 +6,7 @@
   * devel (2024-05-12)
   * release (R4.4.0) 
 
-## R CMD check --as-cran on R 4.3.2 results
+## R CMD check results
 
-`Status: OK`
-
-There were no ERRORs, WARNINGs, or NOTEs. 
-
+0 errors | 0 warnings | 1 note
 
