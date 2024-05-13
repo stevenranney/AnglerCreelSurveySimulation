@@ -1,4 +1,5 @@
 
+
 #' Calculate the Relative Standard Error of a numeric vector
 #' 
 #' @author Steven H. Ranney
