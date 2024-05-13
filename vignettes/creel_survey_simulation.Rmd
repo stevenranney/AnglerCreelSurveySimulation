@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 #Introduction
   
-  Creel surveys allow fisheries scientists and managers to collect data on catch and harvest, an angler popuation (including effort expended), and, depending on survey design, biological data on fish populations.  Though important methods of collecting data on the user base of the fishery, creel surveys are difficult to implement and, in graduate fisheries programs, creel surveys are paid little attention.  As a result, fisheries managers--the first job for many fisheries-program graduates--often inherit old surveys or are told to institute new surveys with little knowledge of how to do so.
+  Creel surveys allow fisheries scientists and managers to collect data on catch and harvest, an angler population (including effort expended), and, depending on survey design, biological data on fish populations.  Though important methods of collecting data on the user base of the fishery, creel surveys are difficult to implement and, in graduate fisheries programs, creel surveys are paid little attention.  As a result, fisheries managers--the first job for many fisheries-program graduates--often inherit old surveys or are told to institute new surveys with little knowledge of how to do so.
 
 Fisheries can cover large spatial extents: large reservoirs, coast-lines, and river systems.  A creel survey has to be statistically valid, adaptable to the geographic challenges of the fishery, and cost efficient.  Limited budgets can prevent agencies from implementing creel surveys; the [AnglerCreelSurveySimulation](https://CRAN.R-project.org/package=AnglerCreelSurveySimulation) was designed to help managers explore the type of creel survey that is most appropriate for their fishery, including fisheries with multiple access points, access points that are more popular than others, variation in catch rate, the number of surveyors, and seasonal variation in day-lengths.
 
@@ -84,7 +84,7 @@ anglers %>%
 
 ```
 
-`get_total_values()` returns a single row data frame with several columns.  The output of `get_total_values()` is the catch and effort data observed by the surveyor during their wait at the accss point along with the "true" values for catch and effort.  (Obviously, we can't simulate biological data but, if an agency's protocol directed the surveyor to collect biological data, that could be analyzed with other `R` functions.)
+`get_total_values()` returns a single row data frame with several columns.  The output of `get_total_values()` is the catch and effort data observed by the surveyor during their wait at the access point along with the "true" values for catch and effort.  (Obviously, we can't simulate biological data but, if an agency's protocol directed the surveyor to collect biological data, that could be analyzed with other `R` functions.)
 
 In the output from `get_total_values()`, `n_observed_trips` is the number of trips that the surveyor observed, including anglers that arrived after she started her day and anglers that were there for the duration of her time at the access point.  `total_observed_trip_effort` is the effort expended by those parties; because the observed trips were not complete, she did not count their catch.  `n_completed_trips` is the number of anglers that completed their trips while she was onsite, `total_completed_trip_effort` is the effort expended by those anglers, and `total_completed_trip_catch` is the number of fish caught by those parties.  Catch is both the number of fish harvested and those caught and released.
 
@@ -99,12 +99,12 @@ $$
 where  
 
 * *E* = estimated total party-hours of effort;  
-* *T* = total time to complete a full circuit of the route, including travelling and waiting;  
+* *T* = total time to complete a full circuit of the route, including traveling and waiting;  
 * *w~i~* = waiting time at the *i^th^* site (where *i* = 1, ..., *n* sites);  
 
 and  
 
-* *e~ij~* = total time that the *j^th^* car (or trailer) is parked at the *i^th^* site while the agent is at that shite (where *j* = 1, ..., *n* sites).  
+* *e~ij~* = total time that the *j^th^* car (or trailer) is parked at the *i^th^* site while the agent is at that site (where *j* = 1, ..., *n* sites).  
 
 Catch rate is calculated from the Ratio of Means equation:  
   
@@ -123,7 +123,7 @@ For incomplete surveys, *L~i~* represents an incomplete trip.
 
 `simulate_bus_route()` calculates effort and catch based upon these equations.  See `?simulate_bus_route` for references that include a more detailed discussion of these equations.
 
-`simulate_bus_route()` calls `make_anglers()` and `get_total_values()` so many of the same arguments we passed in the previous functions will need to be passed to `simulate_bus_route()`.  The new arguent, `nsites`, is the number of sites visited by the surveyor.  In more advanced simulations (see the examples in `?simulate_bus_route`), you can pass strings of values for `startTime`, `waitTime`, `nsites`, and `nanglers` to simulate a bus route-type survey rather than just a single access-point survey.
+`simulate_bus_route()` calls `make_anglers()` and `get_total_values()` so many of the same arguments we passed in the previous functions will need to be passed to `simulate_bus_route()`.  The new argument, `nsites`, is the number of sites visited by the surveyor.  In more advanced simulations (see the examples in `?simulate_bus_route`), you can pass strings of values for `startTime`, `waitTime`, `nsites`, and `nanglers` to simulate a bus route-type survey rather than just a single access-point survey.
 
 ```{r}
 
@@ -138,7 +138,7 @@ The output from `simulate_bus_route()` is a dataframe with values for `Ehat`, `c
 
 ###Conducting multiple simulations
 
-With information about the fishery, the start and wait times of the surveyor, the sampling probability, mean catch rate, and fishing day length, we can run multiple simulations with `conduct_multiple_surveys()`.  `conduct_multiple_surveys()` is a wrapper that calls the other three functions in turn and compiles the values into a data frame for easy plotting or analysis.  The only additional argument needed is the `nsims` value which tells the function how many simulations to conduct.  For the sake of this simple simulation, let's assume that the creel survery works five days a week for four weeks (i.e. 20 days):
+With information about the fishery, the start and wait times of the surveyor, the sampling probability, mean catch rate, and fishing day length, we can run multiple simulations with `conduct_multiple_surveys()`.  `conduct_multiple_surveys()` is a wrapper that calls the other three functions in turn and compiles the values into a data frame for easy plotting or analysis.  The only additional argument needed is the `nsims` value which tells the function how many simulations to conduct.  For the sake of this simple simulation, let's assume that the creel survey works five days a week for four weeks (i.e. 20 days):
 
 ```{r}
 
@@ -275,7 +275,7 @@ sim %>%
 
 ### Even more simulations
 
-Ultimately, the creel survey simulation can be as complicated as a creel survey.  If a survey requires multiple clerks, several simulations can be coupled together to act as multiple surveryors.  To accomodate weekends or holidays (i.e., increased angler pressure), additional simulations with different wait times and more anglers (to simulate higher pressure) can be built into the simulation.  For example, if we know that angler pressure is 50% higher at the two access points on weekends, we can  hire a second clerk to sample 8 hours a day on the weekends--one day at each access point--and add the weekend data to the weekday data.
+Ultimately, the creel survey simulation can be as complicated as a creel survey.  If a survey requires multiple clerks, several simulations can be coupled together to act as multiple surveyors.  To accommodate weekends or holidays (i.e., increased angler pressure), additional simulations with different wait times and more anglers (to simulate higher pressure) can be built into the simulation.  For example, if we know that angler pressure is 50% higher at the two access points on weekends, we can  hire a second clerk to sample 8 hours a day on the weekends--one day at each access point--and add the weekend data to the weekday data.
 
 ```{r}
 
@@ -317,6 +317,6 @@ mon_survey %>%
 
 ```
 
-### Choose your own advenure
+### Choose your own adventure
 
-Hopefully, this vignette has shown you how to build and simulate your own creel survey.  It's flexible enough to estimate monthly or seasonal changes in fishing day length, changes in the mean catch rate, increased angler pressure on weekends, and any number of access sites, start times, wait times, and sampling probabilities.  The output from `conduct_multiple_surveys()` allows the user to estiate variability in the catch and effort estimates (e.g., relative standard error) to evaluate the most efficient creel survey for *their* fishery.
+Hopefully, this vignette has shown you how to build and simulate your own creel survey.  It's flexible enough to estimate monthly or seasonal changes in fishing day length, changes in the mean catch rate, increased angler pressure on weekends, and any number of access sites, start times, wait times, and sampling probabilities.  The output from `conduct_multiple_surveys()` allows the user to estimate variability in the catch and effort estimates (e.g., relative standard error) to evaluate the most efficient creel survey for *their* fishery.

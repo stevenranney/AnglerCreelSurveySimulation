@@ -1,11 +1,12 @@
 ## Test environments
 
-* local Windows7 install: R 3.3.3
-* ubuntu 14.04 (on travis-ci): release
-* windows server 2012 (on appveyor): R 3.4.4
-* win-builder (devel and release)
+* local MacOS Sonoma 14.1.1 install: R 4.3.2
+* AMD64 architecture (on travis-ci): oldrel, release, devel
+* Windows (on win-builder):
+  * devel (2024-05-12)
+  * release (R4.4.0) 
 
-## R CMD check --as-cran on R 3.3.3 results
+## R CMD check --as-cran on R 4.3.2 results
 
 `Status: OK`
 

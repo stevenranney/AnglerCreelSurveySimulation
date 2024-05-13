@@ -42,7 +42,7 @@
 #' @details The bus route estimator is 
 #' \deqn{\widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{\frac{e_{ij}}{\pi_{j}}}}
 #' where \emph{E} = estimated total party-hours of effort; \emph{T} = total time 
-#' to complete a full circuit of the route, including travelling and waiting; 
+#' to complete a full circuit of the route, including traveling and waiting; 
 #' \emph{\eqn{w_i}} = waiting time at the \emph{\eqn{i^{th}}} site 
 #' (where \emph{i} = 1, ..., \emph{n} sites); \emph{\eqn{e_{ij}}} = 
 #' total time that the \emph{\eqn{j^{th}}} car is parked at the \emph{\eqn{i^{th}}} 
@@ -55,7 +55,7 @@
 #' @details The Ratio of means is calculated by 
 #' \deqn{\widehat{R_1} = \frac{\sum\limits_{i=1}^n{c_i/n}}{\sum\limits_{i=1}^n{L_i/n}}}
 #' where \emph{\eqn{c_i}} is the catch for the \emph{\eqn{i^{th}}} sampling unit 
-#' and \emph{\eqn{L_i}} is thelength of the fishing trip at the time of the 
+#' and \emph{\eqn{L_i}} is the length of the fishing trip at the time of the 
 #' interview. For incomplete surveys, \emph{\eqn{L_i}} represents in incomplete 
 #' trip.
 #' 

@@ -18,7 +18,7 @@ This function multiple outputs from \code{\link{simulate_bus_route}}
 to estimate the variance in estimated effort, \eqn{\widehat{E}}.
 }
 \details{
-The variance in \eqn{\widehat{E}} is estimated from multpile simulated surveys
+The variance in \eqn{\widehat{E}} is estimated from multiple simulated surveys
 on a single theoretical day (Within-day variance of \eqn{\widehat{E}}. The variance is estimated by 
 
 \deqn{\frac{1}{n(n-1)}\sum(\widehat{T}_{ph}-\overline{\widehat{T}}_{ph})^2}

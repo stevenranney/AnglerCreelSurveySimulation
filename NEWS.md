@@ -3,6 +3,7 @@
 
 * Allow users to pass a `scale` parameter to `make_anglers()` and `get_total_values()` functions.
 * Cleaned up some cruft.
+* Added more CI build tests 
 
 # v1.0.2.9000
 
@@ -17,7 +18,7 @@
 
 * Fixed the true effort calculation in `get_total_values()`
 * Added error handling to `calculate_rse()`
-* Included tests of all fxs used during simulating a creel survey
+* Included tests of all functions used during simulating a creel survey
 
 # v1.0.0
 
