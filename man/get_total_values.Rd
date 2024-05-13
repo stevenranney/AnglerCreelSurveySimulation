@@ -4,8 +4,16 @@
 \alias{get_total_values}
 \title{Conduct a creel survey of a population of anglers at an access site.}
 \usage{
-get_total_values(data, start_time = NULL, end_time = NULL,
-  wait_time = NULL, sampling_prob = 1, mean_catch_rate = NULL, ...)
+get_total_values(
+  data,
+  start_time = NULL,
+  end_time = NULL,
+  wait_time = NULL,
+  sampling_prob = 1,
+  mean_catch_rate = NULL,
+  scale = 1,
+  ...
+)
 }
 \arguments{
 \item{data}{The dataframe returned from \code{\link{make_anglers}}}
@@ -22,6 +30,9 @@ half of the fishing day (i.e., \code{.5}) or over longer time periods (e.g.,
 \code{9.5/12}, if the survey is 9.5 hours long and the fishing day length is 12 hours)}
 
 \item{mean_catch_rate}{The mean catch rate for the fishery.}
+
+\item{scale}{The scale parameter must be positive and is passed to the \code{\link{rgamma}} function to randomly 
+generate angler trip lengths}
 
 \item{...}{Arguments to be passed to other functions.}
 }

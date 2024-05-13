@@ -41,6 +41,8 @@
 #' #make_anglers(10000)
 #' 
 #' @export
+#' @importFrom stats sd rgamma runif
+#' 
 
 make_anglers <- function(n_anglers = 100,
                          mean_trip_length = 3.88,

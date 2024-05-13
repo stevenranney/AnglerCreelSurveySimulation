@@ -4,8 +4,15 @@
 \alias{simulate_bus_route}
 \title{Simulate a bus route survey}
 \usage{
-simulate_bus_route(start_time, wait_time, n_anglers, n_sites,
-  sampling_prob = 1, mean_catch_rate, ...)
+simulate_bus_route(
+  start_time,
+  wait_time,
+  n_anglers,
+  n_sites,
+  sampling_prob = 1,
+  mean_catch_rate,
+  ...
+)
 }
 \arguments{
 \item{start_time}{The start time of the surveyor at each site.  This can be a 
@@ -33,12 +40,13 @@ sites will be visited during the first or second half of the fishing day,
 \code{fishing_day_length}.}
 }
 \value{
-Estimate catch (\code{Ehat}), the catch rate calculated by the ratio of means, 
-the true, observed catch, and the actual catch rate (mean_lambda).
+Estimated effort (\code{Ehat}) from the bus route estimator, the catch rate 
+calculated by the ratio of means, the total catch from all anglers, the total effort 
+from all anglers, and the actual catch rate (mean_lambda).
 }
 \description{
 This function uses the output from \code{make_anglers} and 
-\code{get_total_values} to  conduct a bus-route or traditional access point
+\code{get_total_values} to conduct a bus-route or traditional access point
 creel survey of the population of anglers from \code{make_anglers} and
 provide clerk-observed counts of anglers and their effort.
 }
@@ -46,6 +54,15 @@ provide clerk-observed counts of anglers and their effort.
 Effort and catch are estimated from the the Bus Route Estimator 
 equation in Robson and Jones (1989), Jones and Robson (1991; eqn. 1) and Pollock 
 et al. 1994.
+
+The bus route estimator is 
+\deqn{\widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{\frac{e_{ij}}{\pi_{j}}}}
+where \emph{E} = estimated total party-hours of effort; \emph{T} = total time 
+to complete a full circuit of the route, including travelling and waiting; 
+\emph{\eqn{w_i}} = waiting time at the \emph{\eqn{i^{th}}} site 
+(where \emph{i} = 1, ..., \emph{n} sites); \emph{\eqn{e_{ij}}} = 
+total time that the \emph{\eqn{j^{th}}} car is parked at the \emph{\eqn{i^{th}}} 
+site while the agent is at that site (where \emph{j} = 1, ..., \emph{n} sites).
 
 Catch rate is calculated from the Ratio of Means equation (see 
 Malvestuto (1996) and Jones and Pollock (2012) for discussions).
@@ -56,15 +73,6 @@ where \emph{\eqn{c_i}} is the catch for the \emph{\eqn{i^{th}}} sampling unit
 and \emph{\eqn{L_i}} is thelength of the fishing trip at the time of the 
 interview. For incomplete surveys, \emph{\eqn{L_i}} represents in incomplete 
 trip.
-
-The bus route estimator is 
-\deqn{\widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{\frac{e_{ij}}{\pi_{j}}}}
-where \emph{E} = estimated total party-hours of effort; \emph{T} = total time 
-to complete a full circuit of the route, including travelling and waiting; 
-\emph{\eqn{w_i}} = waiting time at the \emph{\eqn{i^{th}}} site 
-(where \emph{i} = 1, ..., \emph{n} sites); \emph{\eqn{e_{ij}}} = 
-total time that the \emph{\eqn{j^{th}}} car is parked at the \emph{\eqn{i^{th}}} 
-site while the agent is at that site (where \emph{j} = 1, ..., \emph{n} sites).
 }
 \examples{
 # To simulate one bus route survey that takes place in the morning, these values are used

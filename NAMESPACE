@@ -2,14 +2,12 @@
 
 export(calculate_rse)
 export(conduct_multiple_surveys)
-export(create_plot_from_simulation)
 export(estimate_ehat_variance)
 export(get_total_values)
 export(make_anglers)
-export(plot_multiple_objects)
 export(simulate_bus_route)
-
-import(ggplot2)
 import(dplyr)
-import(grid)
-importFrom("stats", "lm", "rgamma", "runif", "sd")
+importFrom(stats,rgamma)
+importFrom(stats,runif)
+importFrom(stats,sd)
+import(ggplot2)

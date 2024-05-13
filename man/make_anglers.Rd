@@ -4,8 +4,12 @@
 \alias{make_anglers}
 \title{Create a population of anglers.}
 \usage{
-make_anglers(n_anglers = 100, mean_trip_length = 3.88,
-  fishing_day_length = 12)
+make_anglers(
+  n_anglers = 100,
+  mean_trip_length = 3.88,
+  fishing_day_length = 12,
+  scale = 1
+)
 }
 \arguments{
 \item{n_anglers}{The number of anglers in the population}
@@ -18,6 +22,9 @@ Evaluation Program.}
 Anglers are not be allowed to be fishing past this day length.  The default here 
 is set to 12 hours, which may not be a suitable day length for fisheries at higher
 latitudes (i.e., sunrise-sunset is > 12 hours) or during shorter seasons.}
+
+\item{scale}{The scale parameter must be positive and is passed to the \code{\link{rgamma}} function to randomly 
+generate angler trip lengths}
 }
 \value{
 A data frame called that includes variables \code{start_time}, \code{trip_length}, 

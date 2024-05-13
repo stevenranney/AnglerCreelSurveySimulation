@@ -89,7 +89,9 @@
 #'                    sampling_prob = sampling_prob, mean_catch_rate = mean_catch_rate)
 #'                    
 #' @export
-
+#' @importFrom stats sd rgamma runif
+#' @import dplyr
+#'
 
 
 get_total_values <- function(data, start_time = NULL, end_time = NULL, 

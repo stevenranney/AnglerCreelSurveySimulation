@@ -36,7 +36,6 @@ intervals around the estimates of effort.
 \examples{
 
 #Set up a simulation to run repeatedly
-#Not run
 \dontrun{
 start_time = c(0, 1.5)
 wait_time = c(1, 6.5)

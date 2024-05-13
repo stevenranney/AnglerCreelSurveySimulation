@@ -65,7 +65,7 @@
 #' }
 #' 
 #' @export
-#' 
+#'
 
 
 estimate_ehat_variance <- function(data){
