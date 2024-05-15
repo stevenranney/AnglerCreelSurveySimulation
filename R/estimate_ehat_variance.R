@@ -70,8 +70,8 @@
 
 estimate_ehat_variance <- function(data){
   
-  var_est <- sum((data$Ehat - mean(data$Ehat))^2)
+  var_est <- var(data$Ehat)
   
-  (1/(nrow(data)*(nrow(data)-1)))*var_est
+  var_est/nrow(data)
   
 }
