@@ -6,25 +6,25 @@
 #' @description This function multiple outputs from \code{\link{simulate_bus_route}} 
 #' to estimate the variance in estimated effort, \eqn{\widehat{E}}.
 #' 
-#' @return The variance in estimated effort, \code{Ehat} (\eqn{\widehat{E}}), from Robson
+#' @return The total variance in estimated effort, \code{Ehat} (\eqn{\widehat{E}}), from Robson
 #' and Jones (1989) and Jones et al. (1990).
 #' 
 #' @param data A dataframe of output from \code{\link{simulate_bus_route}}.
 #' 
-#' @details The variance in \eqn{\widehat{E}} is estimated from multiple simulated surveys
-#' on a single theoretical day (Within-day variance of \eqn{\widehat{E}}. The variance is estimated by 
+#' @details The total variance in \eqn{\widehat{E}} is estimated from multiple simulated surveys
+#' on a single theoretical day. The variance is estimated by 
 #' 
 #' \deqn{\frac{1}{n(n-1)}\sum(\widehat{T}_{ph}-\overline{\widehat{T}}_{ph})^2}
 #' 
 #' where \eqn{\widehat{T}_{ph}} is the total estimated party hours for an individual survey 
 #' (i.e., \eqn{\widehat{E}}), and \eqn{\overline{\widehat{T}}_{ph}} is the mean of the \eqn{\widehat{E}}, 
 #' and \emph{n} is how many simulations were run. The equation above matches the variables
-#' used in Jones et al. (1990).
+#' used in Robson and Jones (1989) and Jones et al. (1990).
 #' 
 #' Jones et al. (1990) stated that estimating within-day variance would require
 #' several crews conducting two or more randomized surveys along a given route on the 
-#' same day. They use this conservative estimator of variance for building confidence 
-#' intervals around the estimates of effort.
+#' same day. Thus, this is total variance. They use this conservative estimator of 
+#' variance for building confidence intervals around the estimates of effort.
 #' 
 #' @references Jones, C. M., D. Robson, D. Otis, S. Gloss. 1990. Use of a computer 
 #' model to determine the behavior of a new survey estimator of recreational angling.
@@ -65,6 +65,7 @@
 #' }
 #' 
 #' @export
+#' @importFrom stats var
 #'
 
 

@@ -127,7 +127,7 @@ For incomplete surveys, *L~i~* represents an incomplete trip.
 ```{r}
 
 sim <- simulate_bus_route(start_time = 0, wait_time = 8, n_sites = 1, n_anglers = 100,
-                          sampling_prob = 8/12, mean_catch_rate = 2.5, fishing_day_length = 12)
+                          sampling_prob = 4/12, mean_catch_rate = 2.5, fishing_day_length = 12)
 
 sim
 
@@ -249,7 +249,7 @@ sampling_prob <- sum(wait_time)/fishing_day_length
 
 sim <- conduct_multiple_surveys(n_sims = 20, start_time = start_time, wait_time = wait_time,
                                 n_sites = n_sites, n_anglers = n_anglers, 
-                                sampling_prob = sampling_prob, mean_catch_rate = 2.5,
+                                sampling_prob = sampling_prob, mean_catch_rate = 2.5, 
                                 fishing_day_length = fishing_day_length)
 
 sim
@@ -289,7 +289,8 @@ sampling_prob <- 8/12
 sim_w <- conduct_multiple_surveys(n_sims = 8, start_time = start_time_w, 
                                   wait_time = wait_time_w, n_sites = n_sites, 
                                   n_anglers = n_anglers_w, sampling_prob = sampling_prob,
-                                  mean_catch_rate = 2.5, fishing_day_length = fishing_day_length)
+                                  mean_catch_rate = 2.5, 
+                                  fishing_day_length = fishing_day_length)
 
 sim_w
 
