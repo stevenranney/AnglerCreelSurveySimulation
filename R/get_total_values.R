@@ -95,8 +95,10 @@
 
 
 get_total_values <- function(data, start_time = NULL, end_time = NULL, 
-                             wait_time = NULL, sampling_prob = 1, 
+                             wait_time = NULL, fishing_day_length = 12, sampling_prob = 1, 
                              mean_catch_rate = NULL, scale = 1, ...){
+  
+  print(fishing_day_length)
 
   t_effort <- sum(data$trip_length)
   
@@ -122,7 +124,7 @@ get_total_values <- function(data, start_time = NULL, end_time = NULL,
   }
   
   if(is.null(start_time)){
-    start_time <- runif(1, 0, 11.5)
+    start_time <- runif(1, 0, fishing_day_length - .5)
   }
   
   # how long into the fishing day did the creel clerk arrive?
@@ -130,6 +132,7 @@ get_total_values <- function(data, start_time = NULL, end_time = NULL,
     end_time <- start_time + wait_time # how long into the fishing day did the creel clerk depart?
   }
    
+  sampling_prob <- wait_time/fishing_day_length
   
   ################
   #Effort of anglers that were onsite for the duration of the time that the clerk
