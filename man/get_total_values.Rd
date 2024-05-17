@@ -9,6 +9,7 @@ get_total_values(
   start_time = NULL,
   end_time = NULL,
   wait_time = NULL,
+  fishing_day_length = 12,
   sampling_prob = 1,
   mean_catch_rate = NULL,
   scale = 1,
