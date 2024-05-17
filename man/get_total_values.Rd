@@ -17,13 +17,15 @@ get_total_values(
 )
 }
 \arguments{
-\item{data}{The dataframe returned from \code{\link{make_anglers}}}
+\item{data}{A dataframe returned from \code{\link{make_anglers}}}
 
 \item{start_time}{The start time of the clerk.}
 
 \item{end_time}{the end time of the clerk.}
 
 \item{wait_time}{the wait time of the clerk.}
+
+\item{fishing_day_length}{the total length of the fishing day.}
 
 \item{sampling_prob}{The sampling probability of the survey. The default is 
 \code{1} but will need to be changed if the survey is conducted during only 
@@ -56,14 +58,14 @@ will be 0.5 (one-half hour).  If a value is passed to \code{end_time}, then
 \code{wait_time} becomes \code{end_time - start_time}.
 
 If \code{start_time=NULL}, then a \code{start_time} is generated from the 
-uniform distribution between \code{0} and \code{11.5} hours into the fishing day.
+uniform distribution between \code{0} and \code{fishing_day_length - 0.5} hours into the fishing day.
 
 If \code{end_time=NULL}, then \code{end_time = start_time+wait_time}
 
 Incomplete trip effort is observed two ways: 1) by counting anglers 
 that were at the site for the entire time that the surveyor was at the site
 and 2) counting anglers that arrived after the surveyor arrived at the site
-but remained at the site after the surveyor left.  These anglers are counted
+and remained at the site after the surveyor left.  These anglers are counted
 and their effort calculated based upon surveyor \code{start_time} and \code{end_time}.
 
 Completed trip effort is observed two ways: 1) by interviewing anglers 
