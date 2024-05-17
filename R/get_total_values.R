@@ -98,13 +98,13 @@ get_total_values <- function(data, start_time = NULL, end_time = NULL,
                              wait_time = NULL, fishing_day_length = 12, sampling_prob = 1, 
                              mean_catch_rate = NULL, scale = 1, ...){
   
-  print(fishing_day_length)
-
   t_effort <- sum(data$trip_length)
   
   n_anglers <- nrow(data)
 
-  lambda <- rgamma(n_anglers, mean_catch_rate, scale = scale)
+  # print(n_anglers, mean_catch_rate, scale)
+  
+  lambda <- rgamma(n = n_anglers, shape = mean_catch_rate, scale = scale)
   
   #Calculate true total catch for all anglers
   total_catch <- sum(data$trip_length * lambda)  
@@ -133,6 +133,7 @@ get_total_values <- function(data, start_time = NULL, end_time = NULL,
   }
    
   sampling_prob <- wait_time/fishing_day_length
+#  print(paste0("sampling_prob = ", sampling_prob))
   
   ################
   #Effort of anglers that were onsite for the duration of the time that the clerk
@@ -192,7 +193,14 @@ get_total_values <- function(data, start_time = NULL, end_time = NULL,
   
 
   #Scale triplength based upon the sampling probability
-  data$trip_length_adj <- data$trip_length/sampling_prob
+  data <- 
+    data %>%
+    mutate(trip_length_adj = trip_length/sampling_prob, 
+           trip_length_adj = ifelse(trip_length_adj > fishing_day_length, 
+                                    fishing_day_length, 
+                                    trip_length_adj))
+  
+  # print(data %>% head(10))
   
   observed_trips <- data$trip_length_adj[c(entire_time,  arrivals, which_angler_departures, which_arr_dep)]
   n_observed_trips <- length(observed_trips)

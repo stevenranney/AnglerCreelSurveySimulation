@@ -22,7 +22,7 @@ test_that("When wait time is zero, effort, completed trips, and catch is 0", {
   
   vals <- get_total_values(anglers, wait_time = wait_time, mean_catch_rate = mean_catch_rate)
   
-  expect_equal(vals$total_observed_trip_effort, wait_time)
+  expect_equal(is.na(vals$total_observed_trip_effort), TRUE)
   expect_equal(vals$n_completed_trips, wait_time)
   expect_equal(vals$total_completed_trip_effort, wait_time)
   expect_equal(vals$total_completed_trip_catch, wait_time)

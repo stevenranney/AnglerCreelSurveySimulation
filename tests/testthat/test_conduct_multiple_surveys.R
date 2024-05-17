@@ -12,8 +12,10 @@ test_that("Conducting n_simulations produces n_sims rows", {
   sampling_prob <- wait_time/fishing_day_length
   
   vals <- conduct_multiple_surveys(n_sims = n_sims, 
-                                   start_time = start_time, wait_time = wait_time, 
-                                   n_anglers = n_anglers, n_sites = n_sites, 
+                                   start_time = start_time,
+                                   wait_time = wait_time, 
+                                   n_anglers = n_anglers, 
+                                   n_sites = n_sites, 
                                    sampling_prob = sampling_prob, 
                                    mean_catch_rate = mean_catch_rate,
                                    fishing_day_length = fishing_day_length)
