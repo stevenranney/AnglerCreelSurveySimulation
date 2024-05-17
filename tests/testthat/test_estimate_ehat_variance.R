@@ -20,7 +20,13 @@ test_that("The estimate of ehat variance is > 0", {
   
   for(i in 1:times){
     
-    sims[i, ] <- simulate_bus_route(start_time, wait_time, n_anglers, n_sites, sampling_prob, mean_catch_rate)
+    sims[i, ] <- simulate_bus_route(start_time = start_time, 
+                                    wait_time = wait_time, 
+                                    n_anglers = n_anglers, 
+                                    n_site = n_sites, 
+                                    sampling_prob = sampling_prob,
+                                    mean_catch_rate = mean_catch_rate, 
+                                    fishing_day_length = fishing_day_length)
     
   }
   
