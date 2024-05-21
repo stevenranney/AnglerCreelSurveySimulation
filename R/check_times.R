@@ -53,7 +53,7 @@ check_times <- function(
     start_time = NULL, 
     wait_time = NULL, 
     end_time = NULL, 
-    fishing_day_length = 12){
+    fishing_day_length = NULL){
   
   not_nulls <- sum(c(!is.null(start_time), !is.null(wait_time), !is.null(end_time)))
   
