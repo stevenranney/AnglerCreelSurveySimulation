@@ -8,11 +8,9 @@ test_that("Simulating a bus route provides output", {
   n_anglers <- 100
   n_sites <- 1
   mean_catch_rate <- 4
-  sampling_prob <- wait_time/fishing_day_length
-  
+
   vals <- simulate_bus_route(start_time = start_time, wait_time = wait_time, 
                              n_anglers = n_anglers, n_sites = n_sites, 
-                             sampling_prob = sampling_prob, 
                              mean_catch_rate = mean_catch_rate,
                              fishing_day_length = fishing_day_length)
   
@@ -28,11 +26,9 @@ test_that("Simulating a bus route with 0 wait time provides output for only some
   n_anglers <- 100
   n_sites <- 1
   mean_catch_rate <- 4
-  sampling_prob <- wait_time/fishing_day_length
-  
+
   vals <- simulate_bus_route(start_time = start_time, wait_time = wait_time, 
                              n_anglers = n_anglers, n_sites = n_sites, 
-                             sampling_prob = sampling_prob, 
                              mean_catch_rate = mean_catch_rate,
                              fishing_day_length = fishing_day_length)
   
@@ -47,12 +43,10 @@ test_that("When wait time = fishing day length, true_effort = Ehat", {
   fishing_day_length <- 12
   n_anglers <- 100
   n_sites <- 1
-  sampling_prob <- sum(wait_time)/fishing_day_length
   mean_catch_rate <- 2.5
   
   vals <- simulate_bus_route(start_time = start_time, wait_time = wait_time, 
                              n_anglers = n_anglers, n_sites = n_sites, 
-                             sampling_prob = sampling_prob, 
                              mean_catch_rate = mean_catch_rate,
                              fishing_day_length = fishing_day_length)
   
