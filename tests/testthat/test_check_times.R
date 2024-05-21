@@ -1,4 +1,4 @@
-context("Test of assign_times")
+context("Tests of check_times")
 
 test_that("Test that function fails when no times are provided.", {
   
