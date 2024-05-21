@@ -50,7 +50,7 @@ make_anglers <- function(n_anglers = 100,
                          scale = 1){
   
   i=1
-  
+
   startTime=tripLength=departureTime=NULL
   
   while(i <= n_anglers){
