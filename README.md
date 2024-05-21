@@ -1,7 +1,7 @@
 
 <!-- badges: start -->
 
-[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![Lifecycle:experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![Travis-CI Build Status](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation.svg?branch=master)](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation)
 [![R-CMD-check](https://github.com/stevenranney/AnglerCreelSurveySimulation/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stevenranney/AnglerCreelSurveySimulation/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/github/stevenranney/AnglerCreelSurveySimulation/branch/master/graphs/badge.svg)](https://codecov.io/github/stevenranney/AnglerCreelSurveySimulation) 
@@ -17,7 +17,7 @@
 
 Creel surveys allow fisheries scientists and managers the ability to sample anglers in a fishery and achieve statistically-valid estimates of catch rate, harvest rate, and in some cases, fish populations.  Depending upon the size of the fishery, creel surveys can be challenging to implement correctly.  Further, creel surveys can be costly.  Much research has been spent on identifying methods for creel surveys.  However, relatively little research time has been spent on answering the question _what is the best creel-survey type to implement in **my** fishery?_  The package(s) and code contained in this repository include functions to allow fisheries managers the ability to simulate a creel survey with *a priori* data.
 
-Install the released version of the `AnglerCreelSurveySimulation` from CRAN:
+Install the stable released version of `AnglerCreelSurveySimulation` from CRAN:
 
 ```r
 
