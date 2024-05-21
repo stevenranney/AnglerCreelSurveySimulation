@@ -9,7 +9,6 @@ simulate_bus_route(
   wait_time,
   n_anglers,
   n_sites,
-  sampling_prob = 1,
   mean_catch_rate,
   ...
 )
@@ -27,11 +26,6 @@ vector of wait times to simulate a bus route or one \code{waitTime} to simulate
 for single sites}
 
 \item{n_sites}{The number of sites being visited.}
-
-\item{sampling_prob}{What is the sampling probability for the survey? If all 
-sites will be visited during the first or second half of the fishing day, 
-\code{samplingProb=0.5}.  If the survey will take the entire fishing day, then 
-\code{samplingProb=1}.}
 
 \item{mean_catch_rate}{The mean catch rate for the fishery}
 
@@ -55,13 +49,13 @@ Effort and catch are estimated from the the Bus Route Estimator
 equation in Robson and Jones (1989), Jones and Robson (1991; eqn. 1) and Pollock 
 et al. 1994.
 
-The bus route estimator is 
-\deqn{\widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{\frac{e_{ij}}{\pi_{j}}}}
-where \emph{E} = estimated total party-hours of effort; \emph{T} = total time 
-to complete a full circuit of the route, including traveling and waiting; 
-\emph{\eqn{w_i}} = waiting time at the \emph{\eqn{i^{th}}} site 
-(where \emph{i} = 1, ..., \emph{n} sites); \emph{\eqn{e_{ij}}} = 
-total time that the \emph{\eqn{j^{th}}} car is parked at the \emph{\eqn{i^{th}}} 
+The bus route estimator is
+\deqn{\widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{e_{ij}}}
+where \emph{E} = estimated total party-hours of effort; \emph{T} = total time
+to complete a full circuit of the route, including traveling and waiting;
+\emph{\eqn{w_i}} = waiting time at the \emph{\eqn{i^{th}}} site
+(where \emph{i} = 1, ..., \emph{n} sites); \emph{\eqn{e_{ij}}} =
+total time that the \emph{\eqn{j^{th}}} car is parked at the \emph{\eqn{i^{th}}}
 site while the agent is at that site (where \emph{j} = 1, ..., \emph{n} sites).
 
 Catch rate is calculated from the Ratio of Means equation (see 

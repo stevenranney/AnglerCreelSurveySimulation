@@ -9,8 +9,8 @@ get_total_values(
   start_time = NULL,
   end_time = NULL,
   wait_time = NULL,
-  fishing_day_length = 12,
-  sampling_prob = 1,
+  circuit_time = 8,
+  fishing_day_length = NULL,
   mean_catch_rate = NULL,
   scale = 1,
   ...
@@ -25,12 +25,7 @@ get_total_values(
 
 \item{wait_time}{the wait time of the clerk.}
 
-\item{fishing_day_length}{the total length of the fishing day.}
-
-\item{sampling_prob}{The sampling probability of the survey. The default is 
-\code{1} but will need to be changed if the survey is conducted during only 
-half of the fishing day (i.e., \code{.5}) or over longer time periods (e.g., 
-\code{9.5/12}, if the survey is 9.5 hours long and the fishing day length is 12 hours)}
+\item{circuit_time}{the total time it takes a surveyor to complete their sampling circuit.}
 
 \item{mean_catch_rate}{The mean catch rate for the fishery.}
 
