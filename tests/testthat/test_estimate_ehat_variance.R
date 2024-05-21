@@ -7,7 +7,6 @@ test_that("The estimate of ehat variance is > 0", {
   fishing_day_length <- 12
   n_anglers = c(50, 300)
   n_sites = 2
-  sampling_prob <- sum(wait_time)/fishing_day_length
   mean_catch_rate <- 2.5
   
   times <- 10
@@ -24,7 +23,6 @@ test_that("The estimate of ehat variance is > 0", {
                                     wait_time = wait_time, 
                                     n_anglers = n_anglers, 
                                     n_site = n_sites, 
-                                    sampling_prob = sampling_prob,
                                     mean_catch_rate = mean_catch_rate, 
                                     fishing_day_length = fishing_day_length)
     
