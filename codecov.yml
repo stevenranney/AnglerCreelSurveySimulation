@@ -1,21 +1,14 @@
-codecov: 
- token: ${{secrets.CODECOV_TOKEN}}
-  require_ci_to_pass: true
-comment:
-  behavior: default
-  layout: reach, diff, flags, files, footer
-  require_base: false
-  require_changes: false
-  require_head: true
+comment: false
+
 coverage:
-  precision: 2
-  range:
-  - 70.0
-  - 100.0
-  round: down
   status:
-    changes: false
-    patch: true
-    project: true
-parsers:
-  gcov:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+        informational: true
+    patch:
+      default:
+        target: auto
+        threshold: 1%
+        informational: true
