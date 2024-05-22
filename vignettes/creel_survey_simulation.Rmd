@@ -79,7 +79,8 @@ For this walk through, we'll schedule the surveyor to work for a total of eight 
 ```{r}
 
 anglers %>%
-  get_total_values(start_time = 0, wait_time = 8, sampling_prob = 8/12, mean_catch_rate = 2.5)
+  get_total_values(start_time = 0, wait_time = 8, circuit_time  = 8, mean_catch_rate = 2.5, 
+                   fishing_day_length = 12)
 
 ```
 
@@ -127,7 +128,7 @@ For incomplete surveys, *L~i~* represents an incomplete trip.
 ```{r}
 
 sim <- simulate_bus_route(start_time = 0, wait_time = 8, n_sites = 1, n_anglers = 100,
-                          sampling_prob = 4/12, mean_catch_rate = 2.5, fishing_day_length = 12)
+                          mean_catch_rate = 2.5, fishing_day_length = 12)
 
 sim
 
@@ -142,7 +143,7 @@ With information about the fishery, the start and wait times of the surveyor, th
 ```{r}
 
 sim <- conduct_multiple_surveys(n_sims = 20, start_time = 0, wait_time = 8, n_sites = 1,
-                                n_anglers = 100, sampling_prob = 8/12, 
+                                n_anglers = 100, 
                                 mean_catch_rate = 2.5, fishing_day_length = 12)
 
 sim
@@ -211,8 +212,8 @@ wait_time <- 12
 sampling_prob <- 1
 
 sim <- conduct_multiple_surveys(n_sims = 20, start_time = start_time, wait_time = wait_time,
-                                n_sites = 1, n_anglers = 100, sampling_prob = 1, 
-                                mean_catch_rate = 2.5, fishing_day_length = 12)
+                                n_sites = 1, n_anglers = 100, 
+                                mean_catch_rate = 2.5, fishing_day_length = wait_time)
 
 sim
 
@@ -245,11 +246,11 @@ wait_time <- c(4, 3.5)
 n_sites = 2
 n_anglers <- c(50, 50)
 fishing_day_length <- 12
-sampling_prob <- sum(wait_time)/fishing_day_length
+# sampling_prob <- sum(wait_time)/fishing_day_length
 
 sim <- conduct_multiple_surveys(n_sims = 20, start_time = start_time, wait_time = wait_time,
                                 n_sites = n_sites, n_anglers = n_anglers, 
-                                sampling_prob = sampling_prob, mean_catch_rate = 2.5, 
+                                mean_catch_rate = 2.5, 
                                 fishing_day_length = fishing_day_length)
 
 sim
@@ -288,7 +289,7 @@ sampling_prob <- 8/12
 
 sim_w <- conduct_multiple_surveys(n_sims = 8, start_time = start_time_w, 
                                   wait_time = wait_time_w, n_sites = n_sites, 
-                                  n_anglers = n_anglers_w, sampling_prob = sampling_prob,
+                                  n_anglers = n_anglers_w, 
                                   mean_catch_rate = 2.5, 
                                   fishing_day_length = fishing_day_length)
 
