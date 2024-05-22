@@ -77,7 +77,7 @@
 #' 
 #' make_anglers(100) %>%  
 #'   get_total_values(start_time = start_time, 
-#'                    end_time = end_time, mean_catch_rate = mean_catch_rate
+#'                    end_time = end_time, mean_catch_rate = mean_catch_rate,
 #'                    fishing_day_length = fishing_day_length)
 #' 
 #' start_time <- .001 #start of fishing day
