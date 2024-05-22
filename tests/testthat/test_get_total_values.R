@@ -56,3 +56,41 @@ test_that("True effort is the same as the sum of anglers$trip_length", {
   expect_equal(sum(anglers$trip_length), vals$true_effort)
 
 })
+
+test_that("True effort is the same as the sum of anglers$trip_length when start_time is NULL", {
+  
+  anglers <- make_anglers()
+  
+  wait_time <- 2
+  end_time <- 6
+  mean_catch_rate <- 3
+  
+  vals <- get_total_values(anglers,
+                           start_time = NULL,
+                           wait_time = wait_time,
+                           end_time = end_time,
+                           mean_catch_rate = mean_catch_rate,
+                           fishing_day_length = 12)
+  
+  expect_equal(sum(anglers$trip_length), vals$true_effort)
+  
+})
+
+test_that("True effort is the same as the sum of anglers$trip_length when wait_time is NULL", {
+  
+  anglers <- make_anglers()
+  
+  start_time <- 2
+  end_time <- 6
+  mean_catch_rate <- 3
+  
+  vals <- get_total_values(anglers,
+                           start_time = start_time,
+                           wait_time = NULL,
+                           end_time = end_time,
+                           mean_catch_rate = mean_catch_rate,
+                           fishing_day_length = 12)
+  
+  expect_equal(sum(anglers$trip_length), vals$true_effort)
+  
+})
