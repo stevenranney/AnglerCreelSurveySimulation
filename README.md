@@ -1,7 +1,7 @@
 
 <!-- badges: start -->
 
-[![Lifecycle:experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![Lifecycle:experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![Travis-CI Build Status](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation.svg?branch=master)](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation)
 [![R-CMD-check](https://github.com/stevenranney/AnglerCreelSurveySimulation/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stevenranney/AnglerCreelSurveySimulation/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/github/stevenranney/AnglerCreelSurveySimulation/branch/master/graphs/badge.svg)](https://codecov.io/github/stevenranney/AnglerCreelSurveySimulation) 
