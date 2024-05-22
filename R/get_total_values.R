@@ -13,11 +13,13 @@
 #' 
 #' @param start_time The start time of the clerk.
 #' 
-#' @param end_time the end time of the clerk.
+#' @param end_time The end time of the clerk.
 #' 
-#' @param wait_time the wait time of the clerk.
+#' @param wait_time The wait time of the clerk.
 #' 
-#' @param circuit_time the total time it takes a surveyor to complete their sampling circuit.
+#' @param circuit_time The total time it takes a surveyor to complete their sampling circuit.
+#' 
+#' @param fishing_day_length The length of the fishing day, in hours.
 #' 
 #' @param mean_catch_rate The mean catch rate for the fishery.
 #' 

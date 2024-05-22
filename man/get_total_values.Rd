@@ -21,11 +21,13 @@ get_total_values(
 
 \item{start_time}{The start time of the clerk.}
 
-\item{end_time}{the end time of the clerk.}
+\item{end_time}{The end time of the clerk.}
 
-\item{wait_time}{the wait time of the clerk.}
+\item{wait_time}{The wait time of the clerk.}
 
-\item{circuit_time}{the total time it takes a surveyor to complete their sampling circuit.}
+\item{circuit_time}{The total time it takes a surveyor to complete their sampling circuit.}
+
+\item{fishing_day_length}{The length of the fishing day, in hours.}
 
 \item{mean_catch_rate}{The mean catch rate for the fishery.}
 
