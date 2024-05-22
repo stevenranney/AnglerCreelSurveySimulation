@@ -1,5 +1,5 @@
 codecov: 
-  token: c5c35f59-e945-46e1-bc90-1e476405dbaa
+ token: c5c35f59-e945-46e1-bc90-1e476405dbaa
   require_ci_to_pass: true
 comment:
   behavior: default
