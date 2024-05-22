@@ -35,14 +35,21 @@
 #' end_time = NULL
 #' wait_time = NULL
 #' 
-#' assign_generic_wait_time(start_time = start_time, end_time = end_time, wait_time = wait_time, 
+#' check_times(start_time = start_time, end_time = end_time, wait_time = wait_time, 
 #' fishing_day_length = 12)
 #' 
 #' start_time = 2
 #' end_time = NULL
 #' wait_time = NULL
 #'
-#' assign_generic_wait_time(start_time = start_time, end_time = end_time, wait_time = wait_time, 
+#' check_times(start_time = start_time, end_time = end_time, wait_time = wait_time, 
+#' fishing_day_length = 8)
+#'
+#' start_time = 2
+#' end_time = 6
+#' wait_time = NULL
+#'
+#' check_times(start_time = start_time, end_time = end_time, wait_time = wait_time, 
 #' fishing_day_length = 8)
 #'                    
 #' @export
