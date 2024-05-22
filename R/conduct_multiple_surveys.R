@@ -17,12 +17,12 @@
 #' @param ... Arguments to be passed to other subfunctions
 #' 
 #' @details Because this function is merely a wrapper for the \code{\link{simulate_bus_route}}
-#' code, the user still needs to set \code{start_time}, \code{wait_time}, 
-#' \code{n_anglers}, \code{n_sites}, \code{fishing_day_length}, and \code{sampling_prob} as objects.  These 
-#' can be passed through the \code{...} argument or through setting \code{wait_time}
-#' and others outside of the function call itself.
+#' code, the user still needs to set two of \code{start_time}, \code{wait_time}, and \code{end_time},
+#' \code{n_anglers}, \code{n_sites}, and \code{fishing_day_length} as objects.  These 
+#' can be passed through the \code{...} argument.
 #' 
 #' @seealso \code{\link{make_anglers}}
+#' @seealso \code{\link{check_times}}
 #' @seealso \code{\link{get_total_values}}
 #' @seealso \code{\link{simulate_bus_route}}
 #' 
@@ -34,7 +34,6 @@
 #' n_anglers <- c(10,10,50) 
 #' n_sites <- 3
 #' fishing_day_length <- 12
-#' sampling_prob <- sum(wait_time)/fishing_day_length
 #' mean_catch_rate <- 3
 #' 
 #' n_sims <- 10
@@ -43,7 +42,7 @@
 #' 
 #' conduct_multiple_surveys(n_sims = n_sims, start_time = start_time, wait_time = wait_time, 
 #'                          n_anglers = n_anglers, n_sites = n_sites, 
-#'                          sampling_prob = sampling_prob, mean_catch_rate = mean_catch_rate, 
+#'                          mean_catch_rate = mean_catch_rate, 
 #'                          fishing_day_length = fishing_day_length)
 #' 
 #' #Simulation 2
@@ -52,11 +51,10 @@
 #' n_anglers <- 100
 #' n_sites <- 1
 #' fishing_day_length <- 10
-#' sampling_prob <- 8/fishing_day_length
 #' mean_catch_rate <- 2.5
 #' 
 #' #One survey/week for a year
-#' conduct_multiple_surveys(n_sims = 52, start_time, wait_time, n_anglers, n_sites, sampling_prob, 
+#' conduct_multiple_surveys(n_sims = 52, start_time, wait_time, n_anglers, n_sites, 
 #'                          mean_catch_rate, fishing_day_length = fishing_day_length)
 #'                          
 #' @export                          
