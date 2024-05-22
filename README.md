@@ -1,17 +1,20 @@
 
+# AnglerCreelSurveySimulation
+
 <!-- badges: start -->
 
 [![Lifecycle:experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![Travis-CI Build Status](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation.svg?branch=master)](https://travis-ci.org/stevenranney/AnglerCreelSurveySimulation)
 [![R-CMD-check](https://github.com/stevenranney/AnglerCreelSurveySimulation/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stevenranney/AnglerCreelSurveySimulation/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/github/stevenranney/AnglerCreelSurveySimulation/branch/master/graphs/badge.svg)](https://codecov.io/github/stevenranney/AnglerCreelSurveySimulation) 
-[![License](https://img.shields.io/badge/license-GPL0%28%3E=03%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
+[![codecov](https://codecov.io/github/stevenranney/AnglerCreelSurveySimulation/graph/badge.svg?token=CB1fGD69Bh)](https://codecov.io/github/stevenranney/AnglerCreelSurveySimulation)[![License](https://img.shields.io/badge/license-GPL0%28%3E=03%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/AnglerCreelSurveySimulation)](https://cran.r-project.org/package=AnglerCreelSurveySimulation)
 ![](https://cranlogs.r-pkg.org/badges/grand-total/AnglerCreelSurveySimulation?color=brightgreen)
 
 <!--badges: end -->
 
-*Functions to allow fisheries managers to simulate a bus route creel survey*
+## Overview
+
+Functions to allow fisheries managers to simulate a bus route creel survey
 
 * [Submit bugs and feature requests](https://github.com/stevenranney/AnglerCreelSurveySimulation/issues)
 
