@@ -126,9 +126,9 @@ simulate_bus_route <- function(start_time, wait_time, n_anglers, n_sites,
          ifelse(n_sites != length(start_time) & length(wait_time), 
                 stop("n_sites must be equal to both start_time and wait_time"), 
                 ifelse(circuit_time > extra$fishing_day_length, 
-                       stop("The total time it takes for a surveyor to complete their route is 
-                            greater than the fishing_day_length. Shorten the circuit time or 
-                            make fishing_day_length longer."), 
+                       stop("The total time it takes for a surveyor to complete their route\n
+                            is greater than the fishing_day_length. Shorten the circuit time\n
+                            or make fishing_day_length longer."), 
                        NA)))
 
   #Create a dataFrame to fill with the results
