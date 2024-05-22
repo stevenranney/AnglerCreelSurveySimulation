@@ -3,11 +3,11 @@ bibtype = "manual",
     header = "To cite AnglerCreelSurveySimulation in publications, please use",
     author = "Steven H. Ranney",
     title = "{AnglerCreelSurveySimulation}: Simulate an angler creel survey",
-    note = "version 1.0.3",
+    note = "version 1.0.4",
     year = "2024",
     url = "https://CRAN.R-project.org/package=AnglerCreelSurveySimulation",
     textVersion  = paste("Ranney, S. H. 2024.",
         "AnglerCreelSurveySimulation: Simulate an angler creel survey.",
-        "version 1.0.3",
+        "version 1.0.4",
         "https://CRAN.R-project.org/package=AnglerCreelSurveySimulation")
 )

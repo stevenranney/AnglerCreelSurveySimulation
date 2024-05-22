@@ -1,6 +1,6 @@
 Package: AnglerCreelSurveySimulation
-Version: 1.0.4
-Date: 2024-05-17
+Version: 1.0.5
+Date: 2024-05-22
 Title: Simulate a Bus Route Creel Survey of Anglers
 Authors@R: c(
   person("Ranney", "Steven H.", , "Steven.Ranney@gmail.com", role = c('aut', 'cre'),
