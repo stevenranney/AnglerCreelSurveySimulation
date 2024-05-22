@@ -23,13 +23,11 @@ check_times(
 
 \item{fishing_day_length}{the total length of the fishing day, in hours, as \code{int}. 0800hrs to 2000hrs = 
 fishing_day_length of 12 hours.}
-
-\item{circuit_time}{the total time it takes a surveyor to complete their sampling circuit.}
 }
 \description{
 This is a helper function used in \code{get_total_value} to check that 
-surveyor for \code{start_time}, \code{wait_time}, or \code{end_time} 
-are valid.
+surveyor for \code{start_time}, \code{wait_time}, \code{end_time}, 
+and \code{fishing_day_length} are valid.
 }
 \details{
 Two of the three \code{start_time}, \code{wait_time}, or \code{end_time} must be 
@@ -39,18 +37,26 @@ provided. The third will be calculated.
 library(dplyr)   
 set.seed(256)
 
-start_time = NULL
-end_time = NULL
-wait_time = NULL
+start_time <- NULL
+end_time <- NULL
+wait_time <- NULL
 
-assign_generic_wait_time(start_time = start_time, end_time = end_time, wait_time = wait_time, 
-fishing_day_length = 12)
+\dontrun{check_times(start_time = start_time, end_time = end_time, wait_time = wait_time, 
+fishing_day_length = 12)}
 
-start_time = 2
-end_time = NULL
-wait_time = NULL
+start_time <- 2
+end_time <- NULL
+wait_time <- NULL
 
-assign_generic_wait_time(start_time = start_time, end_time = end_time, wait_time = wait_time, 
+\dontrun{check_times(start_time = start_time, end_time = end_time, wait_time = wait_time, 
+fishing_day_length = 8)}
+
+start_time <- 2
+end_time <- 6
+wait_time <- NULL
+fishing_day_length <- 8
+
+check_times(start_time = start_time, end_time = end_time, wait_time = wait_time, 
 fishing_day_length = 8)
                    
 }
