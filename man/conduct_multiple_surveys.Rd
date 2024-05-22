@@ -41,9 +41,9 @@ n_sims <- 10
 
 set.seed(256)
 
-conduct_multiple_surveys(n_sims = n_sims, start_time = start_time, wait_time = wait_time, 
-                         n_anglers = n_anglers, n_sites = n_sites, 
-                         mean_catch_rate = mean_catch_rate, 
+conduct_multiple_surveys(n_sims = n_sims, start_time = start_time, 
+                         wait_time = wait_time, n_anglers = n_anglers, 
+                         n_sites = n_sites, mean_catch_rate = mean_catch_rate, 
                          fishing_day_length = fishing_day_length)
 
 #Simulation 2
@@ -55,8 +55,10 @@ fishing_day_length <- 10
 mean_catch_rate <- 2.5
 
 #One survey/week for a year
-conduct_multiple_surveys(n_sims = 52, start_time, wait_time, n_anglers, n_sites, 
-                         mean_catch_rate, fishing_day_length = fishing_day_length)
+conduct_multiple_surveys(n_sims = 52, start_time = start_time, 
+                         wait_time = wait_time, n_anglers = n_anglers, 
+                         n_sites = n_sites, mean_catch_rate, 
+                         fishing_day_length = fishing_day_length)
                          
 }
 \seealso{
