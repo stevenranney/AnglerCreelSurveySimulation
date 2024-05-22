@@ -30,8 +30,8 @@ can be passed through the \code{...} argument.
 \examples{
 
 #Simulation 1
-start_time <- c(1, 3.5, 6.5) 
-wait_time <- c(2, 2, 3) 
+start_time <- c(1, 3.5, 5.75) 
+wait_time <- c(2, 2, 1) 
 n_anglers <- c(10,10,50) 
 n_sites <- 3
 fishing_day_length <- 12
