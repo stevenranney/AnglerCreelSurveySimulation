@@ -122,3 +122,33 @@ test_that("Test that calculated end_time does not extend beyond fishing_day_leng
   
   
 })
+
+test_that("Test that start_time can not be > end_time.", {
+  
+  start_time <- 5
+  end_time <- 3
+  fishing_day_length <- 8
+  
+  expect_error(check_times(start_time = start_time, 
+                           end_time = end_time, 
+                           wait_time = NULL, 
+                           fishing_day_length = fishing_day_length), 
+               "start_time cannot be greater than end_time.")
+  
+  
+})
+
+test_that("Test that start_time can not be > fishing_day_length", {
+  
+  start_time <- 5
+  end_time <- 3
+  fishing_day_length <- 4
+  
+  expect_error(check_times(start_time = start_time, 
+                           end_time = end_time, 
+                           wait_time = NULL, 
+                           fishing_day_length = fishing_day_length), 
+               "start_time cannot be greater than fishing_day_length.")
+  
+  
+})
