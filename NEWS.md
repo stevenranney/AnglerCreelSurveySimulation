@@ -1,8 +1,10 @@
 
-# v1.0.4
+# v1.0.5
 
-* Cleaned up a number of functions
-* Potential bug fixes
+* Cleaned up a number of functions, including calculating sampling probability from wait time and circuit length
+* Added `check_times.R` to check for missingness on important data
+* Added many more unit tests
+* Cleaned up cruft
 
 # v1.0.3
 
