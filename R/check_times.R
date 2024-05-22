@@ -6,7 +6,7 @@
 #' 
 #' @author Steven H. Ranney
 #' 
-#' @description This is a helper function used in \code{get_total_value\} to check that 
+#' @description This is a helper function used in \code{get_total_value} to check that 
 #' surveyor for \code{start_time}, \code{wait_time}, or \code{end_time} 
 #' are valid. 
 #' 

@@ -23,10 +23,6 @@
 #' @param n_anglers the number of anglers at each site, either a vector or a single number
 #' for single sites
 #' @param n_sites The number of sites being visited.
-#' @param sampling_prob What is the sampling probability for the survey? If all 
-#' sites will be visited during the first or second half of the fishing day, 
-#' \code{samplingProb=0.5}.  If the survey will take the entire fishing day, then 
-#' \code{samplingProb=1}.
 #' @param mean_catch_rate The mean catch rate for the fishery
 #' @param ... Arguments to be passed to other subfunctions, specifically to the 
 #' \code{\link{make_anglers}} function, including \code{mean_trip_length} and 
@@ -39,13 +35,13 @@
 #' equation in Robson and Jones (1989), Jones and Robson (1991; eqn. 1) and Pollock 
 #' et al. 1994.
 #' 
-#' @details The bus route estimator is 
-#' \deqn{\widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{\frac{e_{ij}}{\pi_{j}}}}
-#' where \emph{E} = estimated total party-hours of effort; \emph{T} = total time 
-#' to complete a full circuit of the route, including traveling and waiting; 
-#' \emph{\eqn{w_i}} = waiting time at the \emph{\eqn{i^{th}}} site 
-#' (where \emph{i} = 1, ..., \emph{n} sites); \emph{\eqn{e_{ij}}} = 
-#' total time that the \emph{\eqn{j^{th}}} car is parked at the \emph{\eqn{i^{th}}} 
+#' @details The bus route estimator is
+#' \deqn{\widehat{E} = T\sum\limits_{i=1}^n{\frac{1}{w_{i}}}\sum\limits_{j=1}^m{e_{ij}}}
+#' where \emph{E} = estimated total party-hours of effort; \emph{T} = total time
+#' to complete a full circuit of the route, including traveling and waiting;
+#' \emph{\eqn{w_i}} = waiting time at the \emph{\eqn{i^{th}}} site
+#' (where \emph{i} = 1, ..., \emph{n} sites); \emph{\eqn{e_{ij}}} =
+#' total time that the \emph{\eqn{j^{th}}} car is parked at the \emph{\eqn{i^{th}}}
 #' site while the agent is at that site (where \emph{j} = 1, ..., \emph{n} sites).
 #' 
 #' 
@@ -117,13 +113,23 @@
 #' @export
 
 
-simulate_bus_route <- function(start_time, wait_time, n_anglers, n_sites, 
-                               sampling_prob = 1, mean_catch_rate, ... ){
+simulate_bus_route <- function(start_time, wait_time, n_anglers, n_sites,
+                               mean_catch_rate, ... ){
+  
+  extra <- list(...)
+
+  circuit_time <- sum(wait_time, start_time[length(wait_time)])
   
   # Check for errors:
-  ifelse(length(start_time) != length(wait_time), stop("start_time length must equal wait_time length"), 
-         ifelse(n_sites != length(start_time) & length(wait_time), stop("n_sites must be equal to both start_time and wait_time"), 
-                NA))
+  ifelse(length(start_time) != length(wait_time), 
+         stop("start_time length must equal wait_time length"), 
+         ifelse(n_sites != length(start_time) & length(wait_time), 
+                stop("n_sites must be equal to both start_time and wait_time"), 
+                ifelse(circuit_time > extra$fishing_day_length, 
+                       stop("The total time it takes for a surveyor to complete their route is 
+                            greater than the fishing_day_length. Shorten the circuit time or 
+                            make fishing_day_length longer."), 
+                       NA)))
 
   #Create a dataFrame to fill with the results
   dF <- as.data.frame(matrix(data = NA, nrow = n_sites, ncol = 10, byrow=TRUE))
@@ -135,13 +141,23 @@ simulate_bus_route <- function(start_time, wait_time, n_anglers, n_sites,
   #Run make_anglers() and get_total_values() iteratively for however many sites are 
   # provided in the n_sites argument
   for(i in 1:nrow(dF)){
-    tmp <- make_anglers(n_anglers=n_anglers[i], ...)
-    dF[i,] <- get_total_values(data = tmp, t_effort = sum(tmp$triplength), n_anglers = length(tmp$start_time), 
-                               start_time = start_time[i], wait_time = wait_time[i], 
-                               end_time = NULL, sampling_prob, mean_catch_rate, ...)
+    tmp <- make_anglers(n_anglers=n_anglers[i], ...) 
+                        # fishing_day_length = extra$fishing_day_length, ...)
+    dF[i,] <- get_total_values(data = tmp, 
+                               start_time = start_time[i], 
+                               wait_time = wait_time[i], 
+                               end_time = NULL, 
+                               # fishing_day_length = extra$fishing_day_length,
+                               circuit_time = circuit_time,  
+                               mean_catch_rate = mean_catch_rate, ...)
   }  
   
-  bigT <- (start_time + wait_time)[length(start_time + wait_time)]-start_time[1]
+  out_data <<- dF
+  
+  # total time required for survey agent to complete the route, including wait times
+  # and travel time
+  bigT <- (start_time + wait_time)[length(start_time)]
+  # bigT <- (start_time + wait_time)[length(start_time + wait_time)]-start_time[1]
 
   #########
   #Calculate estimated effort (Ehat) based upon the bigT equation

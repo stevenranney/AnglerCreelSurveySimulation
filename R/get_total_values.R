@@ -17,12 +17,7 @@
 #' 
 #' @param wait_time the wait time of the clerk.
 #' 
-#' @param fishing_day_length the total length of the fishing day.
-#' 
-#' @param sampling_prob The sampling probability of the survey. The default is 
-#' \code{1} but will need to be changed if the survey is conducted during only 
-#' half of the fishing day (i.e., \code{.5}) or over longer time periods (e.g., 
-#' \code{9.5/12}, if the survey is 9.5 hours long and the fishing day length is 12 hours)
+#' @param circuit_time the total time it takes a surveyor to complete their sampling circuit.
 #' 
 #' @param mean_catch_rate The mean catch rate for the fishery.
 #' 
@@ -97,14 +92,22 @@
 
 
 get_total_values <- function(data, start_time = NULL, end_time = NULL, 
-                             wait_time = NULL, fishing_day_length = 12, sampling_prob = 1, 
+                             wait_time = NULL, circuit_time = 8, fishing_day_length = NULL, 
                              mean_catch_rate = NULL, scale = 1, ...){
   
   t_effort <- sum(data$trip_length)
   
   n_anglers <- nrow(data)
+  
+  times <- check_times(start_time = start_time, 
+                       end_time = end_time, 
+                       wait_time = wait_time, 
+                       fishing_day_length = fishing_day_length)
 
-  # print(n_anglers, mean_catch_rate, scale)
+
+  if(is.null(start_time)) {start_time <- times$start_time}
+  if(is.null(end_time)) {end_time <- times$end_time}
+  if(is.null(wait_time)) {wait_time <- times$wait_time}
   
   lambda <- rgamma(n = n_anglers, shape = mean_catch_rate, scale = scale)
   
@@ -114,27 +117,8 @@ get_total_values <- function(data, start_time = NULL, end_time = NULL,
   data <- 
     data %>%
     mutate(catch = data$trip_length * lambda)
-  
 
-  #Provide a 'standard' wait time of .5 hours for the clerk
-  if(is.null(wait_time) & is.null(end_time)){
-  wait_time <- 0.5
-  }
-  
-  if(!is.null(end_time)){
-  wait_time <- end_time - start_time
-  }
-  
-  if(is.null(start_time)){
-    start_time <- runif(1, 0, fishing_day_length - .5)
-  }
-  
-  # how long into the fishing day did the creel clerk arrive?
-  if(is.null(end_time)){
-    end_time <- start_time + wait_time # how long into the fishing day did the creel clerk depart?
-  }
-   
-  sampling_prob <- wait_time/fishing_day_length
+  sampling_prob <- wait_time/circuit_time
 #  print(paste0("sampling_prob = ", sampling_prob))
   
   ################
@@ -186,12 +170,13 @@ get_total_values <- function(data, start_time = NULL, end_time = NULL,
     total_completed_trip_catch <- 0
   }
   
-  #Convert tripLengths
+  #Convert tripLengths based upon surveyors start_time and end_time
   data$trip_length[entire_time] <- wait_time
   data$trip_length[arrivals] <- end_time - data$start_time[arrivals]
   data$trip_length[which_angler_departures] <- data$departure_time[which_angler_departures] - start_time
   data$trip_length[which_arr_dep] <- data$departure_time[which_arr_dep] - data$start_time[which_arr_dep]
   data$trip_length[completed_trips] <- data$departure_time[completed_trips] - data$start_time[completed_trips]
+  
   
 
   #Scale triplength based upon the sampling probability
