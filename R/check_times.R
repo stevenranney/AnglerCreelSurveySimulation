@@ -33,6 +33,7 @@
 #' end_time <- NULL
 #' wait_time <- NULL
 #' 
+#' # Will return error
 #' \dontrun{check_times(start_time = start_time, end_time = end_time, wait_time = wait_time, 
 #' fishing_day_length = 12)}
 #' 
@@ -40,6 +41,7 @@
 #' end_time <- NULL
 #' wait_time <- NULL
 #'
+#' # Will return an error
 #' \dontrun{check_times(start_time = start_time, end_time = end_time, wait_time = wait_time, 
 #' fishing_day_length = 8)}
 #'
