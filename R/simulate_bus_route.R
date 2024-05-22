@@ -152,8 +152,6 @@ simulate_bus_route <- function(start_time, wait_time, n_anglers, n_sites,
                                mean_catch_rate = mean_catch_rate, ...)
   }  
   
-  out_data <<- dF
-  
   # total time required for survey agent to complete the route, including wait times
   # and travel time
   bigT <- (start_time + wait_time)[length(start_time)]
